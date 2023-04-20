@@ -1,8 +1,12 @@
 {
   "name": "@nam-hai/water-flow",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
-  "main": "src",
+  "main": "dist/index.ts",
+  "files": [
+    "src"
+  ],
+  "module": "src/index.ts",
   "author": "Nam Hai",
   "license": "ISC",
   "description": "",
@@ -11,7 +15,10 @@
     "build": "vue-tsc && vite build"
   },
   "devDependencies": {
-    "sass": "^1.62.0"
+    "sass": "^1.62.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "vue-router": "^4.1.6",
+    "np": "^7.7.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
@@ -22,9 +29,5 @@
   "keywords": [
     "transition",
     "router"
-  ],
-  "files": [
-    "dist",
-    "bundled"
   ]
 }
