@@ -31,5 +31,10 @@
   "keywords": [
     "transition",
     "router"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nam-Hai/water-flow.git"
+  }
+
 }
