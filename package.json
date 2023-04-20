@@ -2,11 +2,11 @@
   "name": "@nam-hai/water-flow",
   "version": "0.0.9-0",
   "type": "module",
-  "main": "dist/index.ts",
+  "main": "index.ts",
   "files": [
     "src"
   ],
-  "module": "src/index.ts",
+  "module": "index.ts",
   "author": "Nam Hai",
   "license": "ISC",
   "description": "",
