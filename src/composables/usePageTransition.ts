@@ -2,15 +2,15 @@ import { onMounted } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
 import { onBeforeRouteLeave } from "vue-router";
 
-export type transitionFunction<T> = (props: T, resolve: () => void, flowProps?: FlowProps) => void
+export type FlowFunction<T> = (props: T, resolve: () => void, flowProps?: FlowProps) => void
 
 // TODO cancel animation if a new route is taken early
-type PageTranstionOptions<T> = {
+type PageFlowOptions<T> = {
   props: T,
-  transitionOutMap?: Map<string, transitionFunction<T>>,
-  transitionOut?: transitionFunction<T>,
-  transitionInCrossfade?: transitionFunction<T>,
-  transitionInCrossfadeMap?: Map<string, transitionFunction<T>>,
+  flowOutMap?: Map<string, FlowFunction<T>>,
+  flowOut?: FlowFunction<T>,
+  flowInCrossfade?: FlowFunction<T>,
+  flowInCrossfadeMap?: Map<string, FlowFunction<T>>,
 
   // should probably not use this yet, if you click on a link in the buffer things break
   disablePointerEvent?: boolean,
@@ -20,15 +20,15 @@ type PageTranstionOptions<T> = {
 }
 
 
-export default function usePageTransition<T>({
+export default function usePageFlow<T>({
   props,
-  transitionOutMap,
-  transitionOut,
-  transitionInCrossfade,
-  transitionInCrossfadeMap,
+  flowOutMap,
+  flowOut,
+  flowInCrossfade,
+  flowInCrossfadeMap,
   enableCrossfade = false,
   disablePointerEvent = true
-}: PageTranstionOptions<T>) {
+}: PageFlowOptions<T>) {
   const provider = useFlowProvider();
   let crossfade = enableCrossfade;
 
@@ -43,7 +43,7 @@ export default function usePageTransition<T>({
   }
 
   const flowCrossfade = async () => {
-    await createFlow<T>(provider, transitionInCrossfadeMap, transitionInCrossfade, props, flowProps)
+    await createFlow<T>(provider, flowInCrossfadeMap, flowInCrossfade, props, flowProps)
     provider.releaseHijackFlow()
   }
 
@@ -60,7 +60,7 @@ export default function usePageTransition<T>({
     crossfade && (crossfadeExist = provider.triggerCrossfade(crossfade))
     console.log({ crossfadeExist })
 
-    let promiseOut = createFlow<T>(provider, transitionOutMap, transitionOut, props, flowProps)
+    let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
 
     let flowPromise = crossfadeExist ? provider.hijackFlow() : null
     await Promise.all([promiseOut, flowPromise])
@@ -75,13 +75,13 @@ export default function usePageTransition<T>({
   })
 }
 
-function createFlow<T>(provider: FlowProvider, transitionMap: Map<string, transitionFunction<T>> | undefined, transition: transitionFunction<T> | undefined, props: T, flowProps: FlowProps): Promise<void> {
+function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction<T>> | undefined, flow: FlowFunction<T> | undefined, props: T, flowProps: FlowProps): Promise<void> {
   const from = provider.getRouteFrom();
   const to = provider.getRouteTo();
 
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
 
-  let waterFlow = getWater(key, transitionMap, transition)
+  let waterFlow = getWater(key, flowMap, flow)
   return new Promise<void>(cb => {
     if (!waterFlow) cb()
     else waterFlow(props, cb, flowProps)
@@ -89,6 +89,6 @@ function createFlow<T>(provider: FlowProvider, transitionMap: Map<string, transi
 }
 
 // getter for TransitionFunction between the Map, and fallback function
-function getWater<T>(key: string, map?: Map<string, transitionFunction<T>>, fallback?: transitionFunction<T>) {
+function getWater<T>(key: string, map?: Map<string, FlowFunction<T>>, fallback?: FlowFunction<T>) {
   return map?.get(key) || map?.get('default') || fallback || undefined
 }

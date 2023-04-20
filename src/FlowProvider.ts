@@ -113,18 +113,3 @@ export class FlowProvider {
 }
 
 export const [provideFlowProvider, useFlowProvider] = createContext<FlowProvider>('flow-provider');
-
-// export function onFlow(cb: () => void) {
-//   const flow = useFlowProvider()
-//   onMounted(() => {
-//     if (flow.flowIsHijacked) return
-//     cb()
-//   })
-// }
-
-export function onFlow(mountedCallback: () => void, mountedBufferCallback = () => { }) {
-  const flow = useFlowProvider()
-  onMounted(() => {
-    flow.flowIsHijacked ? mountedBufferCallback() : mountedCallback()
-  })
-}
