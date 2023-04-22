@@ -1,6 +1,6 @@
 {
   "name": "@nam-hai/water-flow",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "main": "index.ts",
   "files": [
@@ -25,8 +25,7 @@
     "vue": "^3.0.0",
     "vue-router": "^4.1.6"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "keywords": [
     "transition",
     "router"
