@@ -94,9 +94,9 @@ usePageFlow({
 | ---------------------- | ------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | props                  | T                              |           | Pass props (Vue Refs) the way you want                                     |
 | enableCrossfade        | boolean or 'TOP' or 'BOTTOM'   | false     | Enable crossfade animations and set if the BufferPage is on top or under the current page. True and 'BOTTOM' are the same |
-| flowOutMap             | Map<string, FlowFunction<T>>   | undefined | Specify a Map of animations for the current page (see more)                      |
+| flowOutMap             | Map<string, FlowFunction<T>>   | undefined | Specify a Map of animations for the current page ([see more](#flowoutmap-and-flowincrossfademap))                      |
 | flowOut                | FlowFunction<T>                | undefined | Specify a default animation for the current page                                 |
-| flowInCrossfadeMap     | Map<string, FlowFunction<T>>   | undefined | Specify a Map of animations for the next page (see more)                         |
+| flowInCrossfadeMap     | Map<string, FlowFunction<T>>   | undefined | Specify a Map of animations for the next page ([see more](#flowoutmap-and-flowincrossfademap))                         |
 | flowOut                | FlowFunction<T>                | undefined | Specify a default animation for the next page                                    |
 | disablePointerEvent    | boolean                        | true      | Disable pointer events for the duration of the animation. Still experimental, clicking on a link during the animation can break app |
 
