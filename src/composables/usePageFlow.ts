@@ -2,7 +2,7 @@ import { onMounted } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
 import { onBeforeRouteLeave } from "vue-router";
 
-export type FlowFunction<T> = (props: T, resolve: () => void, flowProps?: FlowProps) => void
+export type FlowFunction<T> = (props: T, resolve: () => void, flowProps: FlowProps) => void
 
 // TODO cancel animation if a new route is taken early
 type PageFlowOptions<T> = {
@@ -63,7 +63,6 @@ export function usePageFlow<T>({
 
     let flowPromise = crossfadeExist ? provider.hijackFlow() : null
     await Promise.all([promiseOut, flowPromise])
-
 
     next()
     if(disablePointerEvent) {
