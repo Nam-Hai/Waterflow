@@ -1,9 +1,18 @@
 import { onMounted } from "vue"
 import { useFlowProvider } from "../FlowProvider"
 
-export function onFlow(mountedCallback: () => void, mountedBufferCallback = () => { }) {
+// To trigger onMount only for the "real" page
+export function onFlow(mountedCallback: () => void) {
   const flow = useFlowProvider()
   onMounted(() => {
-    flow.flowIsHijacked ? mountedBufferCallback() : mountedCallback()
+    !flow.flowIsHijacked && mountedCallback()
+  })
+}
+
+// To trigger onMount only for the "buffer" page
+export function onBufferFlow(mountedBufferCallback: () => void){
+  const flow = useFlowProvider()
+  onMounted(() => {
+    flow.flowIsHijacked && mountedBufferCallback()
   })
 }
