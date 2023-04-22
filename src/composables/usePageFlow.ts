@@ -7,16 +7,16 @@ export type FlowFunction<T> = (props: T, resolve: () => void, flowProps?: FlowPr
 // TODO cancel animation if a new route is taken early
 type PageFlowOptions<T> = {
   props: T,
-  flowOutMap?: Map<string, FlowFunction<T>>,
   flowOut?: FlowFunction<T>,
+  flowOutMap?: Map<string, FlowFunction<T>>,
   flowInCrossfade?: FlowFunction<T>,
   flowInCrossfadeMap?: Map<string, FlowFunction<T>>,
 
   // should probably not use this yet, if you click on a link in the buffer things break
   disablePointerEvent?: boolean,
 
-  // true && 'BOTTOM' && 'UNDER' are the same
-  enableCrossfade?: false | true | 'TOP' | 'BOTTOM' | 'UNDER'
+  // true && 'BOTTOM' are the same
+  enableCrossfade?: false | true | 'TOP' | 'BOTTOM'
 }
 
 

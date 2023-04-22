@@ -16,17 +16,16 @@
     "build": "vue-tsc && vite build"
   },
   "devDependencies": {
-    "sass": "^1.62.0",
     "@vitejs/plugin-vue": "^4.1.0",
-    "vue-router": "^4.1.6",
-    "np": "^7.7.0"
+    "np": "^7.7.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.1.6"
   },
   "peerDependencies": {
     "vue": "^3.0.0",
     "vue-router": "^4.1.6"
   },
   "dependencies": {
-    "vue": "^3.0.0"
   },
   "keywords": [
     "transition",
