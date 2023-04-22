@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from 'vue-router';
+import { RouteLocationNormalized, useRoute } from 'vue-router';
 import { DefineComponent, Ref, ShallowRef } from 'vue';
 import { createContext } from './util/apiInject';
 
@@ -37,7 +37,8 @@ export class FlowProvider {
     }
   }
 
-  constructor(route: RouteLocationNormalized) {
+  constructor() {
+    const route = useRoute()
     this.routeTo = route
     this.routeFrom = route
 
