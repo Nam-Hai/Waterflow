@@ -58,8 +58,6 @@ usePageFlow({
   enableCrossfade: 'TOP',
   flowOut: ({ }, resolve) => {
     // insert animation out for the current page
-
-    resolve()
   },
   flowInCrossfade: ({ buttonRef }, resolve) => {
     // insert animation of the next page
