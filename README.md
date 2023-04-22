@@ -7,7 +7,7 @@
 
 # Introduction
 
-Waterflow is a Nuxt3 library to enable flawless page transitions (Vue3's router too).
+Waterflow is a Nuxt3 library that enables flawless page transitions (Vue3's router too).
 
 # QUICK START
 ``` bash
