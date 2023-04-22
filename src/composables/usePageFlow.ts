@@ -20,7 +20,7 @@ type PageFlowOptions<T> = {
 }
 
 
-export default function usePageFlow<T>({
+export function usePageFlow<T>({
   props,
   flowOutMap,
   flowOut,
@@ -58,7 +58,6 @@ export default function usePageFlow<T>({
 
     let crossfadeExist = false
     crossfade && (crossfadeExist = provider.triggerCrossfade(crossfade))
-    console.log({ crossfadeExist })
 
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
 
@@ -81,14 +80,14 @@ function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction
 
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
 
-  let waterFlow = getWater(key, flowMap, flow)
+  let FlowFunction = getFlowFunction(key, flowMap, flow)
   return new Promise<void>(cb => {
-    if (!waterFlow) cb()
-    else waterFlow(props, cb, flowProps)
+    if (!FlowFunction) cb()
+    else FlowFunction(props, cb, flowProps)
   })
 }
 
-// getter for TransitionFunction between the Map, and fallback function
-function getWater<T>(key: string, map?: Map<string, FlowFunction<T>>, fallback?: FlowFunction<T>) {
+// getter for FlowFunction between the Map, and fallback function
+function getFlowFunction<T>(key: string, map?: Map<string, FlowFunction<T>>, fallback?: FlowFunction<T>) {
   return map?.get(key) || map?.get('default') || fallback || undefined
 }
