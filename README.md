@@ -16,7 +16,7 @@ $ npm i @nam-hai/water-flow
 
 # Setup
 
-`layout.vue` in Nuxt3 or pass `<router-view></router-view>` to the BufferPage component
+`layout.vue` in Nuxt3 or pass `<router-view></router-view>` to the BufferPage component.
 ``` jsx
 <template>
   <BufferPage>
@@ -150,7 +150,7 @@ You might want to sometimes to init things only for the real page, not the `<Buf
 
 # Connect your smooth scroll
 
-Waterflow reset the scroll after each page transitions. But if you use a smooth scroll, like Lenis or Locomotive Scroll, this might create conflict. To prevent this, you can connect your smooth scroll to `FlowProvider`
+Waterflow reset the scroll after each page transitions. But if you use a smooth scroll, like Lenis or Locomotive Scroll, this might create conflict. To prevent this, you can connect your smooth scroll to `FlowProvider`.
 
 ### Example for Lenis
 ``` ts
@@ -166,3 +166,5 @@ flowProvider.registerScrollInterface({
   scrollToTop: () => { lenis.scrollTo('top', { immediate: true }) }
 })
 ```
+
+`flowIsHijacked` is true while the crossfade animations.
