@@ -2,6 +2,10 @@
   <div :class="{'buffer-page__TOP': bufferTopZ}"  class="buffer-page__wrapper">
     <component :is="bufferRouteState" />
   </div>
+
+  <div id="buffe-page__app">
+    <slot />
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -15,7 +19,7 @@ provider.connectBuffer(bufferRouteState, bufferTopZ)
 
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .buffer-page__wrapper {
   position: fixed;
   top: 0;
@@ -27,5 +31,10 @@ provider.connectBuffer(bufferRouteState, bufferTopZ)
 
 .buffer-page__TOP {
   z-index: 3;
+}
+
+#buffer-page__app {
+  position: relative;
+  z-index: 2;
 }
 </style>
