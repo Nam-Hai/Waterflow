@@ -1,0 +1,151 @@
+@forward 'shared.scss';
+@use './app/index.scss' as *;
+// @use 'sass/breakpoints.scss' as *;
+@use './shared.scss' as *;
+
+:root {
+  --vh100max: 100vh;
+  --vh100: 100vh;
+  --vh100min: 100vh;
+  --vh: 1vh;
+
+  --jsvh100min: 100vh;
+
+  --roughMin: calc(100vh - (100vw * 0.3));
+  --safe100min: max(var(--roughMin), var(--jsvh100min));
+
+  @include breakpoint(mobile) {
+    --vh100min: var(--safe100min);
+  }
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: none;
+  font-size: 10px;
+  // overscroll-behavior: contain
+  // touch-action: manipulation
+  // touch-action: none
+
+  @include rem-scale();
+
+  font-family: "HelveticaNeue";
+  &.remlock {
+    font-size: 10px !important;
+  }
+}
+html,
+body {
+  margin: 0;
+  // line-height: 100% !important;
+}
+body {
+  white-space: pre-line;
+  color: $text-base;
+}
+#__nuxt{
+  display: contents
+}
+
+html, body, #__nuxt{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+button,
+input {
+  border: none;
+  outline: none;
+  appearance: auto;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  text-transform: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: all 5000000s ease-in-out 0s;
+}
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  background: none;
+}
+
+.artboard {
+  @include full;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.condensed {
+  font-stretch: condensed;
+}
+.expanded {
+  font-stretch: expanded;
+}
+
+
+.mobile-only {
+  @include breakpoint(desktop) {
+    display: none !important;
+  }
+}
+.desktop-only {
+  @include breakpoint(mobile) {
+    display: none !important;
+  }
+}
+.full {
+  @include full;
+}
+.center-img {
+  @include center-img;
+}
+
+.mask-split-line {
+  overflow: hidden;
+}
+.split-element {
+  display: inline-block;
+  position: relative;
+  text-decoration: inherit;
+}
+.split-words {
+  white-space: nowrap;
+}

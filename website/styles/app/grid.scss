@@ -1,0 +1,43 @@
+@use "../sass/mixins.scss" as *;
+@use "../sass/variables.module.scss" as *;
+@use "../sass/breakpoints.scss" as *;
+  
+:root{
+
+  // note all values need px unit for calc() to work. 
+  // ie: 0 should be 0px 
+
+  --grid-columns: 48;
+  --grid-column-gap: 0px;
+  --grid-side-margin: 6rem;
+  --scrollbar-width: 0px;
+
+  --grid-max-width: #{$desktopGridWidth * $desktopMaxScale * 1px};
+  --grid-width-input: calc(100vw - var(--scrollbar-width) - var(--grid-side-margin) * 2);
+
+  --grid-width: min( var(--grid-width-input) , var(--grid-max-width) );
+  --grid-column-width: calc( (var(--grid-width) - (var(--grid-columns) - 1) * var(--grid-column-gap)) / var(--grid-columns) );
+
+  &.windows{
+
+    --scrollbar-width: #{$scrollbarWidth};
+    @include breakpoint(mobile);
+      //--scrollbar-width: 0px // this breaks the layout - leave for windows
+  }
+
+
+  @include breakpoint(mobile){
+    --scrollbar-width: 0px
+    --grid-columns: 16
+    --grid-column-gap: 0px
+    --grid-side-margin: 2rem
+  }
+
+}
+
+.the-container {
+  @include mainContainer();
+}
+.the-grid {
+  @include mainGrid();
+}

@@ -3,7 +3,7 @@
     <component :is="bufferRouteState" />
   </div>
 
-  <div id="buffe-page__app">
+  <div id="buffer-page__app">
     <slot />
   </div>
 </template>

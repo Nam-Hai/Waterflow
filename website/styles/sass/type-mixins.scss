@@ -1,0 +1,47 @@
+// @use "sass:map";
+
+// @use "variables.module.scss";
+// @use "breakpoints.scss" as *;
+
+// $font-helvetica: 'HelveticaNeue';
+
+// $default-type-config: ( ff: $font-helvetica, fw: normal, fs: 1rem, lh: 1.0, ls: normal );
+
+// // Headlines
+
+// $type-h1-d: (ff: $font-helvetica, fw: 600, fs: 9.0rem, lh: 0.85, ls: -0.03em);
+// $type-h1-m: (ff: $font-helvetica, fw: 600, fs: 5.2rem, lh: 0.85, ls: -0.03em);
+
+
+// @mixin typeProperties($config: ()){
+//   // merge config with defaults
+//   $merged-config: map.merge($default-type-config, $config);
+
+//   // output type properties
+//   font-family: map.get($merged-config, 'ff');
+//   font-weight: map.get($merged-config, 'fw');
+//   font-size: map.get($merged-config, 'fs');
+//   line-height: map.get($merged-config, 'lh');
+//   letter-spacing: map.get($config, 'ls');
+//   // text-transform: map.get($config, 'text-transform')
+// }
+
+// // =typeStyle($config-d, $config-t, $config-m, $breakpoint: 'all')
+// @mixin typeStyle($config-d, $config-m, $breakpoint: 'all') {
+//   @if $breakpoint == 'all' or $breakpoint == 'desktop' {
+//     @include typeProperties($config-d);
+//   };
+// ;
+//   // @if $breakpoint == 'all' or $breakpoint == 'tablet'
+//   //   +breakpoint(tablet)
+//   //     +typeProperties($config-t)
+
+//   @if $breakpoint == 'all' or $breakpoint == 'mobile' {
+//     @include breakpoint(mobile) {
+//       @include typeProperties($config-m);
+//     }
+//   }
+// }
+// @mixin type-h1($breakpoint: 'all') {
+//   @include typeStyle($type-h1-d, $type-h1-m, $breakpoint);
+// }

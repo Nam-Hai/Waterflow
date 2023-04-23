@@ -1,0 +1,120 @@
+@keyframes spin-clockwise {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counterclockwise {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+
+@keyframes dashoffset {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.2;
+  }
+  60% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+
+
+
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30%);
+  }
+}
+
+
+
+
+
+@keyframes slideright {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+
+
+@keyframes redraw {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+
+
+.fade-enter-active {
+  transition: all 0.2s ease 0s;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-active {
+  transition: all 0.2s ease 0s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
