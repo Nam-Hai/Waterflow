@@ -1,5 +1,5 @@
 <template>
-    <div class="container" tabindex="0" @keydown="onKeydown">
+    <div ref="containerRef" class="container" tabindex="0" @keydown="onKeydown">
         <div :class="{ active: showSuccess }" class="success__wrapper clipboard__wrapper">
         </div>
         <div class="clipboard__wrapper" @click="copy">
@@ -28,7 +28,7 @@
 import { time } from 'console';
 import { isGeneratorFunction } from 'util/types';
 import { onFlow } from '~/../src/composables/onFlow';
-import { Lerp } from '~/helpers/core/utils';
+import { Lerp, O } from '~/helpers/core/utils';
 import { Rand, random } from '~/helpers/core/utils';
 import { Timeline } from '~/plugins/core/motion';
 import { Timer } from '~/plugins/core/raf';
@@ -41,6 +41,7 @@ const clipText = ' npm i @nam-hai/water-flow'
 const seed = ref(Math.random())
 
 const textRef = ref()
+const containerRef = ref()
 const asciiLenght = ASCII.length
 
 const showSuccess = ref(false)
@@ -73,14 +74,48 @@ onFlow(() => {
             textRef.value.innerText = text
         }
     })
+
+    let text = ''
+
+    for (let index = 0; index < lenght; index++) {
+        const letter = Rand.arr(ASCII)
+        text += letter
+    }
+    textRef.value.innerText = text
+    const onFlowTL = new $TL()
+    O(containerRef.value, 0)
+    onFlowTL.from({
+        d: 1000,
+        el: containerRef.value,
+        p: {
+            o: [0, 1]
+        },
+        delay: 500
+    }).from({
+        d: 500,
+        delay: 500,
+        update: ({ prog }) => {
+            let text = ''
+            for (let index = 0; index < Math.floor( Math.floor(Math.random()* 2 - 1)+lenght + (seed.value - 0.7) * 2 * 15); index++) {
+                const letter = Rand.arr(ASCII)
+                text += letter
+            }
+
+            textRef.value.innerText = text
+        },
+        cb: () => {
+            timeline.value.play()
+        },
+    }).play()
 })
 
-const onKeydown = (e: KeyboardEvent)=>{
-    if(e.key == 'Enter') copy()
+const onKeydown = (e: KeyboardEvent) => {
+    if (e.key == 'Enter') copy()
 }
 
 const copy = () => {
     const type = "text/plain";
+    containerRef.value.blur()
     const blob = new Blob(['>' + clipText], { type });
     const data = [new ClipboardItem({ [type]: blob })];
     navigator.clipboard.write(data).then(
@@ -127,6 +162,7 @@ const copy = () => {
         opacity: 1;
     }
 }
+
 .container:focus .success__wrapper {
     transition-duration: 100ms;
     opacity: 1;
