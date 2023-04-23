@@ -42,7 +42,6 @@ const seed = ref(Math.random())
 
 const textRef = ref()
 const containerRef = ref()
-const asciiLenght = ASCII.length
 
 const showSuccess = ref(false)
 const showSuccessBox = ref(false)
@@ -92,7 +91,7 @@ onFlow(() => {
         },
         delay: 500
     }).from({
-        d: 500,
+        d: 200,
         delay: 500,
         update: ({ prog }) => {
             let text = ''
@@ -128,8 +127,8 @@ const copy = () => {
 
             seed.value = Math.random()
 
-            timeline.value.pause()
-            timeline.value.play()
+            // timeline.value.pause()
+            // timeline.value.play()
         },
         () => {
             /* failure */
@@ -163,7 +162,10 @@ const copy = () => {
     }
 }
 
-.container:focus .success__wrapper {
+.container:focus-visible{
+    outline: none;
+}
+.container:focus-visible .success__wrapper {
     transition-duration: 100ms;
     opacity: 1;
 }
@@ -194,14 +196,20 @@ const copy = () => {
 
 .container:hover .clipboard-svg__container {
     opacity: 1;
-    transition: opacity 300ms ease-out, ease-out transform 100ms, border-color 200ms ease-out;
+    transition: opacity 300ms ease-out, ease-out transform 100ms, border-color 100ms ease-out;
     transform: scale(1);
+
+    &.active {
+        border-color: #87F06245;
+    }
 }
 
 .clipboard-svg__container.active {
     opacity: 1;
     transform: scale(1);
-    border-color: #ffffff15;
+    // border-color: #ffffff15;
+    border-color: #87F06245;
+    transition: opacity 200ms, transform 200ms, border-color 0ms ease-out;
 }
 
 .clipboard-svg__container:hover {
@@ -212,7 +220,7 @@ const copy = () => {
     transform: scale(0.5);
     opacity: 0;
     // transition: ease-out opacity 300ms;
-    transition: opacity 200ms, transform 200ms, border-color 200ms ease-out;
+    transition: opacity 200ms, transform 200ms, border-color 1000ms ease-out;
     // transition-timing-function: ease-out;
 
     position: relative;
