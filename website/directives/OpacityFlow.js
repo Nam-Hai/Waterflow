@@ -1,6 +1,3 @@
-
-// enables v-focus in templates
-
 import { O } from "~/helpers/core/utils"
 
 export const vOpacityFlow = {
