@@ -1,6 +1,6 @@
 import { onMounted } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 
 export type FlowFunction<T> = (props: T, resolve: () => void, flowProps: FlowProps) => void
 
@@ -78,6 +78,7 @@ function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction
   const to = provider.getRouteTo();
 
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
+
 
   let FlowFunction = getFlowFunction(key, flowMap, flow)
   return new Promise<void>(cb => {

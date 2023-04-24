@@ -1,4 +1,4 @@
-const shader = /*glsl*/`//
+const noise2d = /*glsl*/`//
 // Description : Array and textureless GLSL 2D simplex noise function.
 //      Author : Ian McEwan, Ashima Arts.
 //  Maintainer : stegu
@@ -58,4 +58,4 @@ float snoise(vec2 v)
   return 130.0 * dot(m, g);
 }`;
 
-export { shader };
+export default noise2d;

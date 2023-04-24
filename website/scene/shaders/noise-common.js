@@ -1,4 +1,4 @@
-const shader = /*glsl*/`
+const noiseCommon = /*glsl*/`
 vec4 mod289(vec4 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
 }
@@ -40,4 +40,4 @@ float taylorInvSqrt(float r) {
 }
 `;
 
-export { shader };
+export default noiseCommon

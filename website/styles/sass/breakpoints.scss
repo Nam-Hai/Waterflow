@@ -13,7 +13,9 @@
 // ----------------------------------
 
 @mixin rem-scale() {
-  @each $breakpoint-key, $breakpoint in $breakpoints {
+
+  @each $breakpoint-key,
+  $breakpoint in $breakpoints {
     $width: map-get(($breakpoint), width);
     $design-width: map-get(($breakpoint), design-width);
     $design-height: map-get(($breakpoint), design-height);
@@ -23,19 +25,26 @@
     $breakpoint-val-w: math.div(10, ($design-width * $site-scale)) * 100vw;
     $breakpoint-val-h: math.div(10, ($design-height * $site-scale)) * 100vh;
     $breakpoint-max: 10 * $scale-max * $site-scale * 1px;
+
     //clamp(MIN, VAL, MAX)
     // base breakpoint
     @include breakpoint($breakpoint-key) {
       min-height: 0vw; // safari fix;
-      @if $scale-mode == fit
-{
+
+      @if $scale-mode ==fit {
         font-size: clamp(#{$breakpoint-min}, min(#{$breakpoint-val-w}, #{$breakpoint-val-h}), #{$breakpoint-max});
-}      @else if $scale-mode == width {
+      }
+
+      @else if $scale-mode ==width {
         font-size: clamp(#{$breakpoint-min}, #{$breakpoint-val-w}, #{$breakpoint-max});
-      }      @else if $scale-mode == height {
+      }
+
+      @else if $scale-mode ==height {
         font-size: clamp(#{$breakpoint-min}, #{$breakpoint-val-h}, #{$breakpoint-max});
       }
-    }    // // breakpoint min limit
+    }
+
+    // // breakpoint min limit
     // +breakpoint(#{$breakpoint-key}-min)
     //   font-size: $breakpoint-min
     //
@@ -44,17 +53,22 @@
     //   font-size: $breakpoint-max
   }
 }
+
 @mixin query-orientation($query, $orientation) {
   @if $orientation {
     @media #{$query} and (orientation: $orientation) {
       @content;
     }
-  } @else {
+  }
+
+  @else {
     @media only screen and #{$query} {
       @content;
     }
   }
-}// ----------------------------------
+}
+
+// ----------------------------------
 // target CSS to a specific breakpoint
 //
 // example:
@@ -63,10 +77,12 @@
 // ----------------------------------
 @mixin breakpoint($points, $orientation: false) {
   @each $point in $points {
-    @each $breakpoint-key, $breakpoint in $breakpoints {
+
+    @each $breakpoint-key,
+    $breakpoint in $breakpoints {
       $index: index(($breakpoints), ($breakpoint-key $breakpoint));
-      $last: $index == length($breakpoints);
-      $first: $index == 1;
+      $last: $index ==length($breakpoints);
+      $first: $index ==1;
       $width: map-get(($breakpoint), width);
       $scale-min: map-get($breakpoint, scale-min);
       $scale-max: map-get($breakpoint, scale-max);
@@ -74,12 +90,14 @@
       $scaled-max: $width * $scale-max;
 
       // base breakpoint
-      @if $point == $breakpoint-key {
+      @if $point ==$breakpoint-key {
         @if $last {
           @include query-orientation("(min-width: #{$width * 1px})", $orientation) {
             @content;
           }
-        } @else {
+        }
+
+        @else {
           $next: map-get(($breakpoints), index-to-key($breakpoints, $index + 1));
           $next-width: map-get(($next), width);
 
@@ -89,68 +107,78 @@
             @include query-orientation("(max-width: #{$next-width2 * 1px})", $orientation) {
               @content;
             }
-          }@else {
+          }
+
+          @else {
             @include query-orientation("(min-width: #{$width * 1px}) and (max-width: #{$next-width2 * 1px})", $orientation) {
               @content;
             }
-      // // breakpoint min limit
-      // @if $point == #{$breakpoint-key}-min
-      //   @if $last
-      //     @if $scaled-min > $width
-      //       @media only screen and (min-width: $scaled-min * 1px)
-      //         @content
-      //   @else
-      //     @if $first
-      //       @media only screen and (max-width: $scaled-min * 1px)
-      //         @content
-      //     @else if $scaled-min >= $width
-      //       @media only screen and (min-width: $width * 1px) and (max-width: $scaled-min * 1px)
-      //         @content
-      //
-      // // breakpoint max limit
-      // @if $point == #{$breakpoint-key}-max
-      //   @if $last
-      //     @media only screen and (min-width: $scaled-max * 1px)
-      //       @content
-      //   @else
-      //     $next: map-get(($breakpoints), index-to-key($breakpoints, $index + 1))
-      //     $next-width: map-get(($next), width)
-      //
-      //     @if $scaled-max < $next-width
-      //       @media only screen and (min-width: $scaled-max * 1px) and (max-width: $next-width * 1px)
-      //         @content
+
+            // // breakpoint min limit
+            // @if $point == #{$breakpoint-key}-min
+            //   @if $last
+            //     @if $scaled-min > $width
+            //       @media only screen and (min-width: $scaled-min * 1px)
+            //         @content
+            //   @else
+            //     @if $first
+            //       @media only screen and (max-width: $scaled-min * 1px)
+            //         @content
+            //     @else if $scaled-min >= $width
+            //       @media only screen and (min-width: $width * 1px) and (max-width: $scaled-min * 1px)
+            //         @content
+            //
+            // // breakpoint max limit
+            // @if $point == #{$breakpoint-key}-max
+            //   @if $last
+            //     @media only screen and (min-width: $scaled-max * 1px)
+            //       @content
+            //   @else
+            //     $next: map-get(($breakpoints), index-to-key($breakpoints, $index + 1))
+            //     $next-width: map-get(($next), width)
+            //
+            //     @if $scaled-max < $next-width
+            //       @media only screen and (min-width: $scaled-max * 1px) and (max-width: $next-width * 1px)
+            //         @content
           }
         }
       }
     }
   }
 }
+
 @mixin breakpoint-portrait() {
   @include breakpoint(mobile) {
     @content;
   }
+
   @include breakpoint(tablet, 'portrait') {
     @content;
   }
 }
+
 @mixin breakpoint-width-min($width) {
   @media only screen and (min-width: $width) {
     @content;
   }
 }
+
 @mixin breakpoint-width-max($width) {
   @media only screen and (max-width: $width) {
     @content;
   }
 }
+
 @mixin breakpoint-debug() {
-  @include breakpoint( desktop ) {
+  @include breakpoint(desktop) {
     border: 1px solid cyan;
   }
-  @include breakpoint( tablet ) {
+
+  @include breakpoint(tablet) {
     border: 1px solid blue;
   }
-  @include breakpoint( mobile ) {
+
+  @include breakpoint(mobile) {
     border: 1px solid red;
   }
 }

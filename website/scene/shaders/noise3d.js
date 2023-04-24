@@ -1,4 +1,4 @@
-const shader = /*glsl*/`
+const noise3d = /*glsl*/`
 // Description : Array and textureless GLSL 2D/3D/4D simplex
 //               noise functions.
 //      Author : Ian McEwan, Ashima Arts.
@@ -85,4 +85,4 @@ float noise3d(vec3 v)
                                 dot(p2,x2), dot(p3,x3) ) );
   }`;
 
-export { shader }
+export default noise3d

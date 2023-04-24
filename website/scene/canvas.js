@@ -1,17 +1,16 @@
 import {
   Renderer,
-  Box,
   Camera,
-  Program,
-  Plane,
   Transform,
-  Texture,
-  Mesh,
 } from "ogl";
-import { basicFrag } from "./shaders/BasicFrag";
-import { basicVer } from "./shaders/BasicVer";
+import { useFlowProvider } from "~/../src/FlowProvider";
+import indexCanvas from "./Pages/indexCanvas";
+
 import { N } from "~/helpers/namhai-utils";
 
+const CanvasRouteMap = new Map([
+  ['index', indexCanvas]
+])
 export default class Canvas {
   constructor({ canvas }) {
     this.renderer = new Renderer({
@@ -26,41 +25,30 @@ export default class Canvas {
     this.camera.position.z = 5;
 
     this.scene = new Transform();
-    N.BM(this, ["update", "onResize", "onScroll"]);
-
-
+    N.BM(this, ["resize"]);
 
     // this.raf = new N.RafR(this.update);
-    const { $RafR, $ROR} = useNuxtApp()
-    this.raf = new $RafR(this.update);
-    this.ro = new $ROR(this.onResize)
+    const { $ROR } = useNuxtApp()
+    this.ro = new $ROR(this.resize)
     this.ro.trigger()
 
+    const flowProvider = useFlowProvider()
+    this.onChange(flowProvider.getRouteFrom())
+    this.currentCanvasPage = this.nextCanvasPage
+
     this.init();
-    this.addEventListener();
   }
+
   async init() {
-    this.raf.run();
     this.ro.on();
   }
-  addEventListener() {
-    // document.addEventListener('wheel', this.onScroll)
-  }
 
-  onScroll(e) {
-    this.scroll.target += e.deltaY / 100;
-  }
-
-  onResize() {
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-    this.sizePixel = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
+  resize({vh, vw}) {
+    this.renderer.setSize(vw, vh);
 
     this.camera.perspective({
-      aspect: this.sizePixel.width / this.sizePixel.height,
+      // aspect: this.sizePixel.width / this.sizePixel.height,
+      aspect: vw / vh
     });
     const fov = (this.camera.fov * Math.PI) / 180;
 
@@ -69,13 +57,12 @@ export default class Canvas {
       height: height,
       width: height * this.camera.aspect,
     };
+    this.currentCanvasPage && (this.currentCanvasPage.canvasSize = this.size)
   }
 
-  update(e) {
-    this.renderer.render({
-      scene: this.scene,
-      camera: this.camera
-    });
+  onChange(route) {
+    const page = CanvasRouteMap.get(route.name)
+    this.nextCanvasPage = new page({gl: this.gl, scene:this.scene, camera: this.camera, canvasSize: this.canvasSize})
   }
 
   destroy() {

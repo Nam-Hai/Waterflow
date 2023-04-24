@@ -45,8 +45,8 @@ onFlow(()=>{
     align-items: center;
 
     .border {
-        // width: 151.4rem;
-        width: calc(100% - 21rem);
+        width: 151.4rem;
+        // width: calc(100% - 21rem);
         height: 2px;
         background-color: $primary;
         position: absolute;

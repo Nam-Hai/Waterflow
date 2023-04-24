@@ -16,7 +16,7 @@ const flowProvider = new FlowProvider()
 
 provideFlowProvider(flowProvider)
 
-flowProvider.registerPage('/', index)
+flowProvider.registerPage('index', index)
 
 
 </script>

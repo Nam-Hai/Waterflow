@@ -15,7 +15,7 @@ const sceneRef = ref()
 onMounted(()=>{
   sceneRef.value = new Canvas({canvas: canvasRef.value})
   const flowProvider = useFlowProvider()
-  flowProvider.addProps('canvas', sceneRef)
+  flowProvider.addProps('canvas', sceneRef.value)
 })
 
 onUnmounted(()=>{
@@ -27,7 +27,7 @@ onUnmounted(()=>{
 <style lang="scss" scoped>
 .wrapper-scene {
   position: relative;
-  z-index: 4;
+  z-index: 2;
   pointer-events: none;
 }
 canvas {
