@@ -4,19 +4,20 @@
 
         <div class="grid-container">
             <div class="left">
-                <h2><span class="mask-split-line">
+                <h2 class="mask-split-line">
                     <span ref="titleSpanRef">
                         <span ref="rotateRef">
                             Do you even <span class="font-museo">flow</span> ?
                         </span>
                     </span>
-                </span></h2>
+                </h2>
                 <p v-opacity-flow="500">Give your project by the power of the nature. Go with the flow and create transitions that you always
                     dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
                     for page transitions crossfade.</p>
                 <h3 v-opacity-flow="500">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
 
                 <Clipboard />
+                <img class="hero" src="images/dummy.jpg">
             </div>
         </div>
     </div>
@@ -73,8 +74,10 @@ onFlow(()=>{
     padding: 2.4rem 10rem 4rem;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     .left {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         row-gap: 1.6rem;
@@ -87,7 +90,7 @@ span {
 }
 
 .mask-split-line {
-    display: inline-block;
+    display: flex;
     height: 9rem;
     > span {
         perspective: 1000px;
@@ -109,5 +112,10 @@ h3 {
     font-size: 4rem;
     font-weight: 700;
     line-height: 100%;
+}
+
+.hero {
+    flex-grow: 1;
+    border-radius: 4rem;
 }
 </style>
