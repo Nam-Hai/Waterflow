@@ -1,4 +1,4 @@
-import { BM } from "~/helpers/core/utils"
+import { N } from "~/helpers/namhai-utils"
 
 export default class indexCanvas {
     constructor({gl, scene, camera, canvasSize}){
@@ -8,13 +8,12 @@ export default class indexCanvas {
         this.canvasSize = canvasSize
         this.camera = camera
 
-        BM(this, ['render', 'update'])
-        const { $RafR, $ROR} = useNuxtApp()
-        this.ro = new $ROR(this.resize)
+        N.BM(this, ['render', 'update'])
+        this.ro = new N.ROR(this.resize)
         this.ro.trigger()
 
-        this.rafRender = new $RafR(this.render)
-        this.rafUpdate = new $RafR(this.update)
+        this.rafRender = new N.RafR(this.render)
+        this.rafUpdate = new N.RafR(this.update)
 
         // insert code
 

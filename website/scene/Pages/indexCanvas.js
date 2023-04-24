@@ -1,5 +1,5 @@
-import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
+import { N } from "~/helpers/namhai-utils"
 
 export default class indexCanvas {
     constructor({gl, scene, camera, canvasSize}){
@@ -9,21 +9,19 @@ export default class indexCanvas {
         this.canvasSize = canvasSize
         this.camera = camera
 
-        BM(this, ['render', 'update'])
-        const { $RafR, $ROR} = useNuxtApp()
-        this.ro = new $ROR(this.resize)
+        N.BM(this, ['render', 'update'])
+        this.ro = new N.ROR(this.resize)
         this.ro.trigger()
 
         this.rafStack = []
-        this.rafRender = new $RafR(this.render)
+        this.rafRender = new N.RafR(this.render)
         this.rafStack.push(this.rafRender)
-        this.rafUpdate = new $RafR(this.update)
+        this.rafUpdate = new N.RafR(this.update)
         this.rafStack.push(this.rafUpdate)
 
         const noiseBackground = new NoiseBackground(this.gl)
         noiseBackground.mesh.setParent(this.scene)
         this.rafStack.push(noiseBackground.raf)
-
 
         this.init()
     }
@@ -31,7 +29,7 @@ export default class indexCanvas {
         for (const raf of this.rafStack) {
             raf.run()
         }
-        this.ro()
+        this.ro.on()
     }
 
     resize({vh, vw, scale, breakpoint}){

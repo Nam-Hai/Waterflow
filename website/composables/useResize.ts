@@ -1,4 +1,5 @@
-import { ROR } from "~/plugins/core/resize";
+import { ROR } from "~/helpers/core/resize";
+import { N } from "~/helpers/namhai-utils";
 
 export default function useResize(callback?: ({ vh, vw }: { vh: number, vw: number }) => void) {
   const onResize = ref<boolean>(false);
@@ -10,12 +11,11 @@ export default function useResize(callback?: ({ vh, vw }: { vh: number, vw: numb
 
   let to: any;
 
-  const { $ROR } = useNuxtApp()
   const ro = ref() as Ref<ROR>
 
   onMounted(() => {
     updateSize();
-    ro.value = new $ROR(onResizeHandler)
+    ro.value = new N.ROR(onResizeHandler)
     ro.value.on()
   });
 
@@ -41,11 +41,10 @@ export default function useResize(callback?: ({ vh, vw }: { vh: number, vw: numb
 }
 
 export function useRO(callback: (e: { vh: number, vw: number, scale: number, breakpoint: string }) => void) {
-  const { $ROR } = useNuxtApp()
   const ro = ref() as Ref<ROR>
 
   onMounted(() => {
-    ro.value = new $ROR(callback)
+    ro.value = new N.ROR(callback)
     ro.value.on()
   });
 

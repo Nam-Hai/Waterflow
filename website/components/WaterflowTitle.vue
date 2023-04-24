@@ -7,8 +7,7 @@
 
 <script setup lang="ts">
 import { onFlow } from '~/../src/composables/onFlow';
-
-const { $TL } = useNuxtApp()
+import { N } from '~/helpers/namhai-utils';
 
 const props = withDefaults(defineProps<{
   display?: boolean
@@ -18,7 +17,7 @@ const borderRef = ref()
 
 onFlow(()=>{
     if(!props.display) return
-    let tl = new $TL
+    let tl = new N.TL
     console.log(borderRef.value);
     tl.from({
         el: borderRef.value,

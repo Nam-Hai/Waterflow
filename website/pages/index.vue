@@ -26,18 +26,19 @@
         </div>
         <Watermark />
     </div>
+    <div style="height: 200rem; width: 200rem;"></div>
 </template>
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
 import { onFlow } from '~/../src/composables/onFlow';
+import { N } from '~/helpers/namhai-utils';
 
-const { $TL } = useNuxtApp()
 const titleSpanRef = ref()
 const rotateRef = ref()
 
 onFlow(() => {
-    let tl = new $TL()
+    let tl = new N.TL()
     tl.from({
         el: titleSpanRef.value,
         d: 1500,
