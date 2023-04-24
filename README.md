@@ -104,7 +104,7 @@ usePageFlow({
 type FlowFunction<T> = (props: T, resolve: () => void, flowProps?: FlowProps) => void
 ```
 
-Function of type `FlowFunction` have the responsibility to trigger the `resolve` callback and can be used to animate your pages. Those functions are called in `usePageFlow` when the route change (`onBeforeRouteLeave`). 
+Function of type `FlowFunction` have the responsibility to trigger the `resolve` callback and can be used to animate your pages. Those functions are called in `usePageFlow` when the route change, ie: `onBeforeRouteLeave(to, from, next)` and `resolve` leads to trigger the `next` callback. 
 `props` are the Refs you want the access during the animations. They are the ones passed to `usePageFlow`.
 
 `flowProps` are props not tied to one specific page. Can be useful for animations on layout elements or canvas.
