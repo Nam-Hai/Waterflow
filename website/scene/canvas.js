@@ -7,14 +7,14 @@ import { useFlowProvider } from "~/../src/FlowProvider";
 import indexCanvas from "./Pages/indexCanvas";
 
 import { N } from "~/helpers/namhai-utils";
+import { createContext } from "~/../src/util/apiInject";
 
 const CanvasRouteMap = new Map([
   ['index', indexCanvas]
 ])
 export default class Canvas {
-  constructor({ canvas }) {
+  constructor() {
     this.renderer = new Renderer({
-      canvas: canvas,
       alpha: true,
       antialias: true,
       dpr: devicePixelRatio,
@@ -27,7 +27,6 @@ export default class Canvas {
     this.scene = new Transform();
     N.BM(this, ["resize"]);
 
-    // this.raf = new N.RafR(this.update);
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize)
     this.ro.trigger()
@@ -35,6 +34,7 @@ export default class Canvas {
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
+    this.currentCanvasPage = {name: 'index'}
 
     this.init();
   }
@@ -66,7 +66,6 @@ export default class Canvas {
   }
 
   destroy() {
-    this.raf.stop()
     this.ro.off()
   }
-}
+};

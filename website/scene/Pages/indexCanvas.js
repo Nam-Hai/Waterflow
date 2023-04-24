@@ -31,7 +31,7 @@ export default class indexCanvas {
         for (const raf of this.rafStack) {
             raf.run()
         }
-        this.ro()
+        this.ro.on()
     }
 
     resize({vh, vw, scale, breakpoint}){

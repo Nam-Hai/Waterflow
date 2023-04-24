@@ -19,7 +19,6 @@ const borderRef = ref()
 onFlow(()=>{
     if(!props.display) return
     let tl = new $TL
-    console.log(borderRef.value);
     tl.from({
         el: borderRef.value,
         p: {

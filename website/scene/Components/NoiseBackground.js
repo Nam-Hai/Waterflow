@@ -16,7 +16,6 @@ export default class NoiseBackground {
         this.raf = new $RafR(this.update.bind(this))
     }
     update({ elapsed, delta }) {
-        console.log(elapsed);
         this.mesh.program.uniforms.uTime.value = elapsed / 5000
     }
 

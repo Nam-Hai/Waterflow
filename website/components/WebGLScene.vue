@@ -1,21 +1,25 @@
 <template>
-  <div class="wrapper-scene">
-    <canvas ref="canvasRef"></canvas> 
+  <div ref="wrapperSceneRef" class="wrapper-scene">
   </div>
 </template>
 
 <script lang='ts' setup>
-import  Canvas  from '@/scene/canvas.js';
-import { useFlowProvider } from '../../index';
+import { useFlowProvider } from '~/..'
+import Canvas from '~/scene/canvas'
+import { provideCanvas, useCanvas } from '~/scene/useCanvas'
 
 
-const canvasRef = ref()
 const sceneRef = ref()
+const wrapperSceneRef = ref()
 
 onMounted(()=>{
-  sceneRef.value = new Canvas({canvas: canvasRef.value})
+  const canvas = useCanvas()
+  sceneRef.value = canvas
+
+  wrapperSceneRef.value.appendChild(canvas.gl.canvas)
+
   const flowProvider = useFlowProvider()
-  flowProvider.addProps('canvas', sceneRef.value)
+  flowProvider.addProps('canvas', sceneRef)
 })
 
 onUnmounted(()=>{
@@ -24,18 +28,19 @@ onUnmounted(()=>{
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .wrapper-scene {
   position: relative;
   z-index: 2;
   pointer-events: none;
-}
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+  }
 }
 </style>
