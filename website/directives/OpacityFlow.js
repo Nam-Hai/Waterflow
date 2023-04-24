@@ -1,11 +1,13 @@
+import { O } from "~/helpers/core/utils"
 
 export const vOpacityFlow = {
   mounted: (el, binding) => {
+    const {$TL} = useNuxtApp()
 
     const delay = binding.value
-    N.O(el, 0)
+    O(el, 0)
 
-    let tl = new N.TL()
+    let tl = new $TL()
     tl.from({
       el,
       p: {

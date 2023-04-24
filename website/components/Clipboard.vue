@@ -25,11 +25,15 @@
 </template>
 
 <script setup lang="ts">
+import { time } from 'console';
+import { isGeneratorFunction } from 'util/types';
 import { onFlow } from '~/../src/composables/onFlow';
-import { Timeline } from '~/helpers/core/motion';
-import { Timer } from '~/helpers/core/raf';
-import { N } from '~/helpers/namhai-utils';
+import { Lerp, O } from '~/helpers/core/utils';
+import { Rand, random } from '~/helpers/core/utils';
+import { Timeline } from '~/plugins/core/motion';
+import { Timer } from '~/plugins/core/raf';
 
+const { $Timer, $TL } = useNuxtApp()
 
 const ASCII = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', '-', 'A', 'S', 'D', 'F', 'G',
     'h', 'j', 'k', 'l', ';', "'", '|', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '1', '2', '@', '@', '@', '@', '/', '/', '_', '-', '?', '+']
@@ -48,21 +52,21 @@ const timerBox = ref() as Ref<Timer>
 const timeline = ref() as Ref<Timeline>
 
 onFlow(() => {
-    timer.value = new N.Timer(() => { showSuccess.value = false }, 400)
-    timerBox.value = new N.Timer(() => { showSuccessBox.value = false }, 800)
+    timer.value = new $Timer(() => { showSuccess.value = false }, 400)
+    timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 800)
 
     const lenght = clipText.length
 
-    timeline.value = new N.TL()
+    timeline.value = new $TL()
     timeline.value.from({
         d: 800,
         update: ({ prog }) => {
             let text = ''
-            let start = Math.floor(N.Lerp(0, lenght, prog))
+            let start = Math.floor(Lerp(0, lenght, prog))
             text = clipText.slice(0, start)
 
-            for (let index = start; index < Math.floor(N.Lerp(lenght + (seed.value - 0.7) * 2 * 15, lenght, prog)); index++) {
-                const letter = N.Rand.arr(ASCII)
+            for (let index = start; index < Math.floor(Lerp(lenght + (seed.value - 0.7) * 2 * 15, lenght, prog)); index++) {
+                const letter = Rand.arr(ASCII)
                 text += letter
             }
 
@@ -73,12 +77,12 @@ onFlow(() => {
     let text = ''
 
     for (let index = 0; index < lenght; index++) {
-        const letter = N.Rand.arr(ASCII)
+        const letter = Rand.arr(ASCII)
         text += letter
     }
     textRef.value.innerText = text
-    const onFlowTL = new N.TL()
-    N.O(containerRef.value, 0)
+    const onFlowTL = new $TL()
+    O(containerRef.value, 0)
     onFlowTL.from({
         d: 1000,
         el: containerRef.value,
@@ -92,7 +96,7 @@ onFlow(() => {
         update: ({ prog }) => {
             let text = ''
             for (let index = 0; index < Math.floor( Math.floor(Math.random()* 2 - 1)+lenght + (seed.value - 0.7) * 2 * 15); index++) {
-                const letter = N.Rand.arr(ASCII)
+                const letter = Rand.arr(ASCII)
                 text += letter
             }
 

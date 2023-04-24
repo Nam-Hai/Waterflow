@@ -3,7 +3,6 @@ import noise2d from '../shaders/noise2d'
 import noiseCommon from '../shaders/noise-common'
 import { basicVer } from '../shaders/BasicVer'
 import noise3d from '../shaders/noise3d'
-import { N } from '~/helpers/namhai-utils'
 export default class NoiseBackground {
     constructor(gl, {
         canvasSize,
@@ -13,9 +12,11 @@ export default class NoiseBackground {
 
 
         this.createMesh()
-        this.raf = new N.RafR(this.update.bind(this))
+        const { $RafR } = useNuxtApp()
+        this.raf = new $RafR(this.update.bind(this))
     }
     update({ elapsed, delta }) {
+        console.log(elapsed);
         this.mesh.program.uniforms.uTime.value = elapsed / 5000
     }
 

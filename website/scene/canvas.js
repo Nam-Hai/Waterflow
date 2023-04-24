@@ -28,18 +28,17 @@ export default class Canvas {
     N.BM(this, ["resize"]);
 
     // this.raf = new N.RafR(this.update);
-    this.ro = new N.ROR(this.resize)
+    const { $ROR } = useNuxtApp()
+    this.ro = new $ROR(this.resize)
     this.ro.trigger()
 
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
 
-    
     this.init();
   }
 
-  
   async init() {
     this.ro.on();
   }
