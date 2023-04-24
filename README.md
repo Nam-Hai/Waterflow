@@ -112,12 +112,9 @@ Function of type `FlowFunction` have the responsibility to trigger the `resolve`
 
 You can add flowProps anywhere in the app :
 ``` ts
-const canvasRef = ref()
-onMounted(()=>{
-  canvasRef.value = new WebGLScene()
-  const flowProvider = useFlowProvider()
-  flowProvider.addProps('canvas', canvasRef)
-})
+const webglScene = new WebGLScene()
+const flowProvider = useFlowProvider()
+flowProvider.addProps('canvas', webglScene)
 ```
 
 # flowOutMap and flowInCrossfadeMap
