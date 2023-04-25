@@ -85,7 +85,6 @@ uniform float uTime;
 
 out vec4 FragColor;
 
-
 ${noise}
 
 void main() {
@@ -97,7 +96,7 @@ void main() {
   FragColor.rgb = (color1 + color2 )/ 1.;
   FragColor.a = 1.;
 //   FragColor = vec4(1.,1.,0.,1.);
-  FragColor += 0.11 * noise(gl_FragCoord.xy, uTime * 100.);
+  FragColor += 0.09 * noise(gl_FragCoord.xy, uTime * 100.);
 }
 `
 
@@ -116,6 +115,7 @@ uniform mat4 projectionMatrix;
 uniform float uTime;
 uniform float uScroll;
 
+out vec3 n;
 out vec2 vUv;
 
 void main() {
