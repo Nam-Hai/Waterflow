@@ -118,7 +118,7 @@ const Ro = new class {
         return this.arr.length - 1
     }
 
-    get callbackArg(){
+    get callbackArg() {
         return {
             vw: this.vw,
             vh: this.vh,
@@ -200,7 +200,8 @@ class ROR {
         Ro.remove(this.id)
     }
 
-    trigger(){
+    trigger() {
+        console.log('trigger', Ro.callbackArg);
         this.cb(Ro.callbackArg)
     }
 }

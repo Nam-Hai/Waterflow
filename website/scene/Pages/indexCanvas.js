@@ -2,7 +2,7 @@ import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
 
 export default class indexCanvas {
-    constructor({gl, scene, camera, canvasSize}){
+    constructor({ gl, scene, camera, canvasSize }) {
         this.gl = gl
         this.renderer = this.gl.renderer
         this.scene = scene
@@ -10,7 +10,7 @@ export default class indexCanvas {
         this.camera = camera
 
         BM(this, ['render', 'update'])
-        const { $RafR, $ROR} = useNuxtApp()
+        const { $RafR, $ROR } = useNuxtApp()
         this.ro = new $ROR(this.resize)
         this.ro.trigger()
 
@@ -20,39 +20,42 @@ export default class indexCanvas {
         this.rafUpdate = new $RafR(this.update)
         this.rafStack.push(this.rafUpdate)
 
-        const noiseBackground = new NoiseBackground(this.gl)
+        const noiseBackground = new NoiseBackground(this.gl, { canvasSize })
+        console.log('index', this.canvasSize);
         noiseBackground.mesh.setParent(this.scene)
         this.rafStack.push(noiseBackground.raf)
 
+        this.noiseBackground = noiseBackground
 
         this.init()
     }
-    init(){
+    init() {
         for (const raf of this.rafStack) {
             raf.run()
         }
         this.ro.on()
     }
 
-    resize({vh, vw, scale, breakpoint}){
+    resize({ vh, vw, scale, breakpoint }) {
 
     }
 
-    update({elapsed, delta}){
+    update({ elapsed, delta }) {
 
     }
 
-    render(){
+    render() {
         this.renderer.render({
             scene: this.scene,
             camera: this.camera
         })
     }
 
-    destroy(){
+    destroy() {
         for (const raf of this.rafStack) {
             raf.stop()
         }
         this.ro.off()
+        this.noiseBackground.destroy()
     }
 }

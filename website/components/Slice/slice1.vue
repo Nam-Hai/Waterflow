@@ -13,8 +13,8 @@ useLenisScroll(()=>{
 <style lang="scss">
 .wrapper.slice {
     position: relative;
-    height: 100vh;
+    height: 300vh;
     width: 100vh;
-    background-color: red;
+    // background-color: red;
 }
 </style>

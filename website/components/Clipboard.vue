@@ -70,7 +70,9 @@ onFlow(() => {
                 text += letter
             }
 
-            textRef.value.innerText = text
+            textRef.value && (textRef.value.innerText = text)
+
+
         }
     })
 
@@ -100,7 +102,7 @@ onFlow(() => {
                 text += letter
             }
 
-            textRef.value.innerText = text
+            textRef.value && (textRef.value.innerText = text)
         },
         cb: () => {
             timeline.value.play()

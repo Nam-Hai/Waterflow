@@ -34,7 +34,8 @@ export default class Canvas {
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
-    this.currentCanvasPage = {name: 'index'}
+    // this.currentCanvasPage = { name: 'index' }
+
 
     this.init();
   }
@@ -43,7 +44,7 @@ export default class Canvas {
     this.ro.on();
   }
 
-  resize({vh, vw}) {
+  resize({ vh, vw, scale }) {
     this.renderer.setSize(vw, vh);
 
     this.camera.perspective({
@@ -57,15 +58,18 @@ export default class Canvas {
       height: height,
       width: height * this.camera.aspect,
     };
-    this.currentCanvasPage && (this.currentCanvasPage.canvasSize = this.size)
+    if (this.currentCanvasPage) {
+      this.currentCanvasPage.canvasSize = this.size
+    }
   }
 
   onChange(route) {
     const page = CanvasRouteMap.get(route.name)
-    this.nextCanvasPage = new page({gl: this.gl, scene:this.scene, camera: this.camera, canvasSize: this.canvasSize})
+    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera, canvasSize: this.size })
   }
 
   destroy() {
     this.ro.off()
+    this.currentCanvasPage.destroy()
   }
 };
