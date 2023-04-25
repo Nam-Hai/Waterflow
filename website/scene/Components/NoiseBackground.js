@@ -1,9 +1,9 @@
 import { Mesh, Program, Plane } from 'ogl'
-import noise2d from '../shaders/noise2d'
 import noiseCommon from '../shaders/noise-common'
 import { basicVer } from '../shaders/BasicVer'
 import noise3d from '../shaders/noise3d'
 import noise4d from '../shaders/noise4d'
+import noise from '../shaders/noise'
 export default class NoiseBackground {
     constructor(gl, {
         canvasSize,
@@ -85,6 +85,9 @@ uniform float uTime;
 
 out vec4 FragColor;
 
+
+${noise}
+
 void main() {
   float n1 = noise3d(vec3(vUv.x * 1., vUv.y * 1., uTime));
   float n2 = noise3d(vec3(vUv.x * 2., vUv.y * 5. + 56., 2982. + uTime));
@@ -94,6 +97,7 @@ void main() {
   FragColor.rgb = (color1 + color2 )/ 1.;
   FragColor.a = 1.;
 //   FragColor = vec4(1.,1.,0.,1.);
+  FragColor += 0.11 * noise(gl_FragCoord.xy, uTime * 100.);
 }
 `
 
@@ -125,5 +129,3 @@ void main() {
     newPos.z += n * 1.2;
   gl_Position = projectionMatrix * modelViewMatrix * newPos;
 }`;
-
-

@@ -1,6 +1,5 @@
 //import { settings } from "../js/settings.js";
-
-const shader = /* glsl */`
+const chromaticAberration = /* glsl */`
 vec2 barrelDistortion(vec2 coord, float amt) {
   vec2 cc = coord - 0.5;
   float dist = dot(cc, cc);
@@ -45,4 +44,4 @@ vec4 chromaticAberration(sampler2D inputTexture, vec2 uv, float amount, vec2 dir
 }
 `;
 
-export { shader };
+export default chromaticAberration

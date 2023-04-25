@@ -1,4 +1,4 @@
-const shader = /*glsl*/`
+const noise = /*glsl*/`
 float hash1( uint n )
 {
     // integer hash copied from Hugo Elias
@@ -13,4 +13,4 @@ float noise(in vec2 uv, in float time) {
 }
 `;
 
-export { shader };
+export default noise
