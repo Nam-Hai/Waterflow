@@ -11,7 +11,7 @@ import Canvas from '~/scene/canvas';
 import { provideCanvas } from '~/scene/useCanvas';
 import { BufferPage } from '../../index';
 import { useFlowProvider } from '../../index';
-// configure lenis in @/plugins/lenis.client.ts
+
 const { $lenis } = useNuxtApp()
 
 const flowProvider = useFlowProvider()
