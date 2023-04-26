@@ -23,7 +23,7 @@ export default class NoiseBackground {
     }
     scroll(e) {
         console.log(e);
-        this.scrollOffset = e.animatedScroll
+        this.scrollOffset = e.current
         this.mesh.program.uniforms.uScroll.value = this.scrollOffset
     }
     update({ elapsed, delta }) {
