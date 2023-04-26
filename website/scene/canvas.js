@@ -7,7 +7,6 @@ import { useFlowProvider } from "~/../src/FlowProvider";
 import indexCanvas from "./Pages/indexCanvas";
 
 import { N } from "~/helpers/namhai-utils";
-import { createContext } from "~/../src/util/apiInject";
 
 const CanvasRouteMap = new Map([
   ['index', indexCanvas]
@@ -34,7 +33,6 @@ export default class Canvas {
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
-    // this.currentCanvasPage = { name: 'index' }
 
 
     this.init();
@@ -61,6 +59,8 @@ export default class Canvas {
     if (this.currentCanvasPage) {
       this.currentCanvasPage.canvasSize = this.size
     }
+
+    this.post && this.post.resize({ width: this.sizePixel.width, height: this.sizePixel.height });
   }
 
   onChange(route) {
