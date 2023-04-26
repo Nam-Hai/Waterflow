@@ -57,6 +57,7 @@ export default class Canvas {
       height: height,
       width: height * this.camera.aspect,
     }
+    console.log('canvasSize', this.size.value)
   }
 
   onChange(route) {
