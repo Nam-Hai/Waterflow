@@ -20,6 +20,10 @@ onBeforeMount(() => {
   provideCanvas(canvas)
 })
 
+onUnmounted(()=>{
+  provideCanvas(undefined)
+})
+
 
 useRaf((e) => {
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
