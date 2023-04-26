@@ -38,7 +38,7 @@ export default class FluidPass {
 
     this.size = {
       width: innerWidth,
-      height: innerHeight,
+      height: innerHeight / 2,
     };
     this.camera = new Camera(this.gl, {
       left: -this.size.width / 2,
@@ -257,7 +257,6 @@ export default class FluidPass {
     this.splats = [];
 
 
-    console.log('brefore addEventListener')
     this.addEventListener();
   }
 
@@ -368,15 +367,15 @@ export default class FluidPass {
 
   addEventListener() {
 
-    const { $ROR, $lenis } = useNuxtApp()
+    const { $ROR } = useNuxtApp()
     this.ro = new $ROR(({ scale }) => {
       this.scale = scale
     })
-
     this.ro.on()
-    this.ro.trigger()
 
-    this.unSubscriberLenis = $lenis.on('scroll', this.onScroll.bind(this))
+    const {lenis} = useLenisScroll(this.onScroll.bind(this))
+    this.unSubscriberLenis = lenis.off
+    lenis.on()
   }
 
   // Function to draw number of interactions onto input render target
@@ -411,13 +410,13 @@ export default class FluidPass {
 
   onScroll({ current, target, velocity }) {
     const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
-    const y = 180 * this.scale
-    console.log(x)
+    // const y = 150 * this.scale
+    const y = innerHeight /4  + 75 * this.scale
 
     this.splats.push({
       x: x / this.size.width,
       y: 1 - y / this.size.height,
-      dy: -Math.abs(velocity) * 0.01,
+      dy: 0,
       dx: velocity * 2,
     });
   }
@@ -448,9 +447,9 @@ export default class FluidPass {
     }
   }
 
-  resize({ width, height }) {
-    console.log('test resize' , width, height)
-    this.size = { width, height };
+  resize({ vw, vh }) {
+    console.log('1');
+    this.size = { width: vw, height: vh};
     this.camera.left = -this.size.width / 2;
     this.camera.right = this.size.width / 2;
     this.camera.top = this.size.height / 2;
