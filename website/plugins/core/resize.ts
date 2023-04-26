@@ -201,7 +201,6 @@ class ROR {
     }
 
     trigger() {
-        console.log('trigger', Ro.callbackArg);
         this.cb(Ro.callbackArg)
     }
 }
