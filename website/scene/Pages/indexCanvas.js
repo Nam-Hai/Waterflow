@@ -2,6 +2,8 @@ import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../BloomPass"
+import TitleMSDF from "../Components/TitleMSDF"
+import FluidPass from "../FluidPass"
 
 export default class indexCanvas {
   constructor({ gl, scene, camera, canvasSize }) {
@@ -12,7 +14,7 @@ export default class indexCanvas {
     this.canvasSize = canvasSize
     this.camera = camera
 
-    BM(this, ['render', 'update'])
+    BM(this, ['render', 'update', 'resize'])
     const { $RafR, $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize)
     this.ro.trigger()
@@ -23,25 +25,40 @@ export default class indexCanvas {
     this.rafUpdate = new $RafR(this.update)
     this.rafStack.push(this.rafUpdate)
 
+    this.titleMSDF = new TitleMSDF(this.gl, { canvasSize })
+    this.titleMSDF.loadText().then(() => {
+      this.titleMSDF.mesh.setParent(this.scene)
+    })
+
+    console.log('indexCanvas', canvasSize)
     const noiseBackground = new NoiseBackground(this.gl, { canvasSize })
     noiseBackground.backgroundMesh.setParent(this.scene)
     noiseBackground.mesh.setParent(this.scene)
+    this.noiseBackground = noiseBackground
 
     this.rafStack.push(noiseBackground.raf)
 
-    this.noiseBackground = noiseBackground
 
+
+
+    const fluidPass = new FluidPass(this.gl, {
+      densityDissipation: 0.98,
+      pressureDissipation: 0.7,
+      curlStrength: 10,
+      radius: 0.4
+    })
     this.post = new PostProcessor(this.gl)
-    this.post.addPassEffect(new BloomPass(this.gl,{
+    this.post
+      .addPassEffect(fluidPass)
+      .addPassEffect(new BloomPass(this.gl, {
       bloomStrength: 1,
       threshold: 0.3,
       iteration: 10,
-      // enabled: false,
+      enabled: true,
       direction: {
-        x:4,
-        y:4
+        x: 4,
+        y: 4
       }
-
     }))
 
     this.init()
@@ -54,7 +71,14 @@ export default class indexCanvas {
   }
 
   resize({ vh, vw, scale, breakpoint }) {
+    console.log('innerCanvas')
 
+    this.post && this.post.resize({ width: vw, height: vh});
+    if (this.titleMSDF) {
+      // console.log('BAITED')
+      // this.titleMSDF.canvasSize = this.canvasSize
+      // this.titleMSDF.resize({ vh, vw, scale })
+    }
   }
 
   update({ elapsed, delta }) {

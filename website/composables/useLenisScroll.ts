@@ -12,7 +12,6 @@ export const useLenisScroll = (callback: (e:{current: number, target: number, ve
   })
 
   const callbackProxy = (e:any)=>{
-
     const arg = {
       current: e.animatedScroll,
       target: e.targetScroll,

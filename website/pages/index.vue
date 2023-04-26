@@ -1,7 +1,7 @@
 <template>
+    <WaterflowTitle />
     <div id="home" class="wrapper">
         <div class="page">
-            <WaterflowTitle />
             <div class="grid-container">
                 <div class="left">
                     <h2 class="mask-split-line">
@@ -69,11 +69,14 @@ onFlow(() => {
 
 }
 .page {
+    overflow: hidden;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    top: 28rem;
+    position: relative;
     perspective: 1000px;
 }
 
@@ -137,5 +140,11 @@ h3 {
         width: 100%;
         height: 100%;
     }
+}
+
+.title-container {
+  position: fixed;
+  z-index: 9;
+  // backdrop-filter: blur(4px);
 }
 </style>

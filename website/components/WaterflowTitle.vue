@@ -44,7 +44,7 @@ onFlow(()=>{
     align-items: center;
 
     .border {
-        width: 151.4rem;
+        width: 152.6rem;
         // width: calc(100% - 21rem);
         height: 2px;
         background-color: $primary;
@@ -57,5 +57,8 @@ h1 {
     text-align: center;
     font-family: Amarante;
     font-size: 30rem;
+    font-weight: 400;
+    
+    opacity: 0;
 }
 </style>

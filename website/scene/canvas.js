@@ -60,7 +60,6 @@ export default class Canvas {
       this.currentCanvasPage.canvasSize = this.size
     }
 
-    this.post && this.post.resize({ width: this.sizePixel.width, height: this.sizePixel.height });
   }
 
   onChange(route) {
