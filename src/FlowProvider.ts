@@ -84,7 +84,6 @@ export class FlowProvider {
     }
 
     let a = !(crossfadeMode == false) && !!this.bufferRouteState?.value
-    console.log(a)
     return a
   }
 
