@@ -60,6 +60,5 @@ export function useRO(callback: (e: { vh: number, vw: number, scale: number, bre
 
 export function useCanvasSize(callback: ()=> void): Ref<{height:number, width:number}>{
   const canvas = useCanvas()
-  console.log(canvas)
   return canvas.size
 }
