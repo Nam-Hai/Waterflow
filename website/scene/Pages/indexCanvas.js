@@ -6,12 +6,12 @@ import TitleMSDF from "../Components/TitleMSDF"
 import FluidPass from "../FluidPass"
 
 export default class indexCanvas {
-  constructor({ gl, scene, camera, canvasSize }) {
+  constructor({ gl, scene, camera }) {
     this.gl = gl
     this.renderer = this.gl.renderer
 
     this.scene = scene
-    this.canvasSize = canvasSize
+    this.canvasSize = useCanvasSize()
     this.camera = camera
 
     BM(this, ['render', 'update', 'resize'])
@@ -21,36 +21,20 @@ export default class indexCanvas {
 
     this.rafStack = []
     this.rafRender = new $RafR(this.render)
-    this.rafStack.push(this.rafRender)
     this.rafUpdate = new $RafR(this.update)
-    this.rafStack.push(this.rafUpdate)
 
-    this.titleMSDF = new TitleMSDF(this.gl, { canvasSize })
-    this.titleMSDF.loadText().then(() => {
-      this.titleMSDF.mesh.setParent(this.scene)
-    })
+    this.titleMSDF = new TitleMSDF(this.gl)
+    // this.titleMSDF.loadText().then(() => {
+      // this.titleMSDF.mesh.setParent(this.scene)
+    // })
 
-    console.log('indexCanvas', canvasSize)
-    const noiseBackground = new NoiseBackground(this.gl, { canvasSize })
+    const noiseBackground = new NoiseBackground(this.gl)
     noiseBackground.backgroundMesh.setParent(this.scene)
     noiseBackground.mesh.setParent(this.scene)
     this.noiseBackground = noiseBackground
 
-    this.rafStack.push(noiseBackground.raf)
 
-
-
-
-    const fluidPass = new FluidPass(this.gl, {
-      densityDissipation: 0.98,
-      pressureDissipation: 0.7,
-      curlStrength: 10,
-      radius: 0.4
-    })
-    this.post = new PostProcessor(this.gl)
-    this.post
-      .addPassEffect(fluidPass)
-      .addPassEffect(new BloomPass(this.gl, {
+    this.bloomPass = new BloomPass(this.gl, {
       bloomStrength: 1,
       threshold: 0.3,
       iteration: 10,
@@ -59,25 +43,24 @@ export default class indexCanvas {
         x: 4,
         y: 4
       }
-    }))
+    })
+
+    this.post = new PostProcessor(this.gl)
+    this.post
+      .addPassEffect(this.bloomPass)
+
 
     this.init()
   }
   init() {
-    for (const raf of this.rafStack) {
-      raf.run()
-    }
+    this.rafRender.run()
+    this.rafUpdate.run()
+    
     this.ro.on()
   }
 
   resize({ vh, vw, scale, breakpoint }) {
-    console.log('innerCanvas')
-
-    this.post && this.post.resize({ width: vw, height: vh});
     if (this.titleMSDF) {
-      // console.log('BAITED')
-      // this.titleMSDF.canvasSize = this.canvasSize
-      // this.titleMSDF.resize({ vh, vw, scale })
     }
   }
 
@@ -91,9 +74,16 @@ export default class indexCanvas {
     //     camera: this.camera
     // })
 
+    this.titleMSDF.post.render(e, {
+      scene: this.titleMSDF.scene,
+      camera: this.camera
+    })
+
+    this.bloomPass.pass.program.uniforms.tTitle.value = this.titleMSDF.post.uniform.value
     this.post.render(e, {
       scene: this.scene,
-      camera: this.camera
+      camera: this.camera,
+      // texture: this.titleMSDF.post.uniform.value
     })
   }
 

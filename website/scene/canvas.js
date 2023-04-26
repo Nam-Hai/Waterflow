@@ -7,6 +7,7 @@ import { useFlowProvider } from "~/../src/FlowProvider";
 import indexCanvas from "./Pages/indexCanvas";
 
 import { N } from "~/helpers/namhai-utils";
+import { useCanvas } from "./useCanvas";
 
 const CanvasRouteMap = new Map([
   ['index', indexCanvas]
@@ -27,18 +28,17 @@ export default class Canvas {
     N.BM(this, ["resize"]);
 
     const { $ROR } = useNuxtApp()
+
+    this.size = ref({width: 0, height:0})
+
     this.ro = new $ROR(this.resize)
     this.ro.trigger()
-
-    const flowProvider = useFlowProvider()
-    this.onChange(flowProvider.getRouteFrom())
-    this.currentCanvasPage = this.nextCanvasPage
-
-
-    this.init();
   }
 
   async init() {
+    const flowProvider = useFlowProvider()
+    this.onChange(flowProvider.getRouteFrom())
+    this.currentCanvasPage = this.nextCanvasPage
     this.ro.on();
   }
 
@@ -52,19 +52,16 @@ export default class Canvas {
     const fov = (this.camera.fov * Math.PI) / 180;
 
     const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
-    this.size = {
+
+    this.size.value = {
       height: height,
       width: height * this.camera.aspect,
-    };
-    if (this.currentCanvasPage) {
-      this.currentCanvasPage.canvasSize = this.size
     }
-
   }
 
   onChange(route) {
     const page = CanvasRouteMap.get(route.name)
-    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera, canvasSize: this.size })
+    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera})
   }
 
   destroy() {

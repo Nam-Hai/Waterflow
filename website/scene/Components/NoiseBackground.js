@@ -4,26 +4,27 @@ import { basicVer } from '../shaders/BasicVer'
 import noise3d from '../shaders/noise3d'
 import noise4d from '../shaders/noise4d'
 import noise from '../shaders/noise'
+import { BM } from '~/helpers/core/utils'
 export default class NoiseBackground {
-  constructor(gl, {
-    canvasSize,
-  } = {}) {
+  constructor(gl) {
     this.gl = gl
-    this.canvasSize = canvasSize || { width: 1, height: 1 }
+    this.canvasSize = useCanvasSize()
 
+    this.seed = Math.random()
+    this.scrollOffset = 0
 
     this.createMesh()
 
+    BM(this, ['update', 'resize'])
     const { $RafR, $ROR } = useNuxtApp()
-    this.raf = new $RafR(this.update.bind(this))
+    this.raf = new $RafR(this.update)
+    this.ro = new $ROR(this.resize)
 
     useLenisScroll(this.scroll.bind(this))
     this.raf.run()
-    this.scrollOffset = 0
-    this.seed = Math.random()
+    this.ro.on()
   }
   scroll(e) {
-    console.log(e)
     this.scrollOffset = e.current
     this.mesh.program.uniforms.uScroll.value = this.scrollOffset
 
@@ -36,14 +37,11 @@ export default class NoiseBackground {
   }
 
   resize() {
-    this.mesh.scale.set(this.canvasSize.width, this.canvasSize.height, 1)
-    this.mesh.scale.set(this.canvasSize.width, this.canvasSize.height, 1)
+    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI/3), 1)
+    this.backgroundMesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
   }
 
   createMesh() {
-
-
-
     const geometry = new Plane(this.gl, {
       widthSegments: 80,
       heightSegments: 80
@@ -72,7 +70,7 @@ export default class NoiseBackground {
       })
     })
     // this.backgroundMesh.program.uniforms.uScale.value = 0.5
-    this.backgroundMesh.scale.set(this.canvasSize.width, this.canvasSize.height, 1)
+    this.backgroundMesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
 
 
     this.mesh = new Mesh(this.gl, {
@@ -80,13 +78,11 @@ export default class NoiseBackground {
       geometry
     })
 
-    // this.mesh.scale.set(this.canvasSize.width, this.canvasSize.height, 1)
+    // this.mesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
     this.mesh.position.y = 0;
     this.mesh.position.z = -1
     this.mesh.rotation.x = -Math.PI / 3
-    this.mesh.scale.set(this.canvasSize.width * 3, this.canvasSize.height / Math.cos(Math.PI/3), 1)
-
-
+    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI/3), 1)
   }
 
   destroy() {

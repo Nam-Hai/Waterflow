@@ -1,21 +1,41 @@
-import { Geometry, Mesh, Text, Texture, Program } from 'ogl';
+import { Geometry, Mesh, Text, Texture, Transform, Program } from 'ogl';
 import { basicVer } from '../shaders/BasicVer';
-import { basicFrag } from '../shaders/BasicFrag';
+import PostProcessor from '../PostProcessor';
+import FluidPass from '../FluidPass';
 
 export default class TitleMSDF {
-  constructor(gl, {
-    canvasSize,
-  } = {}) {
+  constructor(gl) {
     this.gl = gl
-    this.canvasSize = canvasSize || { width: 1, height: 1 }
+    this.canvasSize = useCanvasSize()
 
 
+
+    const fluidPass = new FluidPass(this.gl, {
+      densityDissipation: 0.98,
+      pressureDissipation: 0.7,
+      curlStrength: 10,
+      radius: 0.4,
+      // enabled: false
+    })
+    this.post = new PostProcessor(this.gl, { targetOnly: true })
+    this.post
+      .addPassEffect(fluidPass)
+
+    this.scene = new Transform()
     const { $RafR, $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
     this.raf = new $RafR(this.update.bind(this))
 
-    this.raf.run()
+    this.init()
   }
+  async init() {
+    await this.loadText()
+
+    this.raf.run()
+    this.ro.on()
+    this.ro.trigger()
+  }
+
 
   update({ elapsed, delta }) {
     if (!this.mesh) return
@@ -24,11 +44,9 @@ export default class TitleMSDF {
   }
 
   resize({ vh, vw, scale }) {
-    console.log(scale, vw, 'title')
-    const w = scale  
-    const h = scale  
-    // console.log({w, canvasSize: this.canvasSize})
-    if(!this.mesh) return
+    const w = scale
+    const h = scale
+    if (!this.mesh) return
     this.mesh.scale.x = w
     this.mesh.scale.y = h
 
@@ -36,6 +54,7 @@ export default class TitleMSDF {
   }
 
   async loadText() {
+    console.log('loadlText')
     const gl = this.gl
     const texture = new Texture(gl, {
       generateMipmaps: false,
@@ -68,7 +87,7 @@ export default class TitleMSDF {
       align: 'center',
       // lineHeight: 1,
       // letterSpacing: -0.02,
-      size: 300 * this.canvasSize.height / innerHeight,
+      size: 300 * this.canvasSize.value.height / innerHeight,
       lineHeight: 1,
     });
 
@@ -85,15 +104,16 @@ export default class TitleMSDF {
     const mesh = new Mesh(gl, { geometry, program });
 
     // Use the height value to position text vertically. Here it is centered.
-    mesh.position.y = this.canvasSize.height/2 + 20 * this.canvasSize.height / innerHeight
+    mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
     // mesh.position.y += text.height * 0.5;
 
-    
+
 
     this.mesh = mesh
-    console.log('testt')
-    this.ro.on()
-    this.ro.trigger()
+
+    this.mesh.setParent(this.scene)
+    console.log('this.mesh', this.mesh)
+
   }
 
   destroy() {

@@ -1,5 +1,5 @@
-import PostProcessor from "./PostProcessor";
-import { Vec2, Camera } from "ogl";
+import PostProcessor from "./PostProcessor.js";
+import { Vec2, Camera, Texture} from "ogl";
 import { shader as screen } from "./shaders/screen.js";
 import noise from "./shaders/noise";
 
@@ -26,7 +26,8 @@ export default class BloomPass {
     this.enabled = enabled
 
     this.postBloom = new PostProcessor(gl, { dpr: 0.5, targetOnly: true });
-    this.bloomResolution = {value : new Vec2(this.postBloom.options.width, this.postBloom.options.height)}
+    this.bloomResolution = {value : new Vec2(this.postBloom.width, this.postBloom.height)}
+    console.log('bloomRes',this.bloomResolution, this.postBloom.width)
 
     const brightPass = this.postBloom.addPass({
       fragment: brightPassFragment,
@@ -61,14 +62,14 @@ export default class BloomPass {
   }
 
   addPassRef(addPass) {
-
     this.pass = addPass({
       fragment: this.screen ? compositeScreenFragment : compositeFragment,
       uniforms: {
         uResolution: this.resolution,
         tBloom: {value: null},
         uBloomStrength: this.bloomStrength,
-        uTime: {value : 0}
+        uTime: {value : 0},
+        tTitle: {value: new Texture(this.gl)}
       },
       enabled: this.enabled,
       textureUniform: 'tMap',
@@ -91,7 +92,7 @@ export default class BloomPass {
     this.camera.updateMatrixWorld();
 
     this.resolution = {value: new Vec2(this.size.width, this.size.height)}
-    this.bloomResolution.value.set(this.postBloom.options.width, this.postBloom.options.height);
+    this.bloomResolution.value.set(this.postBloom.width, this.postBloom.height);
   }
 }
 
@@ -166,11 +167,13 @@ const compositeFragment = /* glsl */ `#version 300 es
   ${noise}
 
   uniform float uTime;
+  uniform sampler2D tTitle;
 
   void main() {
     vec4 tex = texture(tMap, vUv); 
     vec4 bloom = texture(tBloom, vUv) * uBloomStrength;
-    color = tex + bloom;
+    vec4 title = texture(tTitle, vUv);
+    color = tex + bloom + title;
     color.a = 1.;
     color += 0.12 * noise(gl_FragCoord.xy, uTime * 100.);
   }

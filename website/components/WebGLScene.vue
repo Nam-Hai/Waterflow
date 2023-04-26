@@ -14,6 +14,8 @@ const wrapperSceneRef = ref()
 
 onMounted(()=>{
   const canvas = useCanvas()
+  canvas.init()
+
   sceneRef.value = canvas
 
   wrapperSceneRef.value.appendChild(canvas.gl.canvas)

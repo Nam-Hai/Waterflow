@@ -34,13 +34,8 @@ export default class FluidPass {
     }
     this.gl = gl;
 
-    const { $ROR } = useNuxtApp()
     this.scale = 0
-    this.ro = new $ROR(({scale})=>{
-      this.scale = scale
-    })
-    this.ro.on()
-    this.ro.trigger()
+
     this.size = {
       width: innerWidth,
       height: innerHeight,
@@ -261,6 +256,8 @@ export default class FluidPass {
 
     this.splats = [];
 
+
+    console.log('brefore addEventListener')
     this.addEventListener();
   }
 
@@ -370,17 +367,16 @@ export default class FluidPass {
   }
 
   addEventListener() {
-    // const isTouchCapable = "ontouchstart" in window;
-    // if (isTouchCapable) {
-    //   window.addEventListener("touchstart", this.updateMouse.bind(this), false);
-    //   window.addEventListener("touchmove", this.updateMouse.bind(this), false);
-    // } else {
-    //   window.addEventListener("mousemove", this.updateMouse.bind(this), false);
-    // }
 
-    console.log('useLenisTest')
-    useLenisScroll(this.onScroll.bind(this))
-    console.log('useLenisTest 2')
+    const { $ROR, $lenis } = useNuxtApp()
+    this.ro = new $ROR(({ scale }) => {
+      this.scale = scale
+    })
+
+    this.ro.on()
+    this.ro.trigger()
+
+    this.unSubscriberLenis = $lenis.on('scroll', this.onScroll.bind(this))
   }
 
   // Function to draw number of interactions onto input render target
@@ -414,15 +410,14 @@ export default class FluidPass {
   }
 
   onScroll({ current, target, velocity }) {
-    console.log('test')
-
-    const x = Math.sign(velocity) == 1 ?  40 : innerWidth - 40
-    const y = 200 * this.scale
+    const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
+    const y = 180 * this.scale
+    console.log(x)
 
     this.splats.push({
       x: x / this.size.width,
       y: 1 - y / this.size.height,
-      dy: 0,
+      dy: -Math.abs(velocity) * 0.01,
       dx: velocity * 2,
     });
   }
@@ -454,6 +449,7 @@ export default class FluidPass {
   }
 
   resize({ width, height }) {
+    console.log('test resize' , width, height)
     this.size = { width, height };
     this.camera.left = -this.size.width / 2;
     this.camera.right = this.size.width / 2;
@@ -483,6 +479,10 @@ export default class FluidPass {
     return { resizeCallback: this.resize.bind(this) }
   }
 
+
+  destroy(){
+    this.unSubscriberLenis()
+  }
 }
 
 // Helper functions for larger device support
