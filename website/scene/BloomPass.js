@@ -26,8 +26,8 @@ export default class BloomPass {
     this.enabled = enabled
 
     this.postBloom = new PostProcessor(gl, { dpr: 0.5, targetOnly: true });
+
     this.bloomResolution = {value : new Vec2(this.postBloom.width, this.postBloom.height)}
-    console.log('bloomRes',this.bloomResolution, this.postBloom.width)
 
     const brightPass = this.postBloom.addPass({
       fragment: brightPassFragment,
@@ -74,7 +74,6 @@ export default class BloomPass {
       enabled: this.enabled,
       textureUniform: 'tMap',
       beforePass: (e,{scene, camera, texture})=> {
-
         this.pass.program.uniforms.uTime.value = e.elapsed
         this.postBloom.render(e,{texture})
         this.pass.program.uniforms.tBloom.value = this.postBloom.uniform.value
@@ -83,8 +82,9 @@ export default class BloomPass {
     return {resizeCallback: this.resize.bind(this)}
   }
 
-  resize({ width, height }) {
-    this.size = { width, height };
+  resize({ vh, vw }) {
+
+    this.size = { width: vw, height: vh};
     this.camera.left = -this.size.width / 2;
     this.camera.right = this.size.width / 2;
     this.camera.top = this.size.height / 2;
@@ -94,6 +94,7 @@ export default class BloomPass {
     this.resolution = {value: new Vec2(this.size.width, this.size.height)}
     this.bloomResolution.value.set(this.postBloom.width, this.postBloom.height);
   }
+
 }
 
 const brightPassFragment = /* glsl */ `#version 300 es
