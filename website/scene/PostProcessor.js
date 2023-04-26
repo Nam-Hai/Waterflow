@@ -1,5 +1,5 @@
 
-import { Program, Mesh, RenderTarget, Triangle } from 'ogl'
+import { Program, Camera, Mesh, RenderTarget, Triangle, Plane } from 'ogl'
 
 export default class PostProcessor {
   constructor(
@@ -13,10 +13,18 @@ export default class PostProcessor {
       minFilter = gl.LINEAR,
       magFilter = gl.LINEAR,
       geometry = new Triangle(gl),
+      camera,
       targetOnly = null,
     } = {}
   ) {
     this.gl = gl;
+
+    this.camera = camera
+    if (this.camera) {
+      this.camera.position.z = 5;
+    }
+
+    this.sizePlaneCamera = useCanvasSize()
 
     this.options = { width, height, wrapS, wrapT, minFilter, magFilter };
 
@@ -43,14 +51,18 @@ export default class PostProcessor {
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
     this.ro.on()
-    this.ro.trigger()
   }
 
-  addPass({ vertex = defaultVertex, fragment = defaultFragment, uniforms = {}, textureUniform = 'tMap', enabled = true, beforePass } = {}) {
+  addPass({ vertex = this.camera ? cameraVertex : defaultVertex, fragment = defaultFragment, uniforms = {}, textureUniform = 'tMap', enabled = true, beforePass } = {}) {
     uniforms[textureUniform] = { value: this.fbo.read.texture };
 
-    const program = new Program(this.gl, { vertex, fragment, uniforms });
+    const program = new Program(this.gl, {
+      vertex,
+      fragment,
+      uniforms
+    });
     const mesh = new Mesh(this.gl, { geometry: this.geometry, program });
+    mesh.scale.set(this.sizePlaneCamera.value.width, this.sizePlaneCamera.value.height, 1)
 
     const pass = {
       mesh,
@@ -60,6 +72,7 @@ export default class PostProcessor {
       textureUniform,
       beforePass
     };
+
 
     this.passes.push(pass);
     return pass;
@@ -71,9 +84,10 @@ export default class PostProcessor {
     return this;
   }
 
-  resize({ vw, vh } = {}) {
+  resize({ vw, vh, scale }) {
     this.width = vw
     this.height = vh
+
 
     const dpr = this.dpr || this.gl.renderer.dpr;
     let scaledWidth = Math.floor((this.width || this.gl.renderer.width) * dpr);
@@ -82,7 +96,17 @@ export default class PostProcessor {
     this.fbo.read.setSize(scaledWidth, scaledHeight)
     this.fbo.write.setSize(scaledWidth, scaledHeight)
 
-    this.resizeCallbacks.forEach(cb => cb({ width: vw, height: vh}))
+
+    this.resizeCallbacks.forEach(cb => cb({ vw, vh }))
+
+    if (!this.camera) return
+
+    this.camera.perspective({
+      aspect: vw / vh
+    });
+    for (const pass of this.passes) {
+      pass.mesh.scale.set(this.sizePlaneCamera.value.width, this.sizePlaneCamera.value.height, 1)
+    }
   }
 
   // Uses same arguments as renderer.render, with addition of optional texture passed in to avoid scene render
@@ -109,6 +133,7 @@ export default class PostProcessor {
       pass.beforePass && pass.beforePass(e, { scene, camera, texture: !i && texture ? texture : this.fbo.read.texture })
       this.gl.renderer.render({
         scene: pass.mesh,
+        camera: this.camera,
         target: i === enabledPasses.length - 1 && (target || !this.targetOnly) ? target : this.fbo.write,
         clear: true,
       });
@@ -117,12 +142,31 @@ export default class PostProcessor {
 
     this.uniform.value = this.fbo.read.texture;
   }
+
+  destroy() {
+    this.ro.off()
+  }
 }
 
+const cameraVertex = /* glsl */ `#version 300 es
+    in vec2 uv;
+    in vec3 position;
+    out vec2 vUv;
+
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
+
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+    }
+`;
 const defaultVertex = /* glsl */ `#version 300 es
     in vec2 uv;
     in vec2 position;
     out vec2 vUv;
+
+
     void main() {
         vUv = uv;
         gl_Position = vec4(position, 0, 1);
