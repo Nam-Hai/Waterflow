@@ -13,7 +13,9 @@ const sceneRef = ref()
 const wrapperSceneRef = ref()
 
 onMounted(()=>{
+
   const canvas = useCanvas()
+
   canvas.init()
 
   sceneRef.value = canvas
@@ -25,7 +27,9 @@ onMounted(()=>{
 })
 
 onUnmounted(()=>{
+  // sceneRef.value.gl.canvas.remove()
   sceneRef.value.destroy()
+
 })
 
 </script>
