@@ -34,7 +34,6 @@ export default class Media {
 
   resize({ vh, vw, scale }) {
     this.bounds = this.el.getBoundingClientRect()
-    console.log(this.bounds, this.bounds.width, this.bounds.height, this.el, vw, vh, this.canvasSize.value)
     this.mesh.position.set(
       -this.canvasSize.value.width / 2 + (this.bounds.x + this.bounds.width / 2) * this.canvasSize.value.width / vw,
       this.canvasSize.value.height / 2 - (this.bounds.y + this.bounds.height / 2) * this.canvasSize.value.height / vh,
