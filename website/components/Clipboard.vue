@@ -53,7 +53,7 @@ const timeline = ref() as Ref<Timeline>
 
 onFlow(() => {
     timer.value = new $Timer(() => { showSuccess.value = false }, 400)
-    timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 800)
+    timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 1000)
 
     const lenght = clipText.length
 
@@ -157,9 +157,11 @@ const copy = () => {
     transition-property: opacity;
     transition-timing-function: ease-out;
     transition-duration: 1000ms;
+    transition-delay: 500ms;
 
     &.active {
         transition-duration: 100ms;
+        transition-delay: 0ms;
         opacity: 1;
     }
 }
@@ -178,6 +180,7 @@ const copy = () => {
     border-width: 1px;
     border-radius: 1.4rem;
     border-style: solid;
+    background: #FFFFFF15;
 
     // height: 100%;
     height: 7rem;
@@ -209,7 +212,6 @@ const copy = () => {
 .clipboard-svg__container.active {
     opacity: 1;
     transform: scale(1);
-    // border-color: #ffffff15;
     border-color: #87F06245;
     transition: opacity 200ms, transform 200ms, border-color 0ms ease-out;
 }
