@@ -413,7 +413,7 @@ export default class FluidPass {
   onScroll({ current, target, velocity }) {
     const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
     // const y = 150 * this.scale
-    const y = innerHeight /2  + 150 * this.scale
+    const y = innerHeight /2  + 155 * this.scale
 
     this.splats.push({
       x: x / this.size.width,
@@ -576,7 +576,12 @@ const fragment = /* glsl */ `#version 300 es
     void main() {
         vec3 fluid = texture(tFluid, vUv).rgb;
         vec2 uv = vUv - fluid.rg * 0.0002;
-        color = texture(tMap, uv);
+        // color = texture(tMap, uv);
+
+        float r = texture(tMap, vUv - fluid.rg * 0.00019).r;
+        float g = texture(tMap, vUv - fluid.rg * 0.0002).g;
+        float b = texture(tMap, vUv - fluid.rg * 0.00021).b;
+        color = vec4(r,g,b,1.);
     }
 `;
 
