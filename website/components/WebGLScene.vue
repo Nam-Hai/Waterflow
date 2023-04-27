@@ -44,12 +44,9 @@ onUnmounted(() => {
 
 <style lang="scss">
 .wrapper-title-scene {
-  position: fixed;
   z-index: 13;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
+  pointer-events: none;
 }
 
 .wrapper-scene {
@@ -57,6 +54,7 @@ onUnmounted(() => {
   z-index: 2;
   pointer-events: none;
 
+}
   canvas {
     position: fixed;
     top: 0;
@@ -65,5 +63,4 @@ onUnmounted(() => {
     height: 100%;
 
   }
-}
 </style>
