@@ -22,7 +22,7 @@ export default class TitleMSDF {
     })
     this.fluidPass = fluidPass
     this.post = new PostProcessor(this.gl, { 
-      targetOnly: true, 
+      // targetOnly: true, 
       camera: new Camera(this.gl), 
       geometry: new Plane(this.gl),
     })

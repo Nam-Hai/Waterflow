@@ -1,13 +1,8 @@
 import { BM } from "~/helpers/core/utils"
-import NoiseBackground from "../Components/NoiseBackground"
-import PostProcessor from "../PostProcessor"
-import BloomPass from "../BloomPass"
 import TitleMSDF from "../Components/TitleMSDF"
-import FluidPass from "../FluidPass"
 
-export default class indexCanvas {
+export default class indexCanvasTitle {
   constructor({ gl, scene, camera }) {
-    console.log('indexCanvas', gl, scene, camera)
     this.gl = gl
     this.renderer = this.gl.renderer
 
@@ -24,10 +19,7 @@ export default class indexCanvas {
     this.rafRender = new $RafR(this.render)
     this.rafUpdate = new $RafR(this.update)
 
-    const noiseBackground = new NoiseBackground(this.gl)
-    noiseBackground.backgroundMesh.setParent(this.scene)
-    noiseBackground.mesh.setParent(this.scene)
-    this.noiseBackground = noiseBackground
+    this.titleMSDF = new TitleMSDF(this.gl)
 
 
     this.init()
@@ -40,16 +32,16 @@ export default class indexCanvas {
   }
 
   resize({ vh, vw, scale, breakpoint }) {
+
   }
 
   update({ elapsed, delta }) {
   }
 
   render(e) {
-
-    this.noiseBackground.post.render(e, {
-      scene: this.scene,
-      camera: this.camera,
+    this.titleMSDF.post.render(e, {
+      scene: this.titleMSDF.scene,
+      camera: this.camera
     })
   }
 
@@ -57,7 +49,7 @@ export default class indexCanvas {
     this.rafUpdate.stop()
     this.rafRender.stop()
     this.ro.off()
-    this.noiseBackground.destroy()
-    this.noiseBackground = null
+    this.titleMSDF.destroy()
+    this.titleMSDF = null
   }
 }

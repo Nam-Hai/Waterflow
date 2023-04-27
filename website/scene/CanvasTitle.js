@@ -4,21 +4,20 @@ import {
   Transform,
 } from "ogl";
 import { useFlowProvider } from "~/../src/FlowProvider";
-import indexCanvas from "./Pages/indexCanvas";
-
 import { N } from "~/helpers/namhai-utils";
+import indexCanvasTitle from "./Pages/indexCanvasTitle";
 
 const CanvasRouteMap = new Map([
-  ['index', indexCanvas]
+  ['index', indexCanvasTitle]
 ])
-export default class Canvas {
+
+export default class CanvasTitle {
   constructor() {
     this.renderer = new Renderer({
       alpha: true,
       antialias: true,
       dpr: devicePixelRatio,
     });
-    this.gl = this.renderer.gl
     this.camera = new Camera(this.gl);
     this.camera.position.z = 5;
 
@@ -48,14 +47,12 @@ export default class Canvas {
       aspect: vw / vh
     });
     const fov = (this.camera.fov * Math.PI) / 180;
-
     const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
 
     this.size.value = {
       height: height,
       width: height * this.camera.aspect,
     }
-    console.log('canvasSize', this.size.value)
   }
 
   onChange(route) {
@@ -68,3 +65,5 @@ export default class Canvas {
     this.currentCanvasPage.destroy()
   }
 };
+
+export const [provideCanvasTitle, useCanvasTitle] = createContext<Canvas>('canvas');
