@@ -24,9 +24,6 @@ export default class indexCanvas {
     this.rafUpdate = new $RafR(this.update)
 
     this.titleMSDF = new TitleMSDF(this.gl)
-    // this.titleMSDF.loadText().then(() => {
-      // this.titleMSDF.mesh.setParent(this.scene)
-    // })
 
     const noiseBackground = new NoiseBackground(this.gl)
     noiseBackground.backgroundMesh.setParent(this.scene)
@@ -34,20 +31,6 @@ export default class indexCanvas {
     this.noiseBackground = noiseBackground
 
 
-    this.bloomPass = new BloomPass(this.gl, {
-      bloomStrength: 1,
-      threshold: 0.3,
-      iteration: 10,
-      enabled: true,
-      direction: {
-        x: 4,
-        y: 4
-      }
-    })
-
-    this.post = new PostProcessor(this.gl)
-    this.post
-      .addPassEffect(this.bloomPass)
 
 
     this.init()
@@ -60,12 +43,12 @@ export default class indexCanvas {
   }
 
   resize({ vh, vw, scale, breakpoint }) {
-    if (this.titleMSDF) {
-    }
+
+
+
   }
 
   update({ elapsed, delta }) {
-
   }
 
   render(e) {
@@ -79,19 +62,20 @@ export default class indexCanvas {
       camera: this.camera
     })
 
-    this.bloomPass.pass.program.uniforms.tTitle.value = this.titleMSDF.post.uniform.value
-    this.post.render(e, {
+    this.noiseBackground.bloomPass.pass.program.uniforms.tTitle.value = this.titleMSDF.post.uniform.value
+    this.noiseBackground.post.render(e, {
       scene: this.scene,
       camera: this.camera,
-      // texture: this.titleMSDF.post.uniform.value
     })
   }
 
   destroy() {
-    for (const raf of this.rafStack) {
-      raf.stop()
-    }
+    this.rafUpdate.stop()
+    this.rafRender.stop()
     this.ro.off()
     this.noiseBackground.destroy()
+    this.noiseBackground = null
+    this.titleMSDF.destroy()
+    this.titleMSDF = null
   }
 }
