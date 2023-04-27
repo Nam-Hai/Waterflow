@@ -15,7 +15,7 @@ const heroRef = ref()
 const { $TL } = useNuxtApp()
 onFlow(() => {
   const canvas = useCanvas()
-  if(canvas.currentCanvasPage.addMedia){
+  if(canvas.currentCanvasPage && canvas.currentCanvasPage.addMedia){
     canvas.currentCanvasPage.addMedia(heroRef.value)
   }
 
