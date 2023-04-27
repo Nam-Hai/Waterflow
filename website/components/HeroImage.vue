@@ -15,29 +15,32 @@ const heroRef = ref()
 const { $TL } = useNuxtApp()
 onFlow(() => {
   const canvas = useCanvas()
-  if(canvas.currentCanvasPage && canvas.currentCanvasPage.addMedia){
+
+  if (canvas.currentCanvasPage && canvas.currentCanvasPage.addMedia) {
     canvas.currentCanvasPage.addMedia(heroRef.value)
   }
 
 
-  let tl = new $TL()
-  tl.from({
-    el: heroRef.value,
-    p: {
-      s: [0, 1]
-    },
-    d: 1000,
-    e: 'o3'
-  })
+  // let tl = new $TL()
+  // tl.from({
+  //   el: heroRef.value,
+  //   p: {
+  //     s: [0, 1]
+  //   },
+  //   d: 1000,
+  //   e: 'o3'
+  // })
 
-  tl.play()
+  // tl.play()
 })
 
 </script>
 
 <style lang="scss">
 .hero-wrapper {
-  > div, img{
+
+  >div,
+  img {
     // opacity: 0;
     border-radius: 4rem;
     object-fit: cover;
