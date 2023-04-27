@@ -37,8 +37,9 @@ const titleSpanRef = ref()
 const rotateRef = ref()
 
 onMounted(()=>{
-  $lenis.dimensions.onWindowResize()
-  $lenis.dimensions.onContentResize()
+  // $lenis.dimensions.onWindowResize()
+  // $lenis.dimensions.onContentResize()
+
 })
 
 onFlow(() => {

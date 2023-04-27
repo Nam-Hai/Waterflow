@@ -1,5 +1,5 @@
 <template>
-  <div class="display-preloader">
+  <div class="display-preloader" v-if="!show && !timeout">
     {{ index }}
   </div>
   <div class="display-page" v-if="show && timeout">
@@ -12,8 +12,6 @@
 import { onMounted, ref } from 'vue';
 import { useManifest } from '~/composables/useManifest';
 
-const { $lenis } = useNuxtApp()
-
 const show = ref(false)
 let timeout = ref(false)
 let index = ref(0)
@@ -23,8 +21,6 @@ onBeforeMount(() => {
   index = manifest.index
   setTimeout(() => {
     timeout.value = true
-    $lenis.reset()
-    console.log($lenis.limit)
   }, 500)
 
   watch(index, (i) => {
@@ -45,7 +41,9 @@ onBeforeMount(() => {
 
 <style lang="scss">
 .display-page {
-  position: relative;
+  position: absolute;
+
+  top: 0;
   z-index: 1;
 }
 
