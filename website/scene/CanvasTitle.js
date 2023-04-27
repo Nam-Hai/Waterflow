@@ -45,7 +45,6 @@ export default class CanvasTitle {
     this.renderer.setSize(vw, vh);
 
     this.camera.perspective({
-      // aspect: this.sizePixel.width / this.sizePixel.height,
       aspect: vw / vh
     });
     const fov = (this.camera.fov * Math.PI) / 180;

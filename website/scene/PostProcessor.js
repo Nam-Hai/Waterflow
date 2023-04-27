@@ -24,7 +24,11 @@ export default class PostProcessor {
       this.camera.position.z = 5;
     }
 
-    this.sizePlaneCamera = useCanvasSize()
+    this.sizePlaneCamera = useCanvasSize((size)=> {
+      for (const pass of this.passes) {
+        pass.mesh.scale.set(size.width, size.height, 1)
+      }
+    })
 
     this.options = { width, height, wrapS, wrapT, minFilter, magFilter };
 
@@ -100,13 +104,9 @@ export default class PostProcessor {
     this.resizeCallbacks.forEach(cb => cb({ vw, vh }))
 
     if (!this.camera) return
-
     this.camera.perspective({
       aspect: vw / vh
     });
-    for (const pass of this.passes) {
-      pass.mesh.scale.set(this.sizePlaneCamera.value.width, this.sizePlaneCamera.value.height, 1)
-    }
   }
 
   // Uses same arguments as renderer.render, with addition of optional texture passed in to avoid scene render

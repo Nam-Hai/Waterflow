@@ -40,15 +40,12 @@ export default class TitleMSDF {
   }
 
   resize({ vh, vw, scale }) {
-    // this.post?.resize({vh,vw})
-
     const w = scale
     const h = scale
+    // this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
     if (!this.mesh) return
     this.mesh.scale.x = w
     this.mesh.scale.y = h
-
-    // this.mesh.scale.set( 0.2,0.2,1.)
   }
 
   async loadText() {
@@ -101,6 +98,7 @@ export default class TitleMSDF {
     const mesh = new Mesh(gl, { geometry, program });
 
     this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
+
     // mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
     // Use the height value to position text vertically. Here it is centered.
       // mesh.position.y += text.height * 0.25;

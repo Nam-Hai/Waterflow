@@ -3,7 +3,6 @@ import NoiseBackground from "../Components/NoiseBackground"
 
 export default class indexCanvas {
   constructor({ gl, scene, camera }) {
-    console.log('indexCanvas', gl, scene, camera)
     this.gl = gl
     this.renderer = this.gl.renderer
 

@@ -1,15 +1,11 @@
 import {
-  Renderer,
   Camera,
   RenderTarget,
   Geometry,
   Program,
-  Texture,
   Mesh,
   Color,
   Vec2,
-  Box,
-  NormalProgram,
 } from "ogl";
 
 // Resolution of simulation
@@ -412,7 +408,6 @@ export default class FluidPass {
 
   onScroll({ current, target, velocity }) {
     const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
-    // const y = 150 * this.scale
     const y = innerHeight /2  + 155 * this.scale
 
     this.splats.push({
@@ -450,6 +445,7 @@ export default class FluidPass {
   }
 
   resize({ vw, vh }) {
+    console.log('resize FluidPass', vw, vh )
     this.size = { width: vw, height: vh};
     this.camera.left = -this.size.width / 2;
     this.camera.right = this.size.width / 2;

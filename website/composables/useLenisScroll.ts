@@ -9,7 +9,6 @@ export const useLenisScroll = (callback: (e: { current: number, target: number, 
       $lenis.emit()
     })
     onBeforeUnmount(() => {
-      console.log(onScrollSubscription.value)
       onScrollSubscription.value()
     })
   }
