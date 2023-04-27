@@ -16,6 +16,7 @@ import {
 const simRes = 128;
 const dyeRes = 512;
 
+
 // Main inputs to control look and feel of fluid
 const iterations = 3;
 
@@ -38,7 +39,7 @@ export default class FluidPass {
 
     this.size = {
       width: innerWidth,
-      height: innerHeight / 2,
+      height: innerHeight,
     };
     this.camera = new Camera(this.gl, {
       left: -this.size.width / 2,
@@ -371,6 +372,7 @@ export default class FluidPass {
     this.ro = new $ROR(({ scale }) => {
       this.scale = scale
     })
+
     this.ro.on()
 
     const {lenis} = useLenisScroll(this.onScroll.bind(this))
@@ -411,7 +413,7 @@ export default class FluidPass {
   onScroll({ current, target, velocity }) {
     const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
     // const y = 150 * this.scale
-    const y = innerHeight /4  + 75 * this.scale
+    const y = innerHeight /2  + 150 * this.scale
 
     this.splats.push({
       x: x / this.size.width,
@@ -448,7 +450,6 @@ export default class FluidPass {
   }
 
   resize({ vw, vh }) {
-    console.log('1');
     this.size = { width: vw, height: vh};
     this.camera.left = -this.size.width / 2;
     this.camera.right = this.size.width / 2;
