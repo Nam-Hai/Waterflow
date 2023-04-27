@@ -581,7 +581,8 @@ const fragment = /* glsl */ `#version 300 es
         float r = texture(tMap, vUv - fluid.rg * 0.00019).r;
         float g = texture(tMap, vUv - fluid.rg * 0.0002).g;
         float b = texture(tMap, vUv - fluid.rg * 0.00021).b;
-        color = vec4(r,g,b,1.);
+
+        color = vec4(r,g,b, r + g + b);
     }
 `;
 

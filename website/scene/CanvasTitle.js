@@ -18,6 +18,8 @@ export default class CanvasTitle {
       antialias: true,
       dpr: devicePixelRatio,
     });
+    this.gl = this.renderer.gl
+
     this.camera = new Camera(this.gl);
     this.camera.position.z = 5;
 
@@ -65,5 +67,3 @@ export default class CanvasTitle {
     this.currentCanvasPage.destroy()
   }
 };
-
-export const [provideCanvasTitle, useCanvasTitle] = createContext<Canvas>('canvas');

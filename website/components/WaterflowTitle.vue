@@ -43,6 +43,7 @@ onFlow(()=>{
     justify-content: center;
     align-items: center;
 
+    backdrop-filter: blur(4px);
     .border {
         width: 152.6rem;
         // width: calc(100% - 21rem);

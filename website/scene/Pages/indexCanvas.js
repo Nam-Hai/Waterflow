@@ -1,9 +1,5 @@
 import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
-import PostProcessor from "../PostProcessor"
-import BloomPass from "../BloomPass"
-import TitleMSDF from "../Components/TitleMSDF"
-import FluidPass from "../FluidPass"
 
 export default class indexCanvas {
   constructor({ gl, scene, camera }) {
