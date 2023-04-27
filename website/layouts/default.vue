@@ -1,8 +1,14 @@
 <template>
-  <WebGLScene />
-  <BufferPage>
-    <slot />
-  </BufferPage>
+
+  <Preloader>
+
+    <WebGLScene />
+
+    <BufferPage>
+      <slot />
+    </BufferPage>
+
+  </Preloader>
 </template>
 
 <script setup lang="ts">
@@ -13,16 +19,26 @@ import { useFlowProvider } from '../../index';
 import CanvasTitle from '~/scene/CanvasTitle';
 import { provideCanvasTitle } from '~/scene/useCanvasTitle';
 
+import Manifest from '~/composables/Manifest';
+import { provideManifest } from '~/composables/useManifest';
+
 const { $lenis } = useNuxtApp()
 
 const flowProvider = useFlowProvider()
 
 onBeforeMount(() => {
+
+
   const canvas = new Canvas()
+
+
   provideCanvas(canvas)
 
   const canvasTitle = new CanvasTitle
   provideCanvasTitle(canvasTitle)
+
+  const manifest = new Manifest(canvas.gl, canvasTitle.gl)
+  provideManifest(manifest)
 })
 
 onUnmounted(() => {

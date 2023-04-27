@@ -50,13 +50,9 @@ export default class TitleMSDF {
 
   async loadText() {
     const gl = this.gl
-    const texture = new Texture(gl, {
-      generateMipmaps: false,
-    });
-    const img = new Image();
-    img.onload = () => (texture.image = img);
-    // img.src = 'msdf/Amarante.png';
-    img.src = 'msdf/Amarante-Regular.png';
+
+    const manifest = useManifest()
+    const texture = manifest.textures.font['msdf/Amarante-Regular.png']
 
     const program = new Program(gl, {
       // Get fallback shader for WebGL1 - needed for OES_standard_derivatives ext
@@ -65,13 +61,10 @@ export default class TitleMSDF {
       uniforms: {
         tMap: { value: texture },
       },
-      // transparent: true,
       cullFace: null,
-      // depthWrite: false,
     });
 
-    // const font = await (await fetch('msdf/Amarante.json')).json();
-    const font = await (await fetch('msdf/Amarante-Regular.json')).json();
+    const font = manifest.jsons['msdf/Amarante-Regular.json']
 
     const text = new Text({
       font,
