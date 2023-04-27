@@ -27,12 +27,12 @@ export default class NoiseBackground {
 
     this.bloomPass = new BloomPass(this.gl, {
       bloomStrength: 1,
-      threshold: 0.3,
-      iteration: 10,
-      enabled: true,
+      threshold: 0.02,
+      iteration: 5,
+      // enabled: false,
       direction: {
-        x: 4,
-        y: 4
+        x: 6,
+        y: 6
       }
     })
     this.post = new PostProcessor(this.gl)
@@ -135,12 +135,13 @@ float io3(float x) {
 }
 
 void main() {
-  float n1 = noise3d(vec3(vUv.x * 1. * uScale, vUv.y * 1. * uScale, uTime));
+  float n1 = noise3d(vec3(vUv.x * 1. * uScale, vUv.y * 1. * uScale, uTime)) * 0.7;
   float n2 = noise3d(vec3(vUv.x * 2. * uScale, vUv.y * 5. * uScale + 56., 2982. + uTime));
   n1 = io3(n1);
   n2 = io3(n2);
 
-  vec3 color1 = vec3(0.847,0.118,0.357) * n1;
+  // vec3 color1 = vec3(0.847,0.118,0.357) * n1;
+  vec3 color1 = vec3(0.024,1.,0.18) * n1 * 0.2;
   vec3 color2 = vec3(0.2,0.4,0.6) * n2;
   FragColor.rgb = (color1 + color2 )/ 1.;
   FragColor.a = 1.;
