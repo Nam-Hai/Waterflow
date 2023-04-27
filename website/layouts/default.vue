@@ -1,13 +1,8 @@
 <template>
-
   <Preloader>
-
-    <WebGLScene />
-
     <BufferPage>
       <slot />
     </BufferPage>
-
   </Preloader>
 </template>
 
@@ -27,11 +22,7 @@ const { $lenis } = useNuxtApp()
 const flowProvider = useFlowProvider()
 
 onBeforeMount(() => {
-
-
   const canvas = new Canvas()
-
-
   provideCanvas(canvas)
 
   const canvasTitle = new CanvasTitle
@@ -46,10 +37,10 @@ onUnmounted(() => {
   provideCanvasTitle(undefined)
 })
 
-
 useRaf((e) => {
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
 })
+
 
 flowProvider.registerScrollInterface({
   resume: () => { $lenis.start() },

@@ -1,4 +1,4 @@
-import { Mesh, Program, Plane } from 'ogl'
+import { Transform, Mesh, Program, Plane } from 'ogl'
 import noiseCommon from '../shaders/noise-common'
 import { basicVer } from '../shaders/BasicVer'
 import noise3d from '../shaders/noise3d'
@@ -7,13 +7,15 @@ import noise from '../shaders/noise'
 import { BM } from '~/helpers/core/utils'
 import BloomPass from '../BloomPass'
 import PostProcessor from '../PostProcessor'
+
 export default class NoiseBackground {
   constructor(gl) {
     this.gl = gl
     this.canvasSize = useCanvasSize()
-
+    this.uAlpha = { value: 0 }
     this.seed = Math.random()
     this.scrollOffset = 0
+    this.scene = new Transform()
 
     this.createMesh()
 
@@ -22,8 +24,9 @@ export default class NoiseBackground {
     this.raf = new $RafR(this.update)
     this.ro = new $ROR(this.resize)
 
-    const {lenis}  = useLenisScroll(this.scroll, false)
+    const { lenis } = useLenisScroll(this.scroll, false)
     this.lenisOff = lenis.off
+
 
     this.bloomPass = new BloomPass(this.gl, {
       bloomStrength: 1,
@@ -55,8 +58,8 @@ export default class NoiseBackground {
     this.backgroundMesh.program.uniforms.uTime.value = elapsed / 6000 + this.scrollOffset / 20000 + 204 * this.seed
   }
 
-  resize({vh, vw}) {
-    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI/3), 1)
+  resize({ vh, vw }) {
+    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI / 3), 1)
     this.backgroundMesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
   }
 
@@ -73,6 +76,7 @@ export default class NoiseBackground {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uScale: { value: 1 },
+        uAlpha: this.uAlpha
       },
     })
 
@@ -85,6 +89,7 @@ export default class NoiseBackground {
           uTime: { value: 0 },
           uScroll: { value: 0 },
           uScale: { value: 0.2 },
+          uAlpha: this.uAlpha
         },
       })
     })
@@ -101,7 +106,10 @@ export default class NoiseBackground {
     this.mesh.position.y = 0;
     this.mesh.position.z = -1
     this.mesh.rotation.x = -Math.PI / 3
-    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI/3), 1)
+    this.mesh.scale.set(this.canvasSize.value.width * 3, this.canvasSize.value.height / Math.cos(Math.PI / 3), 1)
+
+    this.mesh.setParent(this.scene)
+    this.backgroundMesh.setParent(this.scene)
   }
 
   destroy() {
@@ -123,6 +131,7 @@ ${noise3d}
 
 uniform float uTime;
 uniform float uScale;
+uniform float uAlpha;
 
 out vec4 FragColor;
 
@@ -144,8 +153,9 @@ void main() {
   vec3 color1 = vec3(0.024,1.,0.18) * n1 * 0.2;
   vec3 color2 = vec3(0.2,0.4,0.6) * n2;
   FragColor.rgb = (color1 + color2 )/ 1.;
-  FragColor.a = 1.;
-//   FragColor = vec4(1.,1.,0.,1.);
+
+  FragColor.a = uAlpha;
+
   // FragColor += 0.09 * noise(gl_FragCoord.xy, uTime * 100.);
 }
 `

@@ -69,7 +69,6 @@ export default class BloomPass {
         tBloom: {value: null},
         uBloomStrength: this.bloomStrength,
         uTime: {value : 0},
-        tTitle: {value: new Texture(this.gl)}
       },
       enabled: this.enabled,
       textureUniform: 'tMap',
@@ -168,14 +167,12 @@ const compositeFragment = /* glsl */ `#version 300 es
   ${noise}
 
   uniform float uTime;
-  uniform sampler2D tTitle;
 
   void main() {
     vec4 tex = texture(tMap, vUv); 
     vec4 bloom = texture(tBloom, vUv) * uBloomStrength;
-    vec4 title = texture(tTitle, vUv);
-    color = tex + bloom + title;
-    color.a = 1.;
+    color = tex + bloom;
+    // color.a = 1.;
     color += 0.12 * noise(gl_FragCoord.xy, uTime * 100.);
   }
 `;
