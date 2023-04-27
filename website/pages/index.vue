@@ -1,7 +1,7 @@
 <template>
     <WaterflowTitle />
     <div id="home" class="wrapper">
-        <div class="page">
+        <div class="page page-with-title">
             <div class="grid-container">
                 <div class="left">
                     <h2 class="mask-split-line">
@@ -18,9 +18,7 @@
                     <h3 v-opacity-flow="500">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
 
                     <Clipboard />
-                    <div class="hero-wrapper">
-                        <img class="hero" src="images/dummy.jpg">
-                    </div>
+                    <HeroImage />
                 </div>
             </div>
         </div>
@@ -64,6 +62,7 @@ onFlow(() => {
 
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
 
 #home.wrapper {
 
@@ -75,9 +74,13 @@ onFlow(() => {
     flex-direction: column;
     align-items: center;
 
-    top: 28rem;
     position: relative;
+    top: $title-height;
     perspective: 1000px;
+    overflow: hidden;
+}
+.page.page-with-title {
+  height: calc(100vh - $title-height);
 }
 
 .grid-container {
@@ -128,23 +131,9 @@ h3 {
     line-height: 100%;
 }
 
-.hero-wrapper {
-    flex: 1;
-    position: relative;
-
-    img {
-        border-radius: 4rem;
-        object-fit: cover;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-}
-
 .title-container {
   position: fixed;
   z-index: 9;
-  // backdrop-filter: blur(4px);
 }
+  // backdrop-filter: blur(4px);
 </style>

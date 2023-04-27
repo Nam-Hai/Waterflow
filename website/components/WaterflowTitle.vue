@@ -33,9 +33,10 @@ onFlow(()=>{
 
 <style lang="scss">
 @use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
 
 .title-container {
-    height: 28rem;
+    height: $title-height;
     width: 100%;
     position: relative;
     display: flex;
