@@ -135,5 +135,8 @@ h3 {
   position: fixed;
   z-index: 9;
 }
-  // backdrop-filter: blur(4px);
+.hero-wrapper{
+    flex: 1;
+    position: relative;
+}
 </style>
