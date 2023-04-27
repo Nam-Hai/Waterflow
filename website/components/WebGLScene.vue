@@ -1,6 +1,7 @@
 <template>
   <div ref="wrapperSceneRef" class="wrapper-scene">
   </div>
+  <div class="wrapper-title-scene"></div>
 </template>
 
 <script lang='ts' setup>
@@ -12,7 +13,7 @@ import { provideCanvas, useCanvas } from '~/scene/useCanvas'
 const sceneRef = ref()
 const wrapperSceneRef = ref()
 
-onMounted(()=>{
+onMounted(() => {
 
   const canvas = useCanvas()
 
@@ -26,7 +27,7 @@ onMounted(()=>{
   flowProvider.addProps('canvas', sceneRef)
 })
 
-onUnmounted(()=>{
+onUnmounted(() => {
   // sceneRef.value.gl.canvas.remove()
   sceneRef.value.destroy()
 
@@ -35,6 +36,17 @@ onUnmounted(()=>{
 </script>
 
 <style lang="scss">
+.wrapper-title-scene {
+  position: fixed;
+  z-index: 13;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: red;
+  opacity: 0.2;
+}
+
 .wrapper-scene {
   position: relative;
   z-index: 2;
