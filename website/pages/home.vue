@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <WaterflowTitle />
+  <div ref="heightHolderRef">
+  </div>
+  <div class="container-home" ref="wrapperRef">
 
-    <WaterflowTitle />
-    <div id="home" class="wrapper">
+    <div id="home" class="wrapper-home" ref="contentRef">
       <div class="page page-with-title">
         <div class="grid-container">
           <div class="left">
@@ -32,21 +34,42 @@
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
+import Lenis from '@studio-freight/lenis';
 import { onFlow } from '~/../src/composables/onFlow';
+import { T } from '~/helpers/core/utils';
 // import { useCanvas } from '~/scene/useCanvas.client';
 
-const { $TL, $lenis, $canvas } = useNuxtApp()
+const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
 const rotateRef = ref()
+
+const wrapperRef = ref()
+const contentRef = ref()
+const heightHolderRef = ref()
 
 onMounted(() => {
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
+
+  const height = wrapperRef.value.getBoundingClientRect().height
+  heightHolderRef.value.style.height = height + 'px'
 })
 
+
+useLenisScroll(({ current }) => {
+  T(contentRef.value, 0, -current, 'px')
+})
 onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
   $canvas.currentCanvasPage?.init()
+
+
+
+
+  // useRaf((e)=>{
+  // console.log(e)
+  //   lenis.raf(e.elapsed)
+  // }, false, true)
 
   let tl = new $TL()
   tl.from({
@@ -90,6 +113,13 @@ onFlow(() => {
 @use '@/styles/app/colors.scss' as *;
 @use "@/styles/app/variables.scss" as *;
 
+.container-home {
+  top: 28rem;
+  overflow: hidden;
+  position: fixed;
+  width: 100vw
+}
+
 #home.wrapper {}
 
 .page {
@@ -99,7 +129,7 @@ onFlow(() => {
   align-items: center;
 
   position: relative;
-  top: $title-height;
+  // top: $title-height;
   perspective: 1000px;
 }
 
