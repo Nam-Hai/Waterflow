@@ -87,9 +87,7 @@ const Raf = new class {
 
     add(rafItem: rafItem) {
         this.arr.push(rafItem)
-        // console.log('allo',this.arr);
         this.arr.sort((a,b) => a.id - b.id)
-        console.log('allo',this.arr);
     }
 
     remove(r: number): void {
@@ -129,7 +127,7 @@ class RafR {
         this.cb = callback
         this.on = false
         this.id = RafId
-        this.id += firstStack ? +20000 : 0
+        this.id += firstStack ? +100000 : 0
         this.id += lastStack ? -20000 : 0
         RafId++
     }

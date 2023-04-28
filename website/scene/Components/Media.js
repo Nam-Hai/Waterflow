@@ -1,4 +1,4 @@
-import {Texture, Plane, Program, Mesh } from 'ogl'
+import { Texture, Plane, Program, Mesh } from 'ogl'
 // import { basicFrag } from '../shaders/BasicFrag'
 import { basicVer } from '../shaders/BasicVer'
 export default class Media {
@@ -80,10 +80,12 @@ precision highp float;
 uniform sampler2D tMap;
 
 in vec2 vUv;
-out vec4 FragColor;
-
+// out vec4 FragColor;
+out vec4 FragColor[2];
 void main() {
   vec4 color = texture(tMap, vUv);
-  FragColor = color;
+  // color.a =1.;
+  FragColor[0] = color;
+  FragColor[1] = vec4(1.);
 }
 `

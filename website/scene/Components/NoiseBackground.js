@@ -42,7 +42,9 @@ export default class NoiseBackground {
         y: 6
       }
     })
-    this.post = new PostProcessor(this.gl)
+    this.post = new PostProcessor(this.gl, {
+      targetOnly: true
+    })
     this.post
       .addPassEffect(this.bloomPass)
 
