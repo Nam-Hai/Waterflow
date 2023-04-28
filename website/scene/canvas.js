@@ -22,7 +22,10 @@ export default class Canvas {
       antialias: true,
       dpr: devicePixelRatio,
     });
+
     this.gl = this.renderer.gl
+
+
     this.camera = new Camera(this.gl);
     this.camera.position.z = 5;
 

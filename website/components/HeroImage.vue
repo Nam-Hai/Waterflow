@@ -1,6 +1,6 @@
 <template>
   <div class="hero-wrapper">
-    <div ref="heroRef" class="hero" data-src="images/dummy.jpg"></div>
+    <div ref="heroRef" class="hero" data-src="images/2.jpg"></div>
     <!-- <img ref="heroRef" class="hero" src="images/dummy.jpg"> -->
   </div>
 </template>

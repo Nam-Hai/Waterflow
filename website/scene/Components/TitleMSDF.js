@@ -42,7 +42,9 @@ export default class TitleMSDF {
   resize({ vh, vw, scale }) {
     const w = scale
     const h = scale
-    // this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
+    this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
+    // this.fluidPass.pass.mesh.scale.set(w,h,1)
+    console.log(scale)
     if (!this.mesh) return
     this.mesh.scale.x = w
     this.mesh.scale.y = h
