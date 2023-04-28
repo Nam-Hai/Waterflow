@@ -46,7 +46,6 @@ export default class homeCanvas {
       scene: this.scene,
       camera: this.camera
     })
-    console.log(this.raf.id);
   }
 
   destroy() {

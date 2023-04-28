@@ -37,7 +37,7 @@ onUnmounted(() => {
   // provideCanvasTitle(undefined)
 })
 
-useRaf((e) => {
+const raf = useRaf((e) =>{
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
 })
 

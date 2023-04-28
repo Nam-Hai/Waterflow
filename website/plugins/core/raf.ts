@@ -99,10 +99,17 @@ const Raf = new class {
         let d = this.clock.getDelta()
         let elapsedTime = this.clock.elapsedTime
         if (this.on) {
-            for (let t = this.l(); 0 <= t; t--) {
-                const e = this.arr[t]
+            // for (let t = this.l(); 0 <= t; t--) {
+            // for (let t = 0; t <= this.l(); t++) {
+            this.arr.forEach(element => {
+                
+                const e = element
                 Is.def(e) && (e.startTime || (e.startTime = elapsedTime), s = elapsedTime - e.startTime, e.cb({ elapsed: s, delta: d }))
-            }
+            });
+                
+                // const e = this.arr[t]
+                // Is.def(e) && (e.startTime || (e.startTime = elapsedTime), s = elapsedTime - e.startTime, e.cb({ elapsed: s, delta: d }))
+            // }
         }
         this.raf()
     }

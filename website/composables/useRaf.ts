@@ -5,7 +5,7 @@ export const useRaf = (cb: (e: rafCbType) => void) => {
 
   const raf = ref() as Ref<RafR>
 
-  onMounted(() => {
+  onBeforeMount(() => {
     raf.value = new $RafR(cb)
     raf.value.run()
   })
