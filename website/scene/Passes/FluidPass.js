@@ -371,7 +371,7 @@ export default class FluidPass {
 
     this.ro.on()
 
-    const {lenis} = useLenisScroll(this.onScroll.bind(this))
+    const {lenis} = useLenisScroll(this.onScroll.bind(this), false)
     this.unSubscriberLenis = lenis.off
     lenis.on()
   }
@@ -407,8 +407,8 @@ export default class FluidPass {
   }
 
   onScroll({ current, target, velocity }) {
-    const x = Math.sign(velocity) == 1 ? 40 : innerWidth - 40 * this.scale
-    const y = innerHeight /2  + 160 * this.scale
+    const x = Math.sign(velocity) == 1 ? 40 : this.size.width - 40 * this.scale
+    const y = this.size.height /2  + 160 * this.scale
 
     this.splats.push({
       x: x / this.size.width,

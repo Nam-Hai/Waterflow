@@ -3,6 +3,11 @@ import { Texture, Plane, Program, Mesh } from 'ogl'
 import { TL } from '~/plugins/core/motion'
 export default class Media {
   constructor(gl, { el, scene }) {
+    this.windowSize = {
+      vh: innerHeight,
+      vw: innerWidth
+    }
+
     this.gl = gl
     this.scene = scene
     this.el = el
@@ -28,7 +33,6 @@ export default class Media {
     this.ro.trigger()
     this.lenis.on()
 
-    const vw = innerWidth
     let tl = new TL()
     tl.from({
       d: 2000,
@@ -52,10 +56,12 @@ export default class Media {
   }
 
   scroll({ current, target, velocity }) {
-    this.mesh.position.y = this.canvasSize.value.height / 2 - (-current + this.bounds.y + this.bounds.height / 2) * this.canvasSize.value.height / innerHeight
+    this.mesh.position.y = this.canvasSize.value.height / 2 - (-current + this.bounds.y + this.bounds.height / 2) * this.canvasSize.value.height / this.windowSize.vh
   }
 
   resize({ vh, vw, scale }) {
+    this.windowSize.vh = vh
+    this.windowSize.vw = vw
     this.bounds = this.el.getBoundingClientRect()
     this.mesh.position.set(
       -this.canvasSize.value.width / 2 + (this.bounds.x + this.bounds.width / 2) * this.canvasSize.value.width / vw,
@@ -78,8 +84,9 @@ export default class Media {
   createMesh() {
 
 
-    const manifest = useManifest()
-    const texture = manifest.textures.images[this.el.getAttribute('data-src')]
+    const { $manifest} = useNuxtApp()
+    console.log('media manifest', $manifest)
+    const texture = $manifest.textures.images[this.el.getAttribute('data-src')]
 
     const geometry = new Plane(this.gl, {
       widthSegments: 50,
@@ -132,11 +139,7 @@ void main() {
 
 
   vec2 coord = vUv * 2. - 1.;
-  // float alpha = step(abs(coord.x) + abs(coord.y),  2. * uProg);
-  // float alpha = step(coord.x * coord.x * uBounds.x + coord.y * coord.y * uBounds.y,  max(uBounds.x, uBounds.y)* 2. * uProg);
   float alpha = step(abs(coord.x),  1. * uProg) * step(abs(coord.y / 1.) - 0.8, 1. * uProg);
-  // float alpha = step(abs(coord.x),  1. * uProg);
-  // float alpha = step(abs(coord.x) * abs(coord.y),  3. * uProg);
 
   FragColor[0] = color * alpha;
   FragColor[1] = vec4(1.) * alpha;
@@ -156,10 +159,6 @@ uniform vec2 uBounds;
 uniform vec2 uScale;
 uniform float uProgVer;
 uniform float uProg;
-
-float io2(float x) {
-  return x < 0.5 ? 2. * x * x : 1. - pow(-2. * x + 2., 2.) / 2.;
-}
 
 float io3(float x) {
   return x < 0.5 ? 4. * x * x * x : 1. - pow(-2. * x + 2., 3.) / 2.;

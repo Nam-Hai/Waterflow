@@ -14,16 +14,11 @@ import { useFlowProvider } from '../../index';
 import CanvasTitle from '~/scene/CanvasTitle';
 
 import Manifest from '~/composables/Manifest';
-import { provideManifest } from '~/composables/useManifest';
 
 const { $lenis, $canvas, $canvasTitle} = useNuxtApp()
 
 const flowProvider = useFlowProvider()
 
-onBeforeMount(() => {
-  const manifest = new Manifest($canvas.gl, $canvasTitle.gl)
-  provideManifest(manifest)
-})
 
 
 useRaf((e) =>{

@@ -40,15 +40,14 @@ const titleSpanRef = ref()
 const rotateRef = ref()
 
 onMounted(() => {
-  // $lenis.dimensions.onWindowResize()
-  // $lenis.dimensions.onContentResize()
-
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
 })
 
 onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
-
   $canvas.currentCanvasPage?.init()
+
   let tl = new $TL()
   tl.from({
     el: titleSpanRef.value,

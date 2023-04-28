@@ -6,12 +6,15 @@ import PostProcessor from '../PostProcessor';
 export default class TitleMSDF {
   constructor(gl) {
     this.gl = gl
-    this.canvasSize = useCanvasSize()
 
 
     this.scene = new Transform()
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
+
+    this.canvasSize = useCanvasSize(() => {
+      this.ro.trigger()
+    })
 
     const fluidPass = new FluidPass(this.gl, {
       densityDissipation: 0.98,
@@ -35,14 +38,13 @@ export default class TitleMSDF {
   async init() {
     await this.loadText()
 
-    this.ro.on()
     this.ro.trigger()
   }
 
   resize({ vh, vw, scale }) {
     const w = scale
     const h = scale
-    this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
+    this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / vh
     // this.fluidPass.pass.mesh.scale.set(w,h,1)
     console.log(scale)
     if (!this.mesh) return
@@ -53,9 +55,9 @@ export default class TitleMSDF {
   async loadText() {
     const gl = this.gl
 
-    const manifest = useManifest()
-    console.log('manifes', manifest, this.gl, 'yoooo');
-    const texture = manifest.textures.font['msdf/Amarante-Regular.png']
+    const  { $manifest } = useNuxtApp()
+    console.log('manifes', $manifest, this.gl, 'yoooo');
+    const texture = $manifest.textures.font['msdf/Amarante-Regular.png']
 
     const program = new Program(gl, {
       // Get fallback shader for WebGL1 - needed for OES_standard_derivatives ext
@@ -67,7 +69,7 @@ export default class TitleMSDF {
       cullFace: null,
     });
 
-    const font = manifest.jsons['msdf/Amarante-Regular.json'] || await (await fetch('msdf/Amarante-Regular.json')).json();
+    const font = $manifest.jsons['msdf/Amarante-Regular.json'] || await (await fetch('msdf/Amarante-Regular.json')).json();
 
     const text = new Text({
       font,
