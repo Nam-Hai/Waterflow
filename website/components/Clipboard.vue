@@ -160,7 +160,7 @@ const copy = () => {
     transition-delay: 500ms;
 
     &.active {
-        transition-duration: 100ms;
+        transition-duration: 0ms;
         transition-delay: 0ms;
         opacity: 1;
     }
