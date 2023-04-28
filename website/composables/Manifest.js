@@ -28,8 +28,15 @@ export default class Manifest {
 
     this.index = ref(0)
 
+    this.callback = (n)=>{}
+    watch(this.index, i =>{
+      this.callback(i)
+      console.log('object');
+    })
+
     this.textures = textures
   }
+
 
   async loadManifest() {
 

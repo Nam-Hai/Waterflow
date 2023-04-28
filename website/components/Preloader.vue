@@ -5,26 +5,29 @@
 </template>
 
 <script lang="ts" setup>
+import { stringify } from 'querystring';
 import { onMounted, ref } from 'vue';
 import { routerKey } from 'vue-router';
 import { useManifest } from '~/composables/useManifest';
+import { useCanvas } from '~/scene/useCanvas';
 
 const router = useRouter()
 const show = ref(false)
 let timeout = ref(false)
-let index = ref(0)
+const index = ref(0)
 
-onBeforeMount(() => {
-  const manifest = useManifest()
-  index = manifest.index
+const manifest = useManifest()
+const canvas = useCanvas()
+
+onMounted(() => {
+  manifest.callback = (i)=>{
+    index.value = i
+    console.log(i, index.value);
+  }
   setTimeout(() => {
     timeout.value = true
   }, 1000)
 
-  watch(() => index.value == manifest.length && timeout.value, (i) => {
-    show.value = true
-    router.push('/home')
-  })
 
   if (index.value != 0) {
     show.value = true
@@ -32,7 +35,21 @@ onBeforeMount(() => {
   }
   manifest.loadManifest()
 })
+// watch(manifest.index, i => {
+//   console.log(i);
+// })
 
+watch(() => index.value == manifest.length && timeout.value, (i) => {
+  console.log('object', index.value);
+
+  show.value = true
+  canvas.onChange({name:'home'})
+  console.log(canvas);
+  console.log(canvas.currentCanvasPage, canvas.nextCanvasPage);
+  canvas.currentCanvasPage = canvas.nextCanvasPage
+  console.log(canvas.currentCanvasPage, canvas.nextCanvasPage);
+  router.push('/home')
+})
 
 </script>
 
@@ -45,7 +62,7 @@ onBeforeMount(() => {
 }
 
 .display-preloader {
-  z-index: 2;
+  z-index: 14;
   position: absolute;
   color: red;
   font-size: 40rem;

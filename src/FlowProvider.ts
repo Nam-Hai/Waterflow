@@ -88,11 +88,11 @@ export class FlowProvider {
   }
 
   public getRouteFrom(): RouteLocationNormalized {
-    return this.routeTo;
+    return this.routeFrom;
   }
 
   public getRouteTo(): RouteLocationNormalized {
-    return this.routeFrom;
+    return this.routeTo;
   }
 
   public releaseHijackFlow(): void {

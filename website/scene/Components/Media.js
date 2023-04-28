@@ -13,7 +13,7 @@ export default class Media {
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
     this.canvasSize = useCanvasSize(()=>{
-      this.ro.trigger()
+      // this.ro.trigger()
     })
 
     const {lenis} = useLenisScroll(this.scroll.bind(this), false)

@@ -30,14 +30,13 @@ export default class Canvas {
     this.size = ref({width: 0, height:0})
 
     this.ro = new $ROR(this.resize)
-    this.ro.trigger()
   }
 
   async init() {
+    this.ro.on();
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
-    this.ro.on();
   }
 
   resize({ vh, vw, scale }) {
