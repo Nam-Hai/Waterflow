@@ -7,12 +7,16 @@ import { useFlowProvider } from "~/../src/FlowProvider";
 import homeCanvas from "./Pages/homeCanvas";
 
 import { N } from "~/helpers/namhai-utils";
+import { ROR } from "~/plugins/core/resize";
 
 const CanvasRouteMap = new Map([
   ['home', homeCanvas]
 ])
 export default class Canvas {
   constructor() {
+    this.pages = {
+      home: null
+    }
     this.renderer = new Renderer({
       alpha: true,
       antialias: true,
@@ -25,14 +29,16 @@ export default class Canvas {
     this.scene = new Transform();
     N.BM(this, ["resize"]);
 
-    const { $ROR } = useNuxtApp()
 
-    this.size = ref({width: 0, height:0})
+    this.size = ref({ width: 0, height: 0 })
 
-    this.ro = new $ROR(this.resize)
+    // this.ro = new $ROR(this.resize)
+    this.ro = new ROR(this.resize)
+  
   }
 
   async init() {
+    console.log('canvsa INIT');
     this.ro.on();
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
@@ -60,6 +66,7 @@ export default class Canvas {
     const page = CanvasRouteMap.get(route.name)
     if(!page) return
     this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera})
+    // this.pages[route.name] = this.nextCanvasPage
   }
 
   destroy() {

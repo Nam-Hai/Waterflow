@@ -8,11 +8,11 @@ export default class Manifest {
         'images/2.jpg': new Texture(gl),
         'images/3.png': new Texture(gl),
       },
-      font: {
-        'msdf/Amarante-Regular.png': new Texture(gl2, {
-          generateMipmaps: false,
-        })
-      }
+      // font: {
+      //   'msdf/Amarante-Regular.png': new Texture(gl2, {
+      //     generateMipmaps: false,
+      //   })
+      // }
     }
 
     this.jsons = {
@@ -31,7 +31,6 @@ export default class Manifest {
     this.callback = (n)=>{}
     watch(this.index, i =>{
       this.callback(i)
-      console.log('object');
     })
 
     this.textures = textures

@@ -9,47 +9,37 @@ import { stringify } from 'querystring';
 import { onMounted, ref } from 'vue';
 import { routerKey } from 'vue-router';
 import { useManifest } from '~/composables/useManifest';
-import { useCanvas } from '~/scene/useCanvas';
 
 const router = useRouter()
 const show = ref(false)
 let timeout = ref(false)
 const index = ref(0)
 
+const { $canvas } = useNuxtApp()
+console.log($canvas);
+
 const manifest = useManifest()
-const canvas = useCanvas()
 
+// const canvas = useCanvas()
 onMounted(() => {
-  manifest.callback = (i)=>{
+  // console.log(canvas);
+  manifest.callback = (i) => {
     index.value = i
-    console.log(i, index.value);
-  }
-  setTimeout(() => {
-    timeout.value = true
-  }, 1000)
+    if (i == manifest.length) {
+      show.value = true
 
 
-  if (index.value != 0) {
-    show.value = true
-    return
+      $canvas.onChange({ name: 'home' })
+      $canvas.currentCanvasPage = $canvas.nextCanvasPage
+      router.push('/home')
+
+
+    }
   }
   manifest.loadManifest()
 })
-// watch(manifest.index, i => {
-//   console.log(i);
-// })
 
-watch(() => index.value == manifest.length && timeout.value, (i) => {
-  console.log('object', index.value);
 
-  show.value = true
-  canvas.onChange({name:'home'})
-  console.log(canvas);
-  console.log(canvas.currentCanvasPage, canvas.nextCanvasPage);
-  canvas.currentCanvasPage = canvas.nextCanvasPage
-  console.log(canvas.currentCanvasPage, canvas.nextCanvasPage);
-  router.push('/home')
-})
 
 </script>
 

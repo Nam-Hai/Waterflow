@@ -1,52 +1,58 @@
 <template>
-  <WaterflowTitle />
-  <div id="home" class="wrapper">
-    <div class="page page-with-title">
-      <div class="grid-container">
-        <div class="left">
-          <h2 class="mask-split-line">
-            <span ref="titleSpanRef">
-              <span ref="rotateRef">
-                Do you even <span class="font-museo">flow</span> ?
-              </span>
-            </span>
-          </h2>
-          <p v-opacity-flow="500">Give your project by the power of the nature. Go with the flow and create
-            transitions that you always
-            dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
-            for page transitions crossfade.</p>
-          <h3 v-opacity-flow="500">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
+  <div>
 
-          <Clipboard />
-          <HeroImage />
+    <WaterflowTitle />
+    <div id="home" class="wrapper">
+      <div class="page page-with-title">
+        <div class="grid-container">
+          <div class="left">
+            <h2 class="mask-split-line">
+              <span ref="titleSpanRef">
+                <span ref="rotateRef">
+                  Do you even <span class="font-museo">flow</span> ?
+                </span>
+              </span>
+            </h2>
+            <p v-opacity-flow="500">Give your project by the power of the nature. Go with the flow and create
+              transitions that you always
+              dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
+              for page transitions crossfade.</p>
+            <h3 v-opacity-flow="500">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
+
+            <Clipboard />
+            <HeroImage />
+          </div>
         </div>
       </div>
+      <SliceSlice1 />
+      <Watermark />
     </div>
-    <SliceSlice1 />
-    <Watermark />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
 import { onFlow } from '~/../src/composables/onFlow';
-import { useCanvas } from '~/scene/useCanvas';
+// import { useCanvas } from '~/scene/useCanvas.client';
 
-const { $TL, $lenis } = useNuxtApp()
+const { $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
 const rotateRef = ref()
 
-onMounted(()=>{
+onMounted(() => {
   // $lenis.dimensions.onWindowResize()
   // $lenis.dimensions.onContentResize()
 
 })
 
 onFlow(() => {
-  const canvas = useCanvas()
-  const noiseWebGL = canvas.currentCanvasPage?.noiseBackground
-  console.log('canvas', canvas, noiseWebGL)
+  console.log('HOME');
+  // const canvas = useCanvas()
+  const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
+  console.log('canvas', $canvas, noiseWebGL)
 
+  console.log('blablac', $canvas.currentCanvasPage?.init);
+  $canvas.currentCanvasPage?.init()
   let tl = new $TL()
   tl.from({
     el: titleSpanRef.value,
@@ -69,7 +75,7 @@ onFlow(() => {
   }).from({
     d: 1500,
     delay: 0,
-    update: ({progE})=> {
+    update: ({ progE }) => {
       noiseWebGL && noiseWebGL.uAlpha && (noiseWebGL.uAlpha.value = progE)
     }
   }).play()

@@ -11,7 +11,15 @@ import PostProcessor from '../PostProcessor'
 export default class NoiseBackground {
   constructor(gl) {
     this.gl = gl
-    this.canvasSize = useCanvasSize()
+
+    BM(this, ['update', 'resize', 'scroll'])
+    const { $RafR, $ROR} = useNuxtApp()
+    this.raf = new $RafR(this.update)
+    this.ro = new $ROR(this.resize)
+
+    this.canvasSize = useCanvasSize(()=>{
+      this.ro.trigger()
+    })
     this.uAlpha = { value: 0 }
     this.seed = Math.random()
     this.scrollOffset = 0
@@ -19,10 +27,6 @@ export default class NoiseBackground {
 
     this.createMesh()
 
-    BM(this, ['update', 'resize', 'scroll'])
-    const { $RafR, $ROR } = useNuxtApp()
-    this.raf = new $RafR(this.update)
-    this.ro = new $ROR(this.resize)
 
     const { lenis } = useLenisScroll(this.scroll, false)
     this.lenisOff = lenis.off
@@ -44,7 +48,7 @@ export default class NoiseBackground {
 
     lenis.on()
     this.raf.run()
-    this.ro.on()
+    // this.ro.on()
   }
   scroll(e) {
     this.scrollOffset = e.current

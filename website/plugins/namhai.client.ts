@@ -1,7 +1,7 @@
 import { Motion, TL } from './core/motion'
 import { RafR,  Delay, Timer} from './core/raf'
 import { ROR } from './core/resize'
-
+import Canvas from "~/scene/canvas"
 
 export default defineNuxtPlugin(nuxtApp =>{
   const N = {
@@ -16,6 +16,7 @@ export default defineNuxtPlugin(nuxtApp =>{
   return {
     provide: {
       ...N,
+      canvas: new Canvas()
     }
   }
 

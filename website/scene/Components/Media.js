@@ -1,22 +1,22 @@
-import { Plane, Program, Mesh } from 'ogl'
+import {Texture, Plane, Program, Mesh } from 'ogl'
 // import { basicFrag } from '../shaders/BasicFrag'
 import { basicVer } from '../shaders/BasicVer'
-import { blur13 } from '../shaders/fast-separable-gaussian-blur'
 export default class Media {
   constructor(gl, { el, scene }) {
     this.gl = gl
     this.scene = scene
     this.el = el
 
+    console.log(this.el.getBoundingClientRect());
     this.createMesh()
 
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
-    this.canvasSize = useCanvasSize(()=>{
-      // this.ro.trigger()
+    this.canvasSize = useCanvasSize(() => {
+      this.ro.trigger()
     })
 
-    const {lenis} = useLenisScroll(this.scroll.bind(this), false)
+    const { lenis } = useLenisScroll(this.scroll.bind(this), false)
     this.lenis = lenis
 
     // const {$lenis} 
@@ -24,11 +24,11 @@ export default class Media {
     this.init()
   }
   async init() {
-    this.ro.on()
+    this.ro.trigger()
     this.lenis.on()
   }
 
-  scroll({current, target, velocity}){
+  scroll({ current, target, velocity }) {
     this.mesh.position.y = this.canvasSize.value.height / 2 - (-current + this.bounds.y + this.bounds.height / 2) * this.canvasSize.value.height / innerHeight
   }
 
@@ -72,9 +72,6 @@ export default class Media {
 
   destroy() {
     this.lenis.off()
-    this.ro.off()
-    this.fluidPass.ro.off()
-    this.post.destroy()
   }
 }
 const fragment = /* glsl */ `#version 300 es

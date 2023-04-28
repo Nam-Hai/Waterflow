@@ -1,5 +1,5 @@
 import { ROR } from "~/plugins/core/resize";
-import { useCanvas } from "~/scene/useCanvas";
+// import { useCanvas } from "~/scene/useCanvas.client";
 
 export default function useResize(callback?: ({ vh, vw }: { vh: number, vw: number }) => void) {
   const onResize = ref<boolean>(false);
@@ -59,9 +59,16 @@ export function useRO(callback: (e: { vh: number, vw: number, scale: number, bre
 
 
 export function useCanvasSize(callback?: (size: {width:number, height: number})=> void): Ref<{height:number, width:number}>{
-  const canvas = useCanvas()
-  watch(canvas.size, size => {
+  const { $canvas } = useNuxtApp()
+  // const canvas = useCanvas()
+  // const canvas = useCanvas()
+  watch($canvas.size, size => {
     callback && callback(size)
   })
-  return canvas.size
+  // const size = ref({
+  //   width: 1,
+  //   height: 1
+  // })
+  return $canvas.size
+  // return size
 }

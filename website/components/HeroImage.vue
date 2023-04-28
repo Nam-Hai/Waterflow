@@ -8,16 +8,18 @@
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
 import { onFlow } from "../../index"
-import { useCanvas } from '~/scene/useCanvas'
+// import { useCanvas } from '~/scene/useCanvas.client'
 
 const heroRef = ref()
 
-const { $TL } = useNuxtApp()
-onFlow(() => {
-  const canvas = useCanvas()
+const { $TL, $canvas } = useNuxtApp()
+onMounted(() => {
+  // const canvas = useCanvas()
+  console.log('objecyoooooooot');
 
-  if (canvas.currentCanvasPage && canvas.currentCanvasPage.addMedia) {
-    canvas.currentCanvasPage.addMedia(heroRef.value)
+  console.log($canvas.currentCanvasPage?.addMedia);
+  if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
+    $canvas.currentCanvasPage.addMedia(heroRef.value)
   }
 
 
