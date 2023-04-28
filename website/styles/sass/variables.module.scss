@@ -4,15 +4,15 @@
 // BREAKPOINTS
 // ****************************
 $site-scale: 1;
-$scale-mode: width; // width, height, fit
-// $scale-mode: fit; // width, height, fit
+// $scale-mode: width; // width, height, fit
+$scale-mode: fit; // width, height, fit
 
 $mobile-scale-min: math.div(320, 390);
 $mobile-scale-max: math.div(767, 390);
 $desktop-scale-min: math.div(1024, 1920);
 $desktop-scale-max: math.div(1650, 900);
 // $breakpoints: (mobile: (width: 320, design-width: 320, design-height: 568, scale-min: 0.5, scale-max: 1.35), tablet: (width: 821, design-width: 1400, design-height: 900, scale-min: 0.75, scale-max: 2), desktop: (width: 1200, design-width: 1600, design-height: 900, scale-min: 0.75, scale-max: 1.2))
-$breakpoints: (mobile: (width: 320, design-width: 390, design-height: 730, scale-min: $mobile-scale-min, scale-max: $mobile-scale-max), desktop: (width: 768, design-width: 1728, design-height: 1117, scale-min: $desktop-scale-min, scale-max: 2));
+$breakpoints: (mobile: (width: 320, design-width: 390, design-height: 730, scale-min: $mobile-scale-min, scale-max: $mobile-scale-max), desktop: (width: 768, design-width: 1728, design-height: 1117, scale-min: $desktop-scale-min, scale-max: 1.4));
 
 
 

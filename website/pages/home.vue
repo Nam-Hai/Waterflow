@@ -69,8 +69,9 @@ onFlow(() => {
     },
     e: 'o3'
   }).from({
-    d: 1500,
+    d: 2500,
     delay: 0,
+
     update: ({ progE }) => {
       noiseWebGL && noiseWebGL.uAlpha && (noiseWebGL.uAlpha.value = progE)
     }
@@ -93,7 +94,6 @@ onFlow(() => {
 #home.wrapper {}
 
 .page {
-  overflow: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -102,7 +102,6 @@ onFlow(() => {
   position: relative;
   top: $title-height;
   perspective: 1000px;
-  overflow: hidden;
 }
 
 .page.page-with-title {
@@ -110,7 +109,10 @@ onFlow(() => {
 }
 
 .grid-container {
-  padding: 2.4rem 10rem 4rem;
+  // padding: 2.4rem 10rem 4rem;
+  padding: 2.4rem 0rem 4rem;
+  margin: 0 auto;
+  width: 151.4rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

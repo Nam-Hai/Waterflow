@@ -42,6 +42,7 @@ const Ro = new class {
     vh!: number
     vw!: number
     private breakpoint!: string
+    mode: 'fit' | 'width' | 'height'
 
     constructor() {
         this.tick = false
@@ -54,6 +55,8 @@ const Ro = new class {
 
         this.breakpoints = {}
         this.deviceTypes = {}   // Get breakpoints and device types from Sass
+        this.mode = SassVars.scale_mode
+        console.log(this.mode)
         SassVars.breakpoints.split(',').forEach((b: string) => {
             const point = b.trim()
 
@@ -163,15 +166,15 @@ const Ro = new class {
         // src/styles/config/variables.sass
         // src/styles/helpers/breakpoints.sass // =remscale()
 
-        // if (this.config.scaleMode === 'fit') {
-        // this.scale = Clamp(Math.min(scaleX, scaleY), d.remScale.min, d.remScale.max)
-        // }
-        // else if (this.config.scaleMode === 'width') {
+        if (this.mode === 'fit') {
+        this.scale = Clamp(Math.min(scaleX, scaleY), d.remScale.min, d.remScale.max)
+        }
+        else if (this.mode === 'width') {
         this.scale = Clamp(scaleX, d.remScale.min, d.remScale.max)
-        // }
-        // else if (this.config.scaleMode === 'height') {
-        // this.scale = Clamp(scaleY, d.remScale.min, d.remScale.max)
-        // }
+        }
+        else if (this.mode === 'height') {
+        this.scale = Clamp(scaleY, d.remScale.min, d.remScale.max)
+        }
     }
 }
 
