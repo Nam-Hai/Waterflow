@@ -37,9 +37,9 @@ onUnmounted(() => {
   // provideCanvasTitle(undefined)
 })
 
-const raf = useRaf((e) =>{
+useRaf((e) =>{
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
-})
+}, false, true)
 
 
 flowProvider.registerScrollInterface({
