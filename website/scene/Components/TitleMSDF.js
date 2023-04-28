@@ -1,7 +1,7 @@
 import { Geometry, Mesh, Text, Texture, Transform, Program, Plane, Camera} from 'ogl';
 import { basicVer } from '../shaders/BasicVer';
+import FluidPass from '../Passes/FluidPass';
 import PostProcessor from '../PostProcessor';
-import FluidPass from '../FluidPass';
 
 export default class TitleMSDF {
   constructor(gl) {
@@ -52,6 +52,7 @@ export default class TitleMSDF {
     const gl = this.gl
 
     const manifest = useManifest()
+    console.log('manifes', manifest, this.gl, 'yoooo');
     const texture = manifest.textures.font['msdf/Amarante-Regular.png']
 
     const program = new Program(gl, {

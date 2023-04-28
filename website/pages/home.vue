@@ -46,12 +46,8 @@ onMounted(() => {
 })
 
 onFlow(() => {
-  console.log('HOME');
-  // const canvas = useCanvas()
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
-  console.log('canvas', $canvas, noiseWebGL)
 
-  console.log('blablac', $canvas.currentCanvasPage?.init);
   $canvas.currentCanvasPage?.init()
   let tl = new $TL()
   tl.from({

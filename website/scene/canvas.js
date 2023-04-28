@@ -38,7 +38,6 @@ export default class Canvas {
   }
 
   async init() {
-    console.log('canvsa INIT');
     this.ro.on();
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())

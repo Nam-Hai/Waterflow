@@ -14,26 +14,10 @@ const heroRef = ref()
 
 const { $TL, $canvas } = useNuxtApp()
 onMounted(() => {
-  // const canvas = useCanvas()
-  console.log('objecyoooooooot');
 
-  console.log($canvas.currentCanvasPage?.addMedia);
   if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
     $canvas.currentCanvasPage.addMedia(heroRef.value)
   }
-
-
-  // let tl = new $TL()
-  // tl.from({
-  //   el: heroRef.value,
-  //   p: {
-  //     s: [0, 1]
-  //   },
-  //   d: 1000,
-  //   e: 'o3'
-  // })
-
-  // tl.play()
 })
 
 </script>

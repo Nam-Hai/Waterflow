@@ -13,17 +13,17 @@ const wrapperSceneRef = ref()
 const sceneTitleRef = ref()
 const wrapperSceneTitleRef = ref()
 
-const { $canvas } = useNuxtApp()
+const { $canvas, $canvasTitle } = useNuxtApp()
 onMounted(() => {
   // const canvas = useCanvas()
   $canvas.init()
   sceneRef.value = $canvas
   wrapperSceneRef.value.appendChild($canvas.gl.canvas)
 
-  // const canvasTitle = useCanvasTitle()
-  // canvasTitle.init()
-  // sceneTitleRef.value = canvasTitle
-  // wrapperSceneTitleRef.value.appendChild(canvasTitle.gl.canvas)
+
+  $canvasTitle.init()
+  sceneTitleRef.value = $canvasTitle
+  wrapperSceneTitleRef.value.appendChild($canvasTitle.gl.canvas)
 
 
   // const flowProvider = useFlowProvider()
@@ -52,12 +52,13 @@ onUnmounted(() => {
   pointer-events: none;
 
 }
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
-  }
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
 </style>

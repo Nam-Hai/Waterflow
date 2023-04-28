@@ -7,7 +7,6 @@ export default class Media {
     this.scene = scene
     this.el = el
 
-    console.log(this.el.getBoundingClientRect());
     this.createMesh()
 
     const { $ROR } = useNuxtApp()

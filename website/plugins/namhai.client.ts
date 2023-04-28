@@ -1,3 +1,4 @@
+import CanvasTitle from '~/scene/CanvasTitle'
 import { Motion, TL } from './core/motion'
 import { RafR,  Delay, Timer} from './core/raf'
 import { ROR } from './core/resize'
@@ -16,7 +17,8 @@ export default defineNuxtPlugin(nuxtApp =>{
   return {
     provide: {
       ...N,
-      canvas: new Canvas()
+      canvas: new Canvas(),
+      canvasTitle: new CanvasTitle()
     }
   }
 

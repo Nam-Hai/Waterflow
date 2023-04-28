@@ -6,6 +6,7 @@ import {
 import { useFlowProvider } from "~/../src/FlowProvider";
 import { N } from "~/helpers/namhai-utils";
 import homeCanvasTitle from "./Pages/homeCanvasTitle";
+import { ROR } from "~/plugins/core/resize";
 
 const CanvasRouteMap = new Map([
   ['home', homeCanvasTitle]
@@ -26,11 +27,10 @@ export default class CanvasTitle {
     this.scene = new Transform();
     N.BM(this, ["resize"]);
 
-    const { $ROR } = useNuxtApp()
 
     this.size = ref({width: 0, height:0})
 
-    this.ro = new $ROR(this.resize)
+    this.ro = new ROR(this.resize)
     this.ro.trigger()
   }
 
