@@ -1,7 +1,7 @@
-import PostProcessor from "./PostProcessor.js";
+import PostProcessor from "../PostProcessor.js";
 import { Vec2, Camera, Texture} from "ogl";
-import { shader as screen } from "./shaders/screen.js";
-import noise from "./shaders/noise";
+import { shader as screen } from "../shaders/screen.js";
+import noise from "../shaders/noise.js";
 
 export default class BloomPass {
   constructor(gl, {screen = false, enabled = true, iteration = 5, bloomStrength = 1, threshold = 0.8 , direction = {x: 2, y:2}} = {}) {

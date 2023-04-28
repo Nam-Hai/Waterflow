@@ -2,6 +2,9 @@ import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
 import Media from "../Components/Media"
 import { RenderTarget, Program, Mesh, Triangle } from 'ogl'
+import PostProcessor from "../PostProcessor"
+import BloomPass from "../Passes/BloomPass"
+import ComposerPass from "../Passes/ComposerPass"
 
 export default class homeCanvas {
   constructor({ gl, scene, camera }) {
@@ -26,9 +29,33 @@ export default class homeCanvas {
     // noiseBackground.mesh.setParent(this.scene)
     this.noiseBackground = noiseBackground
 
-    this.createComposer()
+    this.bloomPass = new BloomPass(this.gl, {
+      bloomStrength: 1,
+      threshold: 0.02,
+      iteration: 5,
+      // enabled: false,
+      direction: {
+        x: 6,
+        y: 6
+      }
+    })
 
-    // this.init()
+    this.target = new RenderTarget(this.gl, {
+      color: 2
+    })
+
+    this.postProcessor = new PostProcessor(this.gl, {
+    })
+      .addPassEffect(this.bloomPass)
+    this.postProcessor.addPass({
+      fragment: fragmentComposer,
+      uniforms: {
+        tMap: { value: this.target.textures[0] },
+        tAlpha: { value: this.target.textures[1] },
+        tNoise: { value: null },
+      },
+      textureUniform: 'tNoise'
+    })
   }
   init() {
     this.raf.run()
@@ -48,19 +75,13 @@ export default class homeCanvas {
       target: this.target
     })
 
-    this.noiseBackground.post.render(e,{
+    this.postProcessor.render(e, {
       scene: this.noiseBackground.scene,
       camera: this.camera
-    })
-
-    this.post.program.uniforms.tNoise.value = this.noiseBackground.post.uniform.value
-    this.renderer.render({
-      scene: this.post,
     })
   }
 
   destroy() {
-    console.error('DESTROY');
     this.raf.stop()
     // this.ro.off()
     this.noiseBackground && this.noiseBackground.destroy()
@@ -69,9 +90,6 @@ export default class homeCanvas {
   }
 
   createComposer() {
-    this.target = new RenderTarget(this.gl, {
-      color: 2
-    })
 
     const geometry = new Triangle(this.gl);
 
@@ -118,6 +136,5 @@ void main() {
   vec4 color = texture(tMap, vUv);
   vec4 alpha = texture(tAlpha, vUv);
   vec4 noise = texture(tNoise, vUv);
-  // FragColor = mix(color, alpha, step(0.25, vUv.x));
   FragColor = color + noise * (1. - alpha);
 }`;

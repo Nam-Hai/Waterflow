@@ -5,19 +5,16 @@ import noise3d from '../shaders/noise3d'
 import noise4d from '../shaders/noise4d'
 import noise from '../shaders/noise'
 import { BM } from '~/helpers/core/utils'
-import BloomPass from '../BloomPass'
-import PostProcessor from '../PostProcessor'
-
 export default class NoiseBackground {
   constructor(gl) {
     this.gl = gl
 
     BM(this, ['update', 'resize', 'scroll'])
-    const { $RafR, $ROR} = useNuxtApp()
+    const { $RafR, $ROR } = useNuxtApp()
     this.raf = new $RafR(this.update)
     this.ro = new $ROR(this.resize)
 
-    this.canvasSize = useCanvasSize(()=>{
+    this.canvasSize = useCanvasSize(() => {
       this.ro.trigger()
     })
     this.uAlpha = { value: 0 }
@@ -32,21 +29,6 @@ export default class NoiseBackground {
     this.lenisOff = lenis.off
 
 
-    this.bloomPass = new BloomPass(this.gl, {
-      bloomStrength: 1,
-      threshold: 0.02,
-      iteration: 5,
-      // enabled: false,
-      direction: {
-        x: 6,
-        y: 6
-      }
-    })
-    this.post = new PostProcessor(this.gl, {
-      targetOnly: true
-    })
-    this.post
-      .addPassEffect(this.bloomPass)
 
     lenis.on()
     this.raf.run()
@@ -119,7 +101,6 @@ export default class NoiseBackground {
   }
 
   destroy() {
-    this.post.destroy()
     this.raf.stop()
     this.ro.off()
     this.lenisOff()
