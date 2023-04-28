@@ -2,16 +2,14 @@
   <div class="display-preloader" v-if="!show && !timeout">
     {{ index }}
   </div>
-  <div class="display-page" v-if="show && timeout">
-    <WebGLScene />
-    <slot />
-  </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { routerKey } from 'vue-router';
 import { useManifest } from '~/composables/useManifest';
 
+const router = useRouter()
 const show = ref(false)
 let timeout = ref(false)
 let index = ref(0)
@@ -21,14 +19,12 @@ onBeforeMount(() => {
   index = manifest.index
   setTimeout(() => {
     timeout.value = true
-  }, 500)
+  }, 1000)
 
-  watch(index, (i) => {
-    if (i == manifest.length) {
-      show.value = true
-    }
+  watch(() => index.value == manifest.length && timeout.value, (i) => {
+    show.value = true
+    router.push('/home')
   })
-  // timeout.value = true
 
   if (index.value != 0) {
     show.value = true
@@ -36,6 +32,7 @@ onBeforeMount(() => {
   }
   manifest.loadManifest()
 })
+
 
 </script>
 

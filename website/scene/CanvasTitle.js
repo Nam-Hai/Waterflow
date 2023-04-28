@@ -5,10 +5,10 @@ import {
 } from "ogl";
 import { useFlowProvider } from "~/../src/FlowProvider";
 import { N } from "~/helpers/namhai-utils";
-import indexCanvasTitle from "./Pages/indexCanvasTitle";
+import homeCanvasTitle from "./Pages/homeCanvasTitle";
 
 const CanvasRouteMap = new Map([
-  ['index', indexCanvasTitle]
+  ['home', homeCanvasTitle]
 ])
 
 export default class CanvasTitle {
@@ -58,6 +58,7 @@ export default class CanvasTitle {
 
   onChange(route) {
     const page = CanvasRouteMap.get(route.name)
+    if(!page) return
     this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera})
   }
 

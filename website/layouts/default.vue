@@ -1,9 +1,10 @@
 <template>
-  <Preloader>
-    <BufferPage>
-      <slot />
-    </BufferPage>
-  </Preloader>
+  <Preloader />
+  <WebGLScene />
+
+  <BufferPage>
+    <slot />
+  </BufferPage>
 </template>
 
 <script setup lang="ts">

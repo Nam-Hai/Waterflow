@@ -64,7 +64,7 @@ export default class TitleMSDF {
       cullFace: null,
     });
 
-    const font = manifest.jsons['msdf/Amarante-Regular.json']
+    const font = manifest.jsons['msdf/Amarante-Regular.json'] || await (await fetch('msdf/Amarante-Regular.json')).json();
 
     const text = new Text({
       font,
