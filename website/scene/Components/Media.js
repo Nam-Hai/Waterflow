@@ -128,7 +128,7 @@ uniform vec2 uBounds;
 in vec2 vUv;
 
 
-out vec4 FragColor[2];
+out vec4 FragColor;
 
 void main() {
  
@@ -141,8 +141,8 @@ void main() {
   vec2 coord = vUv * 2. - 1.;
   float alpha = step(abs(coord.x),  1. * uProg) * step(abs(coord.y / 1.) - 0.8, 1. * uProg);
 
-  FragColor[0] = color * alpha;
-  FragColor[1] = vec4(1.) * alpha;
+  color.a = alpha;
+  FragColor = color * alpha;
 }
 `
 

@@ -1,7 +1,7 @@
 import { Texture } from "ogl"
 
 export default class Manifest {
-  constructor(gl, gl2) {
+  constructor(gl) {
     const textures = {
       images: {
         'images/1.png': new Texture(gl),
@@ -9,7 +9,7 @@ export default class Manifest {
         'images/3.png': new Texture(gl),
       },
       font: {
-        'msdf/Amarante-Regular.png': new Texture(gl2, {
+        'msdf/Amarante-Regular.png': new Texture(gl, {
           generateMipmaps: false,
         })
       }

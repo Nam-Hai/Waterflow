@@ -25,15 +25,12 @@ export default class TitleMSDF {
     })
     this.fluidPass = fluidPass
     this.post = new PostProcessor(this.gl, { 
-      // targetOnly: true, 
+      targetOnly: true, 
       camera: new Camera(this.gl), 
       geometry: new Plane(this.gl),
     })
     this.post
       .addPassEffect(fluidPass)
-
-
-    this.init()
   }
   async init() {
     await this.loadText()
@@ -66,7 +63,6 @@ export default class TitleMSDF {
       uniforms: {
         tMap: { value: texture },
       },
-      cullFace: null,
     });
 
     const font = $manifest.jsons['msdf/Amarante-Regular.json'] || await (await fetch('msdf/Amarante-Regular.json')).json();
@@ -132,6 +128,7 @@ void main() {
     if (alpha < 0.01) discard;
 
     color.rgb = vec3(0.933,0.98,0.918);
+    // color.rgb = vec3(1.,0.,0.2);
     color.a = alpha;
 }
 `;

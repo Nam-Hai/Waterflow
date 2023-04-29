@@ -10,7 +10,6 @@
 
 const sceneRef = ref()
 const wrapperSceneRef = ref()
-const sceneTitleRef = ref()
 const wrapperSceneTitleRef = ref()
 
 const { $canvas, $canvasTitle } = useNuxtApp()
@@ -21,9 +20,9 @@ onMounted(() => {
   wrapperSceneRef.value.appendChild($canvas.gl.canvas)
 
 
-  $canvasTitle.init()
-  sceneTitleRef.value = $canvasTitle
-  wrapperSceneTitleRef.value.appendChild($canvasTitle.gl.canvas)
+  // $canvasTitle.init()
+  // sceneTitleRef.value = $canvasTitle
+  // wrapperSceneTitleRef.value.appendChild($canvasTitle.gl.canvas)
 
 
   // const flowProvider = useFlowProvider()

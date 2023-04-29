@@ -5,6 +5,7 @@ import { RenderTarget, Program, Mesh, Triangle } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
 import ComposerPass from "../Passes/ComposerPass"
+import TitleMSDF from "../Components/TitleMSDF"
 
 export default class homeCanvas {
   constructor({ gl, scene, camera }) {
@@ -24,10 +25,13 @@ export default class homeCanvas {
 
     this.raf = new $RafR(this.render)
 
+    this.titleMSDF = new TitleMSDF(this.gl)
+
     const noiseBackground = new NoiseBackground(this.gl)
     // noiseBackground.backgroundMesh.setParent(this.scene)
     // noiseBackground.mesh.setParent(this.scene)
     this.noiseBackground = noiseBackground
+
 
     this.bloomPass = new BloomPass(this.gl, {
       bloomStrength: 1,
@@ -40,27 +44,25 @@ export default class homeCanvas {
       }
     })
 
-    this.target = new RenderTarget(this.gl, {
-      color: 2
-    })
+    this.target = new RenderTarget(this.gl)
 
     this.postProcessor = new PostProcessor(this.gl, {
+      // targetOnly: true
     })
       .addPassEffect(this.bloomPass)
     this.postProcessor.addPass({
       fragment: fragmentComposer,
       uniforms: {
-        tMap: { value: this.target.textures[0] },
-        tAlpha: { value: this.target.textures[1] },
+        tMap: { value: this.target.textures },
         tNoise: { value: null },
+        tTitle: this.titleMSDF.post.uniform
       },
       textureUniform: 'tNoise'
     })
   }
-  init() {
+  async init() {
+    await this.titleMSDF.init()
     this.raf.run()
-
-    // this.ro.on()
   }
 
   resize({ vh, vw, scale, breakpoint }) {
@@ -68,6 +70,11 @@ export default class homeCanvas {
 
 
   render(e) {
+    console.log('title render')
+    this.titleMSDF.post.render(e, {
+      scene: this.titleMSDF.scene,
+      camera: this.camera
+    })
 
     this.renderer.render({
       scene: this.scene,
@@ -87,23 +94,11 @@ export default class homeCanvas {
     this.noiseBackground && this.noiseBackground.destroy()
     this.noiseBackground && (this.noiseBackground = null)
 
+    this.titleMSDF && this.titleMSDF.destroy()
+    this.titleMSDF = null
+
   }
 
-  createComposer() {
-
-    const geometry = new Triangle(this.gl);
-
-    const program = new Program(this.gl, {
-      vertex: vertexPost,
-      fragment: fragmentComposer,
-      uniforms: {
-        tMap: { value: this.target.textures[0] },
-        tAlpha: { value: this.target.textures[1] },
-        tNoise: { value: null },
-      },
-    });
-    this.post = new Mesh(this.gl, { geometry, program });
-  }
 
   addMedia(el) {
     this.media = new Media(this.gl, { el, scene: this.scene })
@@ -127,14 +122,14 @@ precision lowp float;
 in vec2 vUv;
 
 uniform sampler2D tMap;
-uniform sampler2D tAlpha;
 uniform sampler2D tNoise;
+uniform sampler2D tTitle;
 
 out vec4 FragColor;
 void main() {
 
   vec4 color = texture(tMap, vUv);
-  vec4 alpha = texture(tAlpha, vUv);
   vec4 noise = texture(tNoise, vUv);
-  FragColor = color + noise * (1. - alpha);
+  vec4 title = texture(tTitle, vUv);
+  FragColor = color * (1. - title.a) + noise * (1. - color.a) * (1. - title.a) + title;
 }`;
