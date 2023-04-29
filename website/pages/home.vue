@@ -110,12 +110,17 @@ onFlow(() => {
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
 @use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
 
 .container-home {
-  top: 28rem;
+  top: $title-height;
   overflow: hidden;
   position: fixed;
-  width: 100vw
+  width: 100vw;
+
+  @include breakpoint(mobile) {
+    top: $title-height-mobile + 1.6rem;
+  }
 }
 
 #home.wrapper {}
@@ -127,12 +132,16 @@ onFlow(() => {
   align-items: center;
 
   position: relative;
-  // top: $title-height;
   perspective: 1000px;
 }
 
 .page.page-with-title {
   height: calc(100vh - $title-height);
+
+  @include breakpoint(mobile) {
+    height: calc(100vh - $title-height-mobile);
+  }
+
 }
 
 .grid-container {

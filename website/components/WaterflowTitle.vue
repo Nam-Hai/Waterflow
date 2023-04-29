@@ -52,8 +52,18 @@ onFlow(() => {
   justify-content: center;
   align-items: center;
 
+  @include breakpoint(mobile) {
+    height: $title-height-mobile;
+    margin-top: 1.6rem;
+  }
+
   .border {
-    width: 152.6rem;
+    width: 151.4rem;
+
+    @include breakpoint(mobile) {
+      width: 32rem; 
+    }
+
     // width: calc(100% - 21rem);
     height: 2px;
     background-color: $primary;
@@ -70,8 +80,8 @@ h1 {
 
   opacity: 0;
 
-  @include breakpoint(mobile){
-    font-size: 6.4rem;
+  @include breakpoint(mobile) {
+    font-size: $title-height-mobile
   }
 }
 </style>

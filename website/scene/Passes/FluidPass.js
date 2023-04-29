@@ -255,6 +255,7 @@ export default class FluidPass {
 
 
     this.addEventListener();
+    this.textPosition = {value: [0,0]}
   }
 
   render() {
@@ -406,9 +407,14 @@ export default class FluidPass {
     this.density.swap();
   }
 
+  setTextPosition(x,y){
+    this.textPosition.value[0] = x
+    this.textPosition.value[1] = y
+  }
+
   onScroll({ current, target, velocity }) {
-    const x = Math.sign(velocity) == 1 ? 40 : this.size.width - 40 * this.scale
-    const y = this.size.height /2  + 160 * this.scale
+    const x = Math.sign(velocity) == 1 ? 40 : this.size.width - this.textPosition.value[0] * this.scale
+    const y = this.size.height /2  + this.textPosition.value[1] * this.scale
 
     this.splats.push({
       x: x / this.size.width,

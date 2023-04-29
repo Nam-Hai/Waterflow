@@ -1,4 +1,4 @@
-import { Geometry, Mesh, Text, Texture, Transform, Program, Plane, Camera} from 'ogl';
+import { Geometry, Mesh, Text, Texture, Transform, Program, Plane, Camera } from 'ogl';
 import { basicVer } from '../shaders/BasicVer';
 import FluidPass from '../Passes/FluidPass';
 import PostProcessor from '../PostProcessor';
@@ -8,6 +8,8 @@ export default class TitleMSDF {
     this.gl = gl
 
 
+    this.breakpoint = ref()
+
     this.scene = new Transform()
     const { $ROR } = useNuxtApp()
     this.ro = new $ROR(this.resize.bind(this))
@@ -16,7 +18,7 @@ export default class TitleMSDF {
       this.ro.trigger()
     })
 
-    this.uAlpha = {value:1}
+    this.uAlpha = { value: 1 }
 
     const fluidPass = new FluidPass(this.gl, {
       densityDissipation: 0.98,
@@ -26,9 +28,10 @@ export default class TitleMSDF {
       // enabled: false
     })
     this.fluidPass = fluidPass
-    this.post = new PostProcessor(this.gl, { 
-      targetOnly: true, 
-      camera: new Camera(this.gl), 
+    this.fluidPass.setTextPosition(40, 160)
+    this.post = new PostProcessor(this.gl, {
+      targetOnly: true,
+      camera: new Camera(this.gl),
       geometry: new Plane(this.gl),
     })
     this.post
@@ -37,29 +40,50 @@ export default class TitleMSDF {
   async init() {
     await this.loadText()
 
+    console.log(this.breakpoint)
+    watch(this.breakpoint, breakpoint => {
+      console.log('break', breakpoint)
+      console.log(breakpoint, 'allo')
+      if (breakpoint == 'mobile') {
+        this.meshMobile.setParent(this.scene)
+        this.mesh.setParent(null)
+        this.fluidPass.setTextPosition(50, 32)
+        this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 - 8 * this.canvasSize.value.height / innerHeight
+      } else {
+        this.mesh.setParent(this.scene)
+        this.meshMobile.setParent(null)
+        this.fluidPass.setTextPosition(40, 160)
+        this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
+      }
+
+    })
     this.ro.trigger()
   }
 
-  resize({ vh, vw, scale, breakpoint}) {
-    this.uAlpha.value = breakpoint === 'mobile' ? 0 : 1
+  resize({ vh, vw, scale, breakpoint }) {
+    // this.uAlpha.value = breakpoint === 'mobile' ? 0 : 1
+    this.breakpoint.value = breakpoint
     const w = scale
     const h = scale
-    this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / vh
-    console.log(scale)
-    if (!this.mesh) return
-    this.mesh.scale.x = w 
-    this.mesh.scale.y = h 
+    this.mesh && this.mesh.scale.set(w,h,1)
+    this.meshMobile && this.meshMobile.scale.set(w, h, 1)
+
+  }
+
+  async createGeometryMobile() {
+
+    const { $manifest } = useNuxtApp()
+
   }
 
   async loadText() {
     const gl = this.gl
 
-    const  { $manifest } = useNuxtApp()
+    const { $manifest } = useNuxtApp()
     console.log('manifes', $manifest, this.gl, 'yoooo');
     const texture = $manifest.textures.font['msdf/Amarante-Regular.png']
 
     const program = new Program(gl, {
-      // Get fallback shader for WebGL1 - needed for OES_standard_derivatives ext
       vertex: basicVer,
       fragment: fragment,
       uniforms: {
@@ -67,6 +91,7 @@ export default class TitleMSDF {
         uAlpha: this.uAlpha
       },
     });
+    this.program = program
 
     const font = $manifest.jsons['msdf/Amarante-Regular.json'] || await (await fetch('msdf/Amarante-Regular.json')).json();
 
@@ -75,7 +100,7 @@ export default class TitleMSDF {
       text: "WATERFLOW",
       align: 'center',
       lineHeight: 1,
-      size: 300 *  this.canvasSize.value.height / innerHeight,
+      size: 300 * this.canvasSize.value.height / innerHeight,
       lineHeight: 1,
     });
 
@@ -84,7 +109,6 @@ export default class TitleMSDF {
     const geometry = new Geometry(gl, {
       position: { size: 3, data: text.buffers.position },
       uv: { size: 2, data: text.buffers.uv },
-      // id provides a per-character index, for effects that may require it
       id: { size: 1, data: text.buffers.id },
       index: { data: text.buffers.index },
     });
@@ -92,17 +116,31 @@ export default class TitleMSDF {
     const mesh = new Mesh(gl, { geometry, program });
 
     this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
-
-    // mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
-    // Use the height value to position text vertically. Here it is centered.
-      // mesh.position.y += text.height * 0.25;
-
-
-
     this.mesh = mesh
 
-    this.mesh.setParent(this.scene)
+    // this.mesh.setParent(this.scene)
 
+    const textMobile = new Text({
+      font,
+      text: "WATERFLOW",
+      align: 'center',
+      lineHeight: 1,
+      size: 64 * this.canvasSize.value.height / innerHeight,
+      lineHeight: 1,
+    });
+
+
+    // Pass the generated buffers into a geometry
+    const geometryMobile = new Geometry(this.gl, {
+      position: { size: 3, data: textMobile.buffers.position },
+      uv: { size: 2, data: textMobile.buffers.uv },
+      id: { size: 1, data: textMobile.buffers.id },
+      index: { data: textMobile.buffers.index },
+    });
+    this.meshMobile = new Mesh(this.gl, { geometry: geometryMobile, program })
+
+    this.mesh.setParent(this.scene)
+    this.meshMobile.setParent(this.scene)
   }
 
   destroy() {
