@@ -13,7 +13,7 @@ import { onFlow } from "../../index"
 const heroRef = ref()
 
 const { $TL, $canvas } = useNuxtApp()
-onMounted(() => {
+onFlow(() => {
 
   if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
     $canvas.currentCanvasPage.addMedia(heroRef.value)

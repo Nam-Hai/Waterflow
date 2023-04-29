@@ -7,38 +7,49 @@
 
 <script setup lang="ts">
 import { onFlow } from '~/../src/composables/onFlow';
+import { usePageFlow } from '~/../src/composables/usePageFlow';
+import { O } from '~/helpers/core/utils';
+import { Timeline } from '~/plugins/core/motion';
 
-const { $TL } = useNuxtApp()
-
-const props = withDefaults(defineProps<{
-  display?: boolean
-}>(), { display: true })
+const { $TL, $canvas } = useNuxtApp()
 
 const borderRef = ref()
 const titleRef = ref()
 
-const { $canvas } = useNuxtApp()
-onFlow(() => {
+const props = withDefaults(defineProps<{
+  display?: boolean,
+  tl?: Ref<Timeline>
+}>(), { display: true, tl: undefined })
 
+defineExpose({
+  border: borderRef
+})
+
+onFlow(() => {
   if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
     $canvas.currentCanvasPage.addTitle(titleRef.value)
   }
 
   if (!props.display) return
-  let tl = new $TL
-  tl.from({
-    el: borderRef.value,
-    p: {
-      scaleX: [0, 1],
-      o: [0, 1],
-    },
-    d: 1500,
-    e: 'o3'
-  }).play()
+
+  // let tl = new $TL
+
+  // tl.from({
+  //   el: borderRef.value,
+  //   p: {
+  //     scaleX: [0, 1],
+  //     o: [0, 1],
+  //   },
+  //   d: 1500,
+  //   e: 'o3'
+  // })
+
+  borderRef.value.style.transform = 'scale(1)'
 })
+
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@/styles/app/colors.scss' as *;
 @use "@/styles/app/variables.scss" as *;
 @use "@/styles/shared.scss" as *;
@@ -59,9 +70,11 @@ onFlow(() => {
 
   .border {
     width: 151.4rem;
+    transform-origin: left;
+    transform: scale(0);
 
     @include breakpoint(mobile) {
-      width: 32rem; 
+      width: 32rem;
     }
 
     // width: calc(100% - 21rem);

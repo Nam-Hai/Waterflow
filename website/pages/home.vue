@@ -1,5 +1,5 @@
 <template>
-  <WaterflowTitle />
+  <WaterflowTitle ref="waterFlowTitleRef" />
   <div ref="heightHolderRef">
   </div>
   <div class="container-home" ref="wrapperRef">
@@ -9,17 +9,17 @@
         <div class="grid-container">
           <div class="left">
             <h2 class="mask-split-line">
-              <span ref="titleSpanRef">
+              <span ref="titleSpanRef" style="transform: translate(-2%, -100%);">
                 <span ref="rotateRef">
                   Do you even <span class="font-museo">flow</span> ?
                 </span>
               </span>
             </h2>
-            <p v-opacity-flow="500">Give your project by the power of the nature. Go with the flow and create
+            <p ref="pRef">Give your project by the power of the nature. Go with the flow and create
               transitions that you always
               dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
               for page transitions crossfade.</p>
-            <h3 v-opacity-flow="500">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
+            <h3 ref="headerRef">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
 
             <Clipboard />
             <HeroImage />
@@ -35,6 +35,7 @@
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
 import { onFlow } from '~/../src/composables/onFlow';
+import { usePageFlow } from '~/../src/composables/usePageFlow';
 import { T } from '~/helpers/core/utils';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
@@ -44,6 +45,9 @@ const rotateRef = ref()
 const wrapperRef = ref()
 const contentRef = ref()
 const heightHolderRef = ref()
+const waterFlowTitleRef = ref()
+const pRef = ref()
+const headerRef = ref()
 
 onMounted(() => {
   $lenis.dimensions.onWindowResize()
@@ -61,13 +65,8 @@ onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
   $canvas.currentCanvasPage?.init()
 
-
-
-
-  // useRaf((e)=>{
-  // console.log(e)
-  //   lenis.raf(e.elapsed)
-  // }, false, true)
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
 
   let tl = new $TL()
   tl.from({
@@ -89,21 +88,50 @@ onFlow(() => {
     },
     e: 'o3'
   }).from({
+    el: pRef.value,
+    d: 1000,
+    p: {
+      o: [0, 1]
+    },
+    delay: 500
+  }).from({
+    el: headerRef.value,
+    d: 1000,
+    p: {
+      o: [0, 1]
+    },
+    delay: 500
+  }).from({
     d: 2500,
-    delay: 0,
+    delay: 500,
 
     update: ({ progE }) => {
       noiseWebGL && noiseWebGL.uAlpha && (noiseWebGL.uAlpha.value = progE)
     }
   }).play()
-
-
 })
 
-// usePageFlow({
-//   props: {},
-//   enableCrossfade: true
-// })
+usePageFlow({
+  props: {
+    waterFlowTitleRef
+  },
+  enableCrossfade: true,
+  flowInCrossfade: ({ waterFlowTitleRef }, resolve) => {
+    console.log('test');
+    const tl = new $TL();
+    tl
+      .from({
+        el: waterFlowTitleRef.value.border,
+        p: {
+          s: [0, 1]
+        },
+        cb: resolve,
+        d: 1500,
+        delay: 500,
+        e: 'o3'
+      }).play()
+  }
+})
 
 </script>
 
@@ -159,6 +187,10 @@ onFlow(() => {
     flex-direction: column;
     row-gap: 1.6rem;
     width: 50%;
+
+    p, h3 {
+      opacity: 0;
+    }
   }
 }
 

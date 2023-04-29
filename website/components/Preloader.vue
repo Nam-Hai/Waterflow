@@ -1,6 +1,5 @@
 <template>
-  <div class="display-preloader" v-if="!show && !timeout">
-    {{ index }}
+  <div class="wrapper__preloader">
   </div>
 </template>
 
@@ -11,7 +10,7 @@ const show = ref(false)
 let timeout = ref(false)
 const index = ref(0)
 
-const { $canvas, $manifest} = useNuxtApp()
+const { $TL, $canvas, $manifest } = useNuxtApp()
 
 
 onMounted(() => {
@@ -23,12 +22,16 @@ onMounted(() => {
 
       $canvas.onChange({ name: 'home' })
       $canvas.currentCanvasPage = $canvas.nextCanvasPage
-
-
       router.push('/home')
     }
   }
   $manifest.loadManifest()
+
+
+  const tl = new $TL()
+  tl.from({
+    
+  })
 })
 
 
@@ -36,18 +39,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.display-page {
-  position: absolute;
 
-  top: 0;
-  z-index: 1;
-}
-
-.display-preloader {
+.wrapper__preloader{
   z-index: 14;
   position: absolute;
-  color: red;
-  font-size: 40rem;
-
 }
 </style>

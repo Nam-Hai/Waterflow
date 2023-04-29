@@ -44,17 +44,6 @@ export default class TitleMSDF {
     watch(this.breakpoint, breakpoint => {
       console.log('break', breakpoint)
       console.log(breakpoint, 'allo')
-      if (breakpoint == 'mobile') {
-        this.meshMobile.setParent(this.scene)
-        this.mesh.setParent(null)
-        this.fluidPass.setTextPosition(50, 32)
-        this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 - 8 * this.canvasSize.value.height / innerHeight
-      } else {
-        this.mesh.setParent(this.scene)
-        this.meshMobile.setParent(null)
-        this.fluidPass.setTextPosition(40, 160)
-        this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / innerHeight
-      }
 
     })
     this.ro.trigger()
@@ -62,12 +51,26 @@ export default class TitleMSDF {
 
   resize({ vh, vw, scale, breakpoint }) {
     // this.uAlpha.value = breakpoint === 'mobile' ? 0 : 1
-    this.breakpoint.value = breakpoint
     const w = scale
     const h = scale
-    this.mesh && this.mesh.scale.set(w,h,1)
+    this.mesh && this.mesh.scale.set(w, h, 1)
     this.meshMobile && this.meshMobile.scale.set(w, h, 1)
 
+    if (this.breakpoint.value == breakpoint) return
+    if(!this.mesh || !this.meshMobile) return
+    this.breakpoint.value = breakpoint
+    
+    if (breakpoint == 'mobile') {
+      this.meshMobile.setParent(this.scene)
+      this.mesh.setParent(null)
+      this.fluidPass.setTextPosition(50, 32)
+      this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 - 8 * this.canvasSize.value.height / innerHeight
+    } else {
+      this.mesh.setParent(this.scene)
+      this.meshMobile.setParent(null)
+      this.fluidPass.setTextPosition(40, 160)
+      this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 25 * this.canvasSize.value.height / innerHeight
+    }
   }
 
   async createGeometryMobile() {

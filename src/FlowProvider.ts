@@ -78,7 +78,8 @@ export class FlowProvider {
   }
 
   public triggerCrossfade(crossfadeMode: boolean | 'TOP' | 'UNDER' | 'BOTTOM') {
-    this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.path));
+    // console.log(crossfadeMode, 'alloooo', this.routeTo.name, this.routeTo.path, this.routerMap)
+    this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.name!.toString()));
     if (!!this.bufferRouteState?.value) {
       this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
     }

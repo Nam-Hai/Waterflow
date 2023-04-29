@@ -9,14 +9,9 @@
 <script setup lang="ts">
 import { FlowProvider, provideFlowProvider } from '../index'
 
-import { createPinia } from 'pinia'
 import index from '@/pages/index.vue';
-import Canvas from './scene/canvas';
+import home from '@/pages/home.vue';
 
-// navigateTo('/')
-
-// const router = useRouter()
-// router.push('/')
 
 // definePageMeta({
 //   middleware: ["redirect"]
@@ -27,6 +22,7 @@ const flowProvider = new FlowProvider()
 provideFlowProvider(flowProvider)
 
 flowProvider.registerPage('index', index)
+flowProvider.registerPage('home', home)
 
 onMounted(() => {
 })
