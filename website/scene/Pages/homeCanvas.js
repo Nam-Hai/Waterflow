@@ -54,6 +54,7 @@ export default class homeCanvas {
       fragment: fragmentComposer,
       uniforms: {
         tMap: { value: this.target.textures },
+        // tAlpha: { value: this.target.textures[1] },
         tNoise: { value: null },
         tTitle: this.titleMSDF.post.uniform
       },
@@ -70,7 +71,6 @@ export default class homeCanvas {
 
 
   render(e) {
-    console.log('title render')
     this.titleMSDF.post.render(e, {
       scene: this.titleMSDF.scene,
       camera: this.camera
@@ -96,9 +96,11 @@ export default class homeCanvas {
 
     this.titleMSDF && this.titleMSDF.destroy()
     this.titleMSDF = null
-
   }
 
+  addTitle(el){
+    console.log(el)
+  }
 
   addMedia(el) {
     this.media = new Media(this.gl, { el, scene: this.scene })
@@ -122,6 +124,7 @@ precision lowp float;
 in vec2 vUv;
 
 uniform sampler2D tMap;
+// uniform sampler2D tAlpha;
 uniform sampler2D tNoise;
 uniform sampler2D tTitle;
 
@@ -129,7 +132,9 @@ out vec4 FragColor;
 void main() {
 
   vec4 color = texture(tMap, vUv);
+  // vec4 alpha = texture(tAlpha, vUv);
   vec4 noise = texture(tNoise, vUv);
   vec4 title = texture(tTitle, vUv);
-  FragColor = color * (1. - title.a) + noise * (1. - color.a) * (1. - title.a) + title;
+  FragColor = color * (1. - title.a)  + noise * (1. - color.a) * (1. - title.a) + title;
+  // FragColor = color + noise * (1. - alpha);
 }`;

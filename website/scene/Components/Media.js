@@ -13,7 +13,6 @@ export default class Media {
     this.el = el
 
     this.uBounds = { value: [1, 1] }
-    this.uScale = { value: [1, 1] }
     this.createMesh()
 
     const { $ROR } = useNuxtApp()
@@ -39,16 +38,13 @@ export default class Media {
       e: 'io3',
       delay: 700,
       update: ({ progE }) => {
-        // this.mesh.scale.x = progE * this.bounds.width
-        // this.mesh.scale.x = this.uBounds.value[0] * this.canvasSize.value.width / vw * progE
-        this.uScale.value[0] = progE
         this.mesh.program.uniforms.uProg.value = progE
 
       }
     }).from({
-      d: 2000,
+      d: 3000,
       delay: 1400,
-      e: 'io1',
+      e: 'o2',
       update: ({ progE }) => {
         this.mesh.program.uniforms.uProgVer.value = progE
       }
@@ -99,7 +95,6 @@ export default class Media {
       uniforms: {
         tMap: { value: texture },
         uBounds: this.uBounds,
-        uScale: this.uScale,
         uProg: { value: 0 },
         uProgVer: { value: 0 }
       },
@@ -128,6 +123,7 @@ uniform vec2 uBounds;
 in vec2 vUv;
 
 
+// out vec4 FragColor[2];
 out vec4 FragColor;
 
 void main() {
@@ -141,7 +137,9 @@ void main() {
   vec2 coord = vUv * 2. - 1.;
   float alpha = step(abs(coord.x),  1. * uProg) * step(abs(coord.y / 1.) - 0.8, 1. * uProg);
 
-  color.a = alpha;
+  color.a = 1.;
+  // FragColor[0] = color * alpha;
+  // FragColor[1] = vec4(1.) * alpha;
   FragColor = color * alpha;
 }
 `
@@ -156,7 +154,6 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
 uniform vec2 uBounds;
-uniform vec2 uScale;
 uniform float uProgVer;
 uniform float uProg;
 

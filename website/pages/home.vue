@@ -34,10 +34,8 @@
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
-import Lenis from '@studio-freight/lenis';
 import { onFlow } from '~/../src/composables/onFlow';
 import { T } from '~/helpers/core/utils';
-// import { useCanvas } from '~/scene/useCanvas.client';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()

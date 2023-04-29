@@ -1,6 +1,6 @@
 <template>
   <div class="title-container">
-    <h1 v-if="display">WATERFLOW</h1>
+    <h1 ref="titleRef">WATERFLOW</h1>
     <div v-if="display" ref="borderRef" class="border"></div>
   </div>
 </template>
@@ -15,8 +15,15 @@ const props = withDefaults(defineProps<{
 }>(), { display: true })
 
 const borderRef = ref()
+const titleRef = ref()
 
+const { $canvas } = useNuxtApp()
 onFlow(() => {
+
+  if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
+    $canvas.currentCanvasPage.addTitle(titleRef.value)
+  }
+
   if (!props.display) return
   let tl = new $TL
   tl.from({
@@ -34,6 +41,7 @@ onFlow(() => {
 <style lang="scss">
 @use '@/styles/app/colors.scss' as *;
 @use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
 
 .title-container {
   height: $title-height;
@@ -61,5 +69,9 @@ h1 {
   font-weight: 400;
 
   opacity: 0;
+
+  @include breakpoint(mobile){
+    font-size: 6.4rem;
+  }
 }
 </style>

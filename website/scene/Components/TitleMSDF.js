@@ -16,6 +16,8 @@ export default class TitleMSDF {
       this.ro.trigger()
     })
 
+    this.uAlpha = {value:1}
+
     const fluidPass = new FluidPass(this.gl, {
       densityDissipation: 0.98,
       pressureDissipation: 0.7,
@@ -38,15 +40,15 @@ export default class TitleMSDF {
     this.ro.trigger()
   }
 
-  resize({ vh, vw, scale }) {
+  resize({ vh, vw, scale, breakpoint}) {
+    this.uAlpha.value = breakpoint === 'mobile' ? 0 : 1
     const w = scale
     const h = scale
     this.fluidPass.pass.mesh.position.y = this.canvasSize.value.height / 2 + 20 * this.canvasSize.value.height / vh
-    // this.fluidPass.pass.mesh.scale.set(w,h,1)
     console.log(scale)
     if (!this.mesh) return
-    this.mesh.scale.x = w
-    this.mesh.scale.y = h
+    this.mesh.scale.x = w 
+    this.mesh.scale.y = h 
   }
 
   async loadText() {
@@ -62,6 +64,7 @@ export default class TitleMSDF {
       fragment: fragment,
       uniforms: {
         tMap: { value: texture },
+        uAlpha: this.uAlpha
       },
     });
 
@@ -70,12 +73,9 @@ export default class TitleMSDF {
     const text = new Text({
       font,
       text: "WATERFLOW",
-      // width: 4,
-      // width: 1,
       align: 'center',
       lineHeight: 1,
-      // letterSpacing: -0.02,
-      size: 300 * this.canvasSize.value.height / innerHeight,
+      size: 300 *  this.canvasSize.value.height / innerHeight,
       lineHeight: 1,
     });
 
@@ -115,6 +115,7 @@ const fragment = /* glsl */ `#version 300 es
 precision highp float;
 uniform sampler2D tMap;
 
+uniform float uAlpha;
 in vec2 vUv;
 out vec4 color;
 
@@ -127,9 +128,9 @@ void main() {
     // if (alpha > 0.99) discard;
     if (alpha < 0.01) discard;
 
-    color.rgb = vec3(0.933,0.98,0.918);
+    color.rgb = vec3(0.933,0.98,0.918) * uAlpha;
     // color.rgb = vec3(1.,0.,0.2);
-    color.a = alpha;
+    color.a = alpha * uAlpha;
 }
 `;
 
