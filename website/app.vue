@@ -12,11 +12,6 @@ import { FlowProvider, provideFlowProvider } from '../index'
 import index from '@/pages/index.vue';
 import home from '@/pages/home.vue';
 
-
-// definePageMeta({
-//   middleware: ["redirect"]
-//   // or middleware: 'auth'
-// })
 const flowProvider = new FlowProvider()
 
 provideFlowProvider(flowProvider)

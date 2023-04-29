@@ -107,6 +107,32 @@ export default class Media {
     })
     this.mesh.setParent(this.scene)
 
+    // const videoTexture = new Texture(this.gl, {
+    //   generateMipmaps: false,
+    //   width: 1280,
+    //   height: 720,
+    // });
+    //
+    // let video = document.createElement('video');
+    // video.src = 'images/loop.mp4';
+    //
+    // // Disclaimer: video autoplay is a confusing, constantly-changing browser feature.
+    // // The best approach is to never assume that it will work, and therefore prepare for a fallback.
+    // video.loop = true;
+    // video.muted = true;
+    // video.setAttribute('playsinline', 'playsinline');
+    // video.play();
+    //
+    // const { $RafR } = useNuxtApp()
+    // const raf = new $RafR(() => {
+    //   if (video.readyState >= video.HAVE_ENOUGH_DATA) {
+    //     if (!videoTexture.image) videoTexture.image = video;
+    //     videoTexture.needsUpdate = true;
+    //     this.mesh.program.uniforms.tMap.value = videoTexture
+    //   }
+    // })
+    // raf.run()
+
   }
 
   destroy() {
@@ -138,8 +164,6 @@ void main() {
   float alpha = step(abs(coord.x),  1. * uProg) * step(abs(coord.y / 1.) - 0.8, 1. * uProg);
 
   color.a = 1.;
-  // FragColor[0] = color * alpha;
-  // FragColor[1] = vec4(1.) * alpha;
   FragColor = color * alpha;
 }
 `

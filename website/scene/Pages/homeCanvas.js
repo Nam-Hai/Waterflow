@@ -21,6 +21,7 @@ export default class homeCanvas {
     this.canvasSize = useCanvasSize(() => {
       this.ro.trigger()
     })
+    this.target = new RenderTarget(this.gl)
     this.ro.trigger()
 
     this.raf = new $RafR(this.render)
@@ -44,7 +45,6 @@ export default class homeCanvas {
       }
     })
 
-    this.target = new RenderTarget(this.gl)
 
     this.postProcessor = new PostProcessor(this.gl, {
       // targetOnly: true
@@ -55,6 +55,7 @@ export default class homeCanvas {
       uniforms: {
         tMap: { value: this.target.textures },
         // tAlpha: { value: this.target.textures[1] },
+        tMask: { value: this.titleMSDF.targetMask.texture },
         tNoise: { value: null },
         tTitle: this.titleMSDF.post.uniform
       },
@@ -81,6 +82,11 @@ export default class homeCanvas {
       camera: this.camera,
       target: this.target
     })
+    this.renderer.render({
+      scene: this.titleMSDF.sceneMask,
+      camera: this.camera,
+      target: this.titleMSDF.targetMask
+    })
 
     this.postProcessor.render(e, {
       scene: this.noiseBackground.scene,
@@ -98,7 +104,7 @@ export default class homeCanvas {
     this.titleMSDF = null
   }
 
-  addTitle(el){
+  addTitle(el) {
     console.log(el)
   }
 
@@ -127,6 +133,7 @@ uniform sampler2D tMap;
 // uniform sampler2D tAlpha;
 uniform sampler2D tNoise;
 uniform sampler2D tTitle;
+uniform sampler2D tMask;
 
 out vec4 FragColor;
 void main() {
@@ -135,6 +142,8 @@ void main() {
   // vec4 alpha = texture(tAlpha, vUv);
   vec4 noise = texture(tNoise, vUv);
   vec4 title = texture(tTitle, vUv);
-  FragColor = color * (1. - title.a)  + noise * (1. - color.a) * (1. - title.a) + title;
+  vec4 mask = texture(tMask, vUv);
+  color *= mask.a;
+  FragColor = color * (1. - title.a) + noise * (1. - color.a) * (1. - title.a) + title;
   // FragColor = color + noise * (1. - alpha);
 }`;

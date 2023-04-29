@@ -60,15 +60,10 @@ export function useRO(callback: (e: { vh: number, vw: number, scale: number, bre
 
 export function useCanvasSize(callback?: (size: {width:number, height: number})=> void): Ref<{height:number, width:number}>{
   const { $canvas } = useNuxtApp()
-  // const canvas = useCanvas()
-  // const canvas = useCanvas()
+
   watch($canvas.size, size => {
     callback && callback(size)
   })
-  // const size = ref({
-  //   width: 1,
-  //   height: 1
-  // })
+
   return $canvas.size
-  // return size
 }

@@ -113,7 +113,10 @@ const Ro = new class {
             scale: this.scale,
             breakpoint: this.breakpoint
         }
-        for (let t = this.l(); 0 <= t; t--) this.arr[t].cb(arg);
+        // for (let t = this.l(); 0 <= t; t--) this.arr[t].cb(arg);
+        for (const el of this.arr) {
+          el.cb(arg)
+        }
         this.raf.stop()
         this.tick = false
     }
