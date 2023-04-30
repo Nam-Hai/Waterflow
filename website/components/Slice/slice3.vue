@@ -51,7 +51,6 @@ usePin({
 </script>
 
 <style scoped lang="scss">
-@use '@/styles/app/colors.scss' as *;
 
 $bg: #EBFF70;
 $primary: #55C187;
@@ -78,7 +77,7 @@ $soft: #CDE057;
         h2 {
             width: 121.9rem;
             font-size: 12.8rem;
-            color: $secondary;
+            color: $primary;
         }
 
         p {

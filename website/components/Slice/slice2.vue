@@ -44,7 +44,6 @@ useScrollEvent({
         const r = Lerp(bgColors[1][0], bgColors[2][0], t)
         const g = Lerp(bgColors[1][1], bgColors[2][1], t)
         const b = Lerp(bgColors[1][2], bgColors[2][2], t)
-        $canvas.currentCanvasPage.noiseBackground.uAlpha.value = 1
         $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r,g,b]
     },
 })
