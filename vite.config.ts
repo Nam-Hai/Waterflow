@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [vue()],
    build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: resolve(__dirname, "index.ts"),
       name: "@nam-hai/water-flow",
       fileName: "@nam-hai/water-flow",
     },
