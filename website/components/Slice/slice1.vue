@@ -85,13 +85,13 @@ usePin({
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use '@/styles/app/colors.scss' as *;
 
 $bg: #E2383B;
 $soft: #C12B2D;
 
-.wrapper.slice {
+.wrapper.slice-1 {
     position: relative;
     height: 300vh;
     width: 100vw;
@@ -121,6 +121,10 @@ $soft: #C12B2D;
             position: relative;
             color: $secondary;
             z-index: 1;
+
+            span {
+                opacity: 0;
+            }
         }
 
         p.p__float {
@@ -131,11 +135,14 @@ $soft: #C12B2D;
         }
     }
 
-}
+    .p__container {
+        width: 82.3rem;
+        position: relative;
 
-.p__container {
-    width: 82.3rem;
-    position: relative;
 
+        span {
+            transition: opacity 200ms;
+        }
+    }
 }
 </style>
