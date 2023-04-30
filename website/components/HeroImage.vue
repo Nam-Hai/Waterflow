@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
-import { onFlow } from "../../index"
+import { onFlow } from "@nam-hai/water-flow"
 // import { useCanvas } from '~/scene/useCanvas.client'
 
 const heroRef = ref()

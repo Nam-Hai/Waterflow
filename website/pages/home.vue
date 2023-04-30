@@ -34,8 +34,7 @@
 
 <script lang="ts" setup>
 import { vOpacityFlow } from '@/directives/OpacityFlow'
-import { onFlow } from '~/../src/composables/onFlow';
-import { usePageFlow } from '~/../src/composables/usePageFlow';
+import { onFlow, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
@@ -188,7 +187,8 @@ usePageFlow({
     row-gap: 1.6rem;
     width: 50%;
 
-    p, h3 {
+    p,
+    h3 {
       opacity: 0;
     }
   }

@@ -6,8 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { onFlow } from '~/../src/composables/onFlow';
-import { usePageFlow } from '~/../src/composables/usePageFlow';
+import { onFlow } from '@nam-hai/water-flow';
 import { O } from '~/helpers/core/utils';
 import { Timeline } from '~/plugins/core/motion';
 
@@ -26,7 +25,7 @@ defineExpose({
 })
 
 onFlow(() => {
-  if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addMedia) {
+  if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addTitle) {
     $canvas.currentCanvasPage.addTitle(titleRef.value)
   }
 

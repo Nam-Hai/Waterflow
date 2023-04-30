@@ -3,7 +3,7 @@ import {
   Camera,
   Transform,
 } from "ogl";
-import { useFlowProvider } from "~/../src/FlowProvider";
+import { useFlowProvider } from "@nam-hai/water-flow";
 import homeCanvas from "./Pages/homeCanvas";
 
 import { N } from "~/helpers/namhai-utils";

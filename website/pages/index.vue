@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { usePageFlow } from '@/../'
+import { usePageFlow } from '@nam-hai/water-flow'
 
 const titleRef = ref()
 const titleSpanRef = ref()

@@ -25,9 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { time } from 'console';
-import { isGeneratorFunction } from 'util/types';
-import { onFlow } from '~/../src/composables/onFlow';
+import { onFlow } from '@nam-hai/water-flow';
 import { Lerp, O } from '~/helpers/core/utils';
 import { Rand, random } from '~/helpers/core/utils';
 import { Timeline } from '~/plugins/core/motion';
