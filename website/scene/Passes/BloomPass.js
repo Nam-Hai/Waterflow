@@ -173,7 +173,7 @@ const compositeFragment = /* glsl */ `#version 300 es
     vec4 bloom = texture(tBloom, vUv) * uBloomStrength;
     color = tex + bloom;
     // color.a = 1.;
-    color += 0.12 * noise(gl_FragCoord.xy, uTime * 100.);
+    color *= mix(0.75, 1.,noise(gl_FragCoord.xy, uTime * 100.));
   }
 `;
 
