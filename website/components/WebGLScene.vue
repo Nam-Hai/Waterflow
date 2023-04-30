@@ -1,8 +1,6 @@
 <template>
   <div ref="wrapperSceneRef" class="wrapper-scene">
   </div>
-  <div class="wrapper-title-scene" ref="wrapperSceneTitleRef">
-  </div>
 </template>
 
 <script lang='ts' setup>
@@ -39,12 +37,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-.wrapper-title-scene {
-  z-index: 13;
-  position: relative;
-  pointer-events: none;
-}
-
 .wrapper-scene {
   position: relative;
   z-index: 2;

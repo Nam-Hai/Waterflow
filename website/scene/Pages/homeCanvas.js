@@ -4,7 +4,6 @@ import Media from "../Components/Media"
 import { RenderTarget, Program, Mesh, Triangle } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
-import ComposerPass from "../Passes/ComposerPass"
 import TitleMSDF from "../Components/TitleMSDF"
 
 export default class homeCanvas {

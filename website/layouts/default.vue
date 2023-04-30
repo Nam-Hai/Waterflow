@@ -8,12 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import Canvas from '~/scene/canvas';
-import { BufferPage } from '../../index';
+import { BufferPage } from '@nam-hai/water-flow';
 import { useFlowProvider } from '../../index';
-import CanvasTitle from '~/scene/CanvasTitle';
-
-import Manifest from '~/composables/Manifest';
 
 const { $lenis, $canvas, $canvasTitle} = useNuxtApp()
 
