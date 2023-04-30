@@ -8,6 +8,7 @@ import TitleMSDF from "../Components/TitleMSDF"
 
 export default class homeCanvas {
   constructor({ gl, scene, camera }) {
+    console.log('homeCanvas');
     this.gl = gl
     this.renderer = this.gl.renderer
 
@@ -34,10 +35,13 @@ export default class homeCanvas {
 
 
     this.bloomPass = new BloomPass(this.gl, {
-      bloomStrength: 1,
+      // bloomStrength: 1,
+      bloomStrength: 1.0,
+      // bloomStrength: 0,
       threshold: 0.02,
       iteration: 5,
-      // enabled: false,
+      screen: true,
+      enabled: false,
       direction: {
         x: 6,
         y: 6
@@ -71,6 +75,7 @@ export default class homeCanvas {
 
 
   render(e) {
+    if (this.destroyed) return
     this.titleMSDF.post.render(e, {
       scene: this.titleMSDF.scene,
       camera: this.camera
@@ -96,11 +101,13 @@ export default class homeCanvas {
   destroy() {
     this.raf.stop()
     // this.ro.off()
+    console.log('DESTROY CANVAS HOME');
     this.noiseBackground && this.noiseBackground.destroy()
     this.noiseBackground && (this.noiseBackground = null)
 
     this.titleMSDF && this.titleMSDF.destroy()
     this.titleMSDF = null
+    this.destroyed = true
   }
 
   addTitle(el) {
@@ -144,5 +151,4 @@ void main() {
   vec4 mask = texture(tMask, vUv);
   color *= mask.a;
   FragColor = color * (1. - title.a) + noise * (1. - color.a) * (1. - title.a) + title;
-  // FragColor = color + noise * (1. - alpha);
 }`;

@@ -19,9 +19,14 @@ onMounted(() => {
     if (i == $manifest.length) {
       show.value = true
 
+      const route = useRoute()
+      if(route.name == 'home') return
 
       $canvas.onChange({ name: 'home' })
+
+      $canvas.currentCanvasPage?.destroy()
       $canvas.currentCanvasPage = $canvas.nextCanvasPage
+
       router.push('/home')
     }
   }

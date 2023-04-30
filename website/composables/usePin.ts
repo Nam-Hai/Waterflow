@@ -3,7 +3,7 @@ import { N } from "~/helpers/namhai-utils"
 type usePinOptions = {
   el: Ref<HTMLElement>,
   start?: number,
-  end?: number,
+  end?: Ref<number>,
   eStart?: number,
   onEnter?: () => void,
   onProgress?: (t: number) => void
@@ -12,7 +12,7 @@ type usePinOptions = {
 export const usePin = ({
   el,
   start = 0,
-  end = Infinity,
+  end = ref(Infinity),
   eStart = 0,
   onEnter = () => { },
   onProgress = () => { }
@@ -42,11 +42,11 @@ export const usePin = ({
 
   const { lenis } = useLenisScroll((e) => {
     const dist = window.scrollY - bounds.value.y + start * vh.value / 100 - bounds.value.height * eStart / 100
-    offset.value = N.Clamp(dist, 0, end)
+    offset.value = N.Clamp(dist, 0, end.value)
     if (offset.value > 0) hasEnter.value = true
     N.T(el.value, 0, offset.value, 'px')
 
-    onProgress(N.iLerp(offset.value, 0, end))
+    onProgress(N.iLerp(offset.value, 0, end.value))
   })
 
   const { vh } = useResize(resize)

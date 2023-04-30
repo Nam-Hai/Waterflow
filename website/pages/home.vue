@@ -24,10 +24,15 @@
             <Clipboard />
             <HeroImage />
           </div>
+          <div class="right">
+            <Watermark />
+          </div>
         </div>
       </div>
       <SliceSlice1 />
-      <Watermark />
+      <SliceSlice2 />
+      <SliceSlice3 />
+      <SliceSlice4 />
     </div>
   </div>
 </template>
@@ -52,14 +57,21 @@ onMounted(() => {
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
 
+})
+
+useRO(() => {
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
   const height = wrapperRef.value.getBoundingClientRect().height
   heightHolderRef.value.style.height = height + 'px'
+  lenis.emit()
 })
 
 
-useLenisScroll(({ current }) => {
+const { lenis } = useLenisScroll(({ current }) => {
   T(contentRef.value, 0, -current, 'px')
-})
+})  
+
 onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
   $canvas.currentCanvasPage?.init()
@@ -104,8 +116,9 @@ onFlow(() => {
     d: 2500,
     delay: 500,
     update: ({ progE }) => {
-      console.log(progE);
-      noiseWebGL && noiseWebGL.uAlpha && (noiseWebGL.uAlpha.value = progE)
+      if (noiseWebGL) {
+        noiseWebGL.uAlpha.value = progE
+      }
     }
   }).play()
 })
@@ -177,11 +190,10 @@ usePageFlow({
   margin: 0 auto;
   width: 151.4rem;
   display: flex;
-  flex-direction: column;
   flex-grow: 1;
 
   .left {
-    flex-grow: 1;
+    width: 50%;
     display: flex;
     flex-direction: column;
     row-gap: 1.6rem;
@@ -191,6 +203,13 @@ usePageFlow({
     h3 {
       opacity: 0;
     }
+  }
+
+  .right {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 
@@ -236,5 +255,13 @@ div.title-container {
 .hero-wrapper {
   flex: 1;
   position: relative;
+}
+
+.slice {
+  margin-top: 50vh;
+
+  &.slice-1 {
+    margin-top: 0;
+  }
 }
 </style>

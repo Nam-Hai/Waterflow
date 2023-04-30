@@ -1,11 +1,11 @@
 <template>
-    <div class="slice wrapper slice-1">
+    <div class="slice-3 slice wrapper">
 
         <div class="container" ref="containerRef">
-            <h2>Create smooth page transition</h2>
+            <h2>Modular</h2>
             <p>
-                Sometimes, Vue.js API limits your creativity and imagination to ship outstanding page transition. Enable
-                user to flow between pages to create the most smooth experience possible.
+                Waterflow does not tie your project to use a specific tween library. Gsap, anime.js, Smooth-scroll or
+                whatever. You do you.
             </p>
         </div>
     </div>
@@ -24,6 +24,7 @@ useResize(({ vh, vw }) => {
 
 })
 
+
 const { $canvas } = useNuxtApp()
 
 useScrollEvent({
@@ -33,20 +34,16 @@ useScrollEvent({
     onProgress: (t) => {
         if (!$canvas.currentCanvasPage) return
         const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
-        const flavorColors = $canvas.currentCanvasPage.noiseBackground.flavorColors
-        const r = Lerp(bgColors[0][0], bgColors[1][0], t)
-        const g = Lerp(bgColors[0][1], bgColors[1][1], t)
-        const b = Lerp(bgColors[0][2], bgColors[1][2], t)
+        const r = Lerp(bgColors[2][0], bgColors[0][0], t)
+        const g = Lerp(bgColors[2][1], bgColors[0][1], t)
+        const b = Lerp(bgColors[2][2], bgColors[0][2], t)
+        // $canvas.currentCanvasPage.noiseBackground.uAlpha.value = 1 - t
         $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
-        $canvas.currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[0][0][0], flavorColors[1][0][0],t), Lerp(flavorColors[0][0][1], flavorColors[1][0][1], t), Lerp(flavorColors[0][0][2], flavorColors[1][0][2],t)]
-        $canvas.currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[0][1][0], flavorColors[1][1][0],t), Lerp(flavorColors[0][1][1], flavorColors[1][1][1], t), Lerp(flavorColors[0][1][2], flavorColors[1][1][2],t)]
-
     },
 })
 
 usePin({
     el: containerRef,
-    // start: -100,
     start: 0,
     end: endRef
 })
@@ -56,15 +53,16 @@ usePin({
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
 
-$bg: #E2383B;
-$soft: #C12B2D;
+$bg: #EBFF70;
+$primary: #55C187;
+$soft: #CDE057;
 
 .wrapper.slice {
     position: relative;
     height: 300vh;
     width: 100vw;
 
-
+    // background-color: $bg;
     .container {
         padding-top: 28rem;
         height: 100vh;
@@ -76,7 +74,6 @@ $soft: #C12B2D;
         flex-direction: column;
         text-align: center;
         font-weight: 700;
-        line-height: 1;
 
         h2 {
             width: 121.9rem;

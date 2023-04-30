@@ -20,6 +20,9 @@ useRaf((e) => {
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
 }, false, true)
 
+onMounted(() => {
+  $lenis.scrollTo('top')
+})
 
 flowProvider.registerScrollInterface({
   resume: () => { $lenis.start() },

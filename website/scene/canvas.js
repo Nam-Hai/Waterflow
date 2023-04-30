@@ -73,6 +73,5 @@ export default class Canvas {
 
   destroy() {
     this.ro.off()
-    this.currentCanvasPage.destroy()
   }
 };

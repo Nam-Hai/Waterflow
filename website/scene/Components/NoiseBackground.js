@@ -1,13 +1,39 @@
-import { Transform, Mesh, Program, Plane } from 'ogl'
+import { Color, Transform, Mesh, Program, Plane } from 'ogl'
 import noiseCommon from '../shaders/noise-common'
 import { basicVer } from '../shaders/BasicVer'
 import noise3d from '../shaders/noise3d'
 import noise4d from '../shaders/noise4d'
 import noise from '../shaders/noise'
 import { BM } from '~/helpers/core/utils'
+import { shader as screen } from '../shaders/screen'
+
 export default class NoiseBackground {
   constructor(gl) {
     this.gl = gl
+
+    this.bgColor = {
+      value: [0, 0, 0]
+    }
+    this.bgColors = [
+      new Color('#000000'),
+      new Color('#E2383B'),
+      new Color('#151E4D'),
+      new Color('#000000'),
+      new Color('#000000')
+    ]
+
+    this.flavorColors = [
+      [[0.024, 1., 0.18], [0.2, 0.4, 0.6]],
+      [[0.788, 0.361, 0.302], [0.996, 0.255, 0.267]],
+      [ [0.996, 0.255, 0.267], [0.333,0.757,0.529]],
+      [ [0.996, 0.255, 0.267], [0.333,0.757,0.529]]
+    ]
+    this.flavorColor1 = {
+      value: [0.024, 1., 0.18]
+    }
+    this.flavorColor2 = {
+      value: [0.2, 0.4, 0.6]
+    }
 
     BM(this, ['update', 'resize', 'scroll'])
     const { $RafR, $ROR } = useNuxtApp()
@@ -39,9 +65,11 @@ export default class NoiseBackground {
     this.mesh.program.uniforms.uScroll.value = this.scrollOffset
 
     this.backgroundMesh.program.uniforms.uScroll.value = this.scrollOffset
+
   }
 
   update({ elapsed, delta }) {
+
     this.mesh.program.uniforms.uTime.value = elapsed / 6000 + this.scrollOffset / 20000
     this.backgroundMesh.program.uniforms.uTime.value = elapsed / 6000 + this.scrollOffset / 20000 + 204 * this.seed
   }
@@ -64,7 +92,10 @@ export default class NoiseBackground {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uScale: { value: 1 },
-        uAlpha: this.uAlpha
+        uAlpha: this.uAlpha,
+        uBg: this.bgColor,
+        uFlavor1: this.flavorColor1,
+        uFlavor2: this.flavorColor2,
       },
     })
 
@@ -77,7 +108,10 @@ export default class NoiseBackground {
           uTime: { value: 0 },
           uScroll: { value: 0 },
           uScale: { value: 0.2 },
-          uAlpha: this.uAlpha
+          uAlpha: this.uAlpha,
+          uBg: this.bgColor,
+          uFlavor1: this.flavorColor1,
+          uFlavor2: this.flavorColor2
         },
       })
     })
@@ -101,10 +135,13 @@ export default class NoiseBackground {
   }
 
   destroy() {
+    this.mesh.setParent(null)
+    this.backgroundMesh.setParent(null)
     this.raf.stop()
     this.ro.off()
     this.lenisOff()
 
+    console.log('DESTROY');
   }
 }
 
@@ -119,10 +156,14 @@ ${noise3d}
 uniform float uTime;
 uniform float uScale;
 uniform float uAlpha;
+uniform vec3 uBg;
+uniform vec3 uFlavor1;
+uniform vec3 uFlavor2;
 
 out vec4 FragColor;
 
 ${noise}
+${screen}
 
 
 float io3(float x) {
@@ -133,17 +174,17 @@ float io3(float x) {
 void main() {
   float n1 = noise3d(vec3(vUv.x * 1. * uScale, vUv.y * 1. * uScale, uTime)) * 0.7;
   float n2 = noise3d(vec3(vUv.x * 2. * uScale, vUv.y * 5. * uScale + 56., 2982. + uTime));
-  n1 = io3(n1);
-  n2 = io3(n2);
+  n1 = io3(n1) * 1.;
+  n2 = io3(n2) * 1.;
 
-  // vec3 color1 = vec3(0.847,0.118,0.357) * n1;
-  vec3 color1 = vec3(0.024,1.,0.18) * n1 * 0.2;
-  vec3 color2 = vec3(0.2,0.4,0.6) * n2;
-  FragColor.rgb = (color1 + color2 )/ 1.;
+  vec3 color1 = uFlavor1 * n1;
+  vec3 color2 = uFlavor2 * n2;
+  vec3 color = (color1 + color2 );
 
+  color = screen(color, uBg, 1.);
+
+  FragColor.rgb = color * uAlpha;
   FragColor.a = uAlpha;
-
-  // FragColor += 0.09 * noise(gl_FragCoord.xy, uTime * 100.);
 }
 `
 
