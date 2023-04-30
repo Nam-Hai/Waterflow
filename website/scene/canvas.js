@@ -18,7 +18,7 @@ export default class Canvas {
       home: null
     }
     this.renderer = new Renderer({
-      alpha: true,
+      alpha: false,
       antialias: true,
       dpr: devicePixelRatio,
     });
@@ -37,7 +37,7 @@ export default class Canvas {
 
     // this.ro = new $ROR(this.resize)
     this.ro = new ROR(this.resize)
-  
+
   }
 
   async init() {
@@ -66,8 +66,8 @@ export default class Canvas {
 
   onChange(route) {
     const page = CanvasRouteMap.get(route.name)
-    if(!page) return
-    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera})
+    if (!page) return
+    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera })
     // this.pages[route.name] = this.nextCanvasPage
   }
 
