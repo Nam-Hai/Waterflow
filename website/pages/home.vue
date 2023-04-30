@@ -1,6 +1,6 @@
 <template>
   <WaterflowTitle ref="waterFlowTitleRef" />
-  <div ref="heightHolderRef">
+  <div ref="heightHolderRef" style="margin-top: 28rem">
   </div>
   <div class="container-home" ref="wrapperRef">
 
@@ -103,8 +103,8 @@ onFlow(() => {
   }).from({
     d: 2500,
     delay: 500,
-
     update: ({ progE }) => {
+      console.log(progE);
       noiseWebGL && noiseWebGL.uAlpha && (noiseWebGL.uAlpha.value = progE)
     }
   }).play()
@@ -230,6 +230,7 @@ h3 {
 div.title-container {
   position: fixed;
   z-index: 9;
+  top: 0;
 }
 
 .hero-wrapper {
