@@ -8,15 +8,15 @@
 </template>
 
 <script setup lang="ts">
-import { BufferPage, useFlowProvider} from '@nam-hai/water-flow';
+import { BufferPage, useFlowProvider } from '@nam-hai/water-flow';
 
-const { $lenis, $canvas, $canvasTitle} = useNuxtApp()
+const { $lenis } = useNuxtApp()
 
 const flowProvider = useFlowProvider()
 
 
 
-useRaf((e) =>{
+useRaf((e) => {
   !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
 }, false, true)
 

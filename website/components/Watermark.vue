@@ -22,6 +22,8 @@
   left: 0;
   width: 100vw;
   height: calc(100vh - 28rem);
+  // height: 100vh;
+  z-index: 15;
 
   display: flex;
   justify-content: flex-end;

@@ -227,7 +227,7 @@ h3 {
   line-height: 100%;
 }
 
-.title-container {
+div.title-container {
   position: fixed;
   z-index: 9;
 }

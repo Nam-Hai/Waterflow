@@ -147,11 +147,7 @@ uniform float uProg;
 uniform vec2 uBounds;
 
 in vec2 vUv;
-
-
-// out vec4 FragColor[2];
 out vec4 FragColor;
-
 void main() {
  
  vec2 s = uBounds.x > uBounds.y ? vec2(1., uBounds.y/uBounds.x) : vec2(uBounds.x / uBounds.y ,1.);
