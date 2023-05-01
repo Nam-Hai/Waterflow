@@ -43,7 +43,8 @@ watch(() => showPreloader.value || !preloadComplete.value, bool => {
 
 const mapRouteBg = new Map([
   ['index', ['#000000', '#ffffff']],
-  ['example2', ['#E03636', '#87F062']]
+  ['example1', ['#E03636', '#87F062']],
+  ['example2', ['#141D4D', '#A48A9B']],
 ])
 
 onMounted(() => {

@@ -21,9 +21,8 @@
     border-radius: 0.2rem;
     align-items: center;
 
-
+    box-sizing: content-box;
     font-size: 1.6rem;
-    color: white;
     text-transform: uppercase;
     overflow: hidden;
     position: relative;
@@ -34,7 +33,7 @@
         width: 33rem;
         height: 4rem;
         position: relative;
-        color: white;
+        color: currentColor;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -43,7 +42,8 @@
 
     .bg-hover {
         // position: absolute;
-        background-color: #87F062;
+        color: white;
+        background-color: #87F06290;
     }
 
     >div {
