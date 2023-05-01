@@ -5,7 +5,7 @@ import { RenderTarget, Program, Mesh, Plane } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
 
-export default class homeCanvas {
+export default class indexCanvas {
   constructor({ gl, scene, camera, titleMSDF }) {
     console.log('homeCanvas');
     this.gl = gl
@@ -99,7 +99,7 @@ export default class homeCanvas {
 
     this.noiseBackground && this.noiseBackground.destroy()
     this.noiseBackground && (this.noiseBackground = null)
-    this.transiMesh.setParent(null)
+    this.transiMesh && this.transiMesh.setParent(null)
     this.transiMesh = null
     this.destroyed = true
   }

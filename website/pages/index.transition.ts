@@ -1,10 +1,13 @@
+import example2Canvas from "~/scene/Pages/example2Canvas"
+import indexCanvas from "~/scene/Pages/indexCanvas"
 
 const indexOutExample2 = async ({ wrapperRef, waterFlowTitleRef}: any, resolve: () => void, { canvasWrapperRef, flowRef }: any) => {
     const { $TL, $canvas } = useNuxtApp()
 
     let tl = new $TL()
-    const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
-    const transiMesh = $canvas.currentCanvasPage.createTransiMesh()
+    const curCanvasPage = $canvas.currentCanvasPage as unknown as indexCanvas
+
+    const transiMesh = curCanvasPage.createTransiMesh()
     const canvasSize = $canvas.size.value
 
     const flowProvider = flowRef.value

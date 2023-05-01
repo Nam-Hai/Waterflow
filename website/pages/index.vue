@@ -42,6 +42,7 @@
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
 import indexOutMap from './index.transition'
+import indexCanvas from '~/scene/Pages/_exempleCanvas';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
@@ -74,7 +75,9 @@ const { lenis } = useLenisScroll(({ current }) => {
 })
 
 onFlow(() => {
-  const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
+  const curCanvas = $canvas.currentCanvasPage as unknown as indexCanvas
+  const noiseWebGL = curCanvas!.noiseBackground
+
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
 
@@ -128,39 +131,11 @@ usePageFlow({
   enableCrossfade: 'TOP',
   flowOutMap: indexOutMap,
   flowOut: async ({ wrapperRef }, resolve, { canvasWrapperRef, flowRef }) => {
-    let tl = new $TL()
-    const transiMesh = $canvas.currentCanvasPage.createTransiMesh()
-    const canvasSize = $canvas.size.value
-    tl.from({
-      d: 400,
-      el: wrapperRef.value,
-      p: {
-        o: [1, 0]
-      }
-    })
-      .from({
-        d: 800,
-        delay: 400,
-        update: ({ progE }) => {
-          transiMesh.position.y = canvasSize.height * (1 - progE)
-        }
-      })
-    tl.from({
-      delay: 1200,
-      update() {
-
-      },
-      cb: async () => {
-
-        canvasWrapperRef.value.style.zIndex = 15
-        $canvas.onChange(flowProvider.getRouteTo())
-        await $canvas.nextCanvasPage?.init()
-        $canvas.currentCanvasPage?.destroy()
-        $canvas.currentCanvasPage = $canvas.nextCanvasPage
-        resolve()
-      }
-    })
-      .play()
+    $canvas.onChange(flowProvider.getRouteTo())
+    await $canvas.nextCanvasPage?.init()
+    $canvas.currentCanvasPage?.destroy()
+    $canvas.currentCanvasPage = $canvas.nextCanvasPage
+    resolve()
   },
   flowInCrossfade: ({ }, resolve) => {
     let tl = new $TL
