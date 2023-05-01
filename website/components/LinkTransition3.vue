@@ -32,7 +32,7 @@ const bladeRef = ref()
 .blade {
     width: 100%;
     height: 100%;
-    background: #FFF27A60;
+    background: #FFF27A;
     transform: scaleX(0);
     transform-origin: left;
     transition-duration: 750ms;

@@ -65,7 +65,7 @@ onMounted(() => {
 .blade {
     width: 10%;
     height: 100%;
-    background: #e0373760;
+    background: #e03737;
     transform: scaleX(0);
 }
 </style>
