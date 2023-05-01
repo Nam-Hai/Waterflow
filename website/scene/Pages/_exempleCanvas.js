@@ -1,6 +1,6 @@
 import { BM } from "~/helpers/core/utils"
 
-export default class indexCanvas {
+export default class exampleCanvas {
     constructor({gl, scene, camera, canvasSize}){
         this.gl = gl
         this.renderer = this.gl.renderer

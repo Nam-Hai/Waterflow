@@ -42,7 +42,7 @@
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
 import indexOutMap from './index.transition'
-import indexCanvas from '~/scene/Pages/_exempleCanvas';
+import indexCanvas from '~/scene/Pages/indexCanvas';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
@@ -76,7 +76,7 @@ const { lenis } = useLenisScroll(({ current }) => {
 
 onFlow(() => {
   const curCanvas = $canvas.currentCanvasPage as unknown as indexCanvas
-  const noiseWebGL = curCanvas!.noiseBackground
+  const noiseWebGL = curCanvas.noiseBackground
 
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
