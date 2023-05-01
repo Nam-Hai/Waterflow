@@ -139,7 +139,6 @@ usePageFlow({
   flowOutMap: indexOutMap,
   flowOut: async ({ wrapperRef}, resolve, { canvasWrapperRef, flowRef}) => {
     let tl = new $TL()
-    const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
     const transiMesh = $canvas.currentCanvasPage.createTransiMesh()
     const canvasSize = $canvas.size.value
     tl.from({

@@ -29,10 +29,6 @@ onMounted(() => {
 })
 
 onFlow(() => {
-  if ($canvas.currentCanvasPage && $canvas.currentCanvasPage.addTitle) {
-    $canvas.currentCanvasPage.addTitle(titleRef.value)
-  }
-
 })
 
 </script>

@@ -13,6 +13,7 @@ const wrapperRef = ref()
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/sass/easing.scss' as *;
 .link__wrapper {
     width: 100%;
     height: 100%;
@@ -22,7 +23,7 @@ const wrapperRef = ref()
     &:hover .blade {
         translate: 0;
         scale: 1;
-        transition: translate 500ms 0ms ease-out, scale 500ms 500ms ease;
+        transition: translate 400ms 0ms $easeOutQuad, scale 200ms 400ms $easeInOutQuad;
     }
 }
 
@@ -32,7 +33,7 @@ const wrapperRef = ref()
     // transform: translateY(-100%) scale(0.9);
     translate: 0 100%;
     scale: 0.9;
-    transition: translate 500ms 500ms ease-out, scale 500ms 0ms ease;
+    transition: translate 400ms 400ms $easeOutQuad, scale 200ms 0ms $easeInOutQuad;
     background-color: #141D4D;
 }
 </style>

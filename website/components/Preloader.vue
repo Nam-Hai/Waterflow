@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper__preloader" v-if="!hidePreloader">
+  <div ref="wrapperRef" class="wrapper__preloader" v-if="!hidePreloader">
     <div class="title-placeholder" ref="titlePlaceholderRef">
       <h1><span ref="titleSpanRef" style="opacity: 0;">WATER</span><span
           style="display: inline-flex; overflow: hidden;"><span ref="flowSpanRef"
@@ -32,6 +32,8 @@ const titlePlaceholderRef = ref()
 const borderRef = ref()
 const flowSpanRef = ref()
 
+const wrapperRef = ref()
+
 watch(() => showPreloader.value || !preloadComplete.value, bool => {
   setTimeout(() => {
     hidePreloader.value = true
@@ -39,7 +41,18 @@ watch(() => showPreloader.value || !preloadComplete.value, bool => {
   }, 300)
 })
 
+const mapRouteBg = new Map([
+  ['index', ['#000000', '#ffffff']],
+  ['example2', ['#E03636', '#87F062']]
+])
+
 onMounted(() => {
+  
+  const route = useRoute()
+  const bg = mapRouteBg.get(route.name?.toString() || 'index')
+  wrapperRef.value.style.backgroundColor =  bg![0]
+  wrapperRef.value.style.color = bg![1]
+
 
   $manifest.callback = (i) => {
     index.value = i
@@ -114,7 +127,7 @@ onMounted(() => {
 
 
 .wrapper__preloader {
-  color: $primary;
+  color: currentColor;
   top: 0;
   left: 0;
   width: 100vw;
@@ -158,7 +171,7 @@ onMounted(() => {
 
     // width: calc(100% - 21rem);
     height: 2px;
-    background-color: $primary;
+    background-color: currentColor;
     position: absolute;
     bottom: 0;
   }
@@ -188,7 +201,7 @@ h1 {
 
   // width: calc(100% - 21rem);
   height: 2px;
-  background-color: $primary;
+  background-color: currentColor;
   position: absolute;
   bottom: 0;
 }

@@ -15,7 +15,7 @@ const bladeRef = ref()
 </script>
 
 <style lang="scss" scoped>
-@use '@/styles/sass/easing.sass' as *;
+@use '@/styles/sass/easing.scss' as *;
 .link__wrapper {
     width: 100%;
     height: 100%;

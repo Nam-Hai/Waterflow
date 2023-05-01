@@ -10,7 +10,6 @@ const indexOutExample2 = async ({ wrapperRef, waterFlowTitleRef}: any, resolve: 
     const canvasSize = $canvas.size.value
 
     const flowProvider = flowRef.value
-    console.error('flowProvider ffffff', flowProvider);
     tl.from({
         d: 400,
         el: wrapperRef.value,
