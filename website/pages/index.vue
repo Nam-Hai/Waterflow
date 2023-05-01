@@ -1,75 +1,162 @@
 <template>
-  <div class="wrapper__index">
-    <div class="title-placeholder" ref="titlePlaceholderRef">
-      <h1><span ref="titleSpanRef" style="opacity: 0;">WATER</span><span
-          style="display: inline-flex; overflow: hidden;"><span ref="flowSpanRef"
-            style="transform: translateX(-100%); opacity: 0;">FLOW</span></span></h1>
-    </div>
-    <div class="title">
-      <div ref="titleRef" style="transform-origin: center;">
-        WATER
+  <WaterflowTitle ref="waterFlowTitleRef" />
+  <div ref="heightHolderRef" style="margin-top: 28rem">
+  </div>
+  <div class="container-home" ref="wrapperRef">
+
+    <div id="home" class="wrapper-home" ref="contentRef">
+      <div class="page page-with-title">
+        <div class="grid-container">
+          <div class="left">
+            <h2 class="mask-split-line">
+              <span ref="titleSpanRef" style="transform: translate(-2%, -100%);">
+                <span ref="rotateRef">
+                  Do you even <span class="font-museo">flow</span> ?
+                </span>
+              </span>
+            </h2>
+            <p ref="pRef">Give your project by the power of the nature. Go with the flow and create
+              transitions that you always
+              dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
+              for page transitions crossfade.</p>
+            <h3 ref="headerRef">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
+
+            <Clipboard />
+
+            <div class="table">
+              <div class="table__cell">
+               <LinkTransition1 /> 
+              </div>
+              <div class="table__cell">
+                <LinkTransition2 />
+              </div>
+              <div class="table__cell">
+               <LinkTransition3 /> 
+              </div>
+            </div>
+            <!-- <HeroImage /> -->
+          </div>
+          <div class="right">
+            <Watermark />
+          </div>
+        </div>
       </div>
+      <SliceSlice1 />
+      <SliceSlice2 />
+      <SliceSlice3 />
+      <SliceSlice4 />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { usePageFlow } from '@nam-hai/water-flow'
+import { vOpacityFlow } from '@/directives/OpacityFlow'
+import { onFlow, usePageFlow } from '@nam-hai/water-flow';
+import { T } from '~/helpers/core/utils';
 
-const titleRef = ref()
+const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
-const titlePlaceholderRef = ref()
-const flowSpanRef = ref()
+const rotateRef = ref()
 
-const { $TL } = useNuxtApp()
+const wrapperRef = ref()
+const contentRef = ref()
+const heightHolderRef = ref()
+const waterFlowTitleRef = ref()
+const pRef = ref()
+const headerRef = ref()
 
+onMounted(() => {
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
+
+})
+
+useRO(() => {
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
+  const height = wrapperRef.value.getBoundingClientRect().height
+  heightHolderRef.value.style.height = height + 'px'
+  lenis.emit()
+})
+
+
+const { lenis } = useLenisScroll(({ current }) => {
+  T(contentRef.value, 0, -current, 'px')
+})
+
+onFlow(() => {
+  const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
+  $canvas.currentCanvasPage?.init()
+
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
+
+  let tl = new $TL()
+  tl.from({
+    el: titleSpanRef.value,
+    d: 1500,
+    p: {
+      y: [100, 0],
+      x: [-2, 0],
+      // rotateX: [70,0]
+    },
+    e: 'o3'
+  }).from({
+    el: rotateRef.value,
+    d: 1000,
+    p: {
+      // y: [100, 0],
+      // x: [-2,0],
+      rotateX: [-90, 0]
+    },
+    e: 'o3'
+  }).from({
+    el: pRef.value,
+    d: 1000,
+    p: {
+      o: [0, 1]
+    },
+    delay: 500
+  }).from({
+    el: headerRef.value,
+    d: 1000,
+    p: {
+      o: [0, 1]
+    },
+    delay: 500
+  }).from({
+    d: 2500,
+    delay: 500,
+    update: ({ progE }) => {
+      if (noiseWebGL) {
+        noiseWebGL.uAlpha.value = progE
+      }
+    }
+  }).play()
+})
 
 usePageFlow({
-  disablePointerEvent: false,
-  enableCrossfade: true,
   props: {
-    title: titleRef
+    waterFlowTitleRef
   },
-  flowOut: ({ title }, resolve) => {
-    const tl = new $TL()
-    const nextBounds = titleSpanRef.value.getBoundingClientRect()
-    const initBounds = titleRef.value.getBoundingClientRect()
-    const titlePlaceholderHeight = titlePlaceholderRef.value.clientHeight
-
-    console.log(titlePlaceholderHeight, nextBounds.height)
-
-    tl.from({
-      el: title.value,
-      d: 1000,
-      e: 'io4',
-      p: {
-        y: [0, - innerHeight / 2 + titlePlaceholderHeight / 2, 'px'],
-        x: [0, -innerWidth / 2 + nextBounds.x + nextBounds.width / 2, 'px'],
-        s: [1, nextBounds.height / initBounds.height]
-      },
-      cb: () => {
-        // console.log('test')
-      }
-    }).from({
-      d: 1000,
-      delay: 500,
-      e: 'o4',
-      p: {
-        x: [-100, 0]
-      },
-      el: flowSpanRef.value,
-      cb: resolve
-    }).from({
-      el: flowSpanRef.value,
-      d: 0,
-      delay: 500,
-      p: {
-        o: [0, 1],
-      }
-    })
-    tl.play()
+  enableCrossfade: true,
+  flowInCrossfade: ({ waterFlowTitleRef }, resolve) => {
+    console.log('test');
+    const tl = new $TL();
+    tl
+      .from({
+        el: waterFlowTitleRef.value.border,
+        p: {
+          s: [0, 1]
+        },
+        cb: resolve,
+        d: 1500,
+        delay: 500,
+        e: 'o3'
+      }).play()
   }
 })
+
 </script>
 
 <style scoped lang="scss">
@@ -77,70 +164,144 @@ usePageFlow({
 @use "@/styles/app/variables.scss" as *;
 @use "@/styles/shared.scss" as *;
 
-.wrapper__index {
-  color: $primary;
-  position: absolute;
-  top: 0;
-  left: 0;
+.container-home {
+  top: $title-height;
+  overflow: hidden;
+  position: fixed;
   width: 100vw;
+
+  @include breakpoint(mobile) {
+    top: $title-height-mobile + 1.6rem;
+  }
+}
+
+#home.wrapper {}
+
+.page {
   height: 100vh;
-  font-family: "Amarante";
-}
-
-.title-placeholder {}
-
-.title {
-  transform: translate(-50%, -50%);
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  font-size: 55rem;
-  text-align: center;
-}
-
-
-
-.title-placeholder {
-  height: $title-height;
-  width: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 
+  position: relative;
+  perspective: 1000px;
+}
+
+.page.page-with-title {
+  height: calc(100vh - $title-height);
+
   @include breakpoint(mobile) {
-    height: $title-height-mobile;
-    margin-top: 1.6rem;
+    height: calc(100vh - $title-height-mobile);
   }
 
-  .border {
-    width: 151.4rem;
+}
 
-    @include breakpoint(mobile) {
-      width: 32rem;
+.grid-container {
+  // padding: 2.4rem 10rem 4rem;
+  padding: 2.4rem 0rem 4rem;
+  margin: 0 auto;
+  width: 151.4rem;
+  display: flex;
+  flex-grow: 1;
+
+  .left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.6rem;
+    width: 50%;
+
+    p,
+    h3 {
+      opacity: 0;
     }
+  }
 
-    // width: calc(100% - 21rem);
-    height: 2px;
-    background-color: $primary;
-    position: absolute;
-    bottom: 0;
+  .right {
+    width: 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 
-h1 {
-  text-align: center;
-  font-family: Amarante;
-  font-size: 30rem;
-  font-weight: 400;
+span {
+  display: inline-block;
+}
 
-  // opacity: 0;
+.mask-split-line {
+  display: flex;
+  height: 9rem;
 
-  @include breakpoint(mobile) {
-    font-size: $title-height-mobile
+  >span {
+    perspective: 1000px;
   }
+}
+
+h2 {
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 100%;
+  margin-left: -0.4rem;
+  margin-bottom: -1rem;
+}
+
+p {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+h3 {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+div.title-container {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+}
+
+.hero-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.slice {
+  margin-top: 50vh;
+
+  &.slice-1 {
+    margin-top: 0;
+  }
+}
+
+.table {
+  width: 100%;
+  height: 24rem;
+  display: flex;
+  margin-top: auto;
+
+  .table__cell {
+    overflow: hidden;
+    flex-grow: 1;
+    border-top: 1px solid #FFFFFF15;
+    border-bottom: 1px solid #FFFFFF15;
+    border-right: 1px solid #FFFFFF15;
+    background-color: #ffffff0e;
+
+    &:first-child {
+      border-left: 1px solid #FFFFFF15;
+      border-top-left-radius: 1.4rem;
+      border-bottom-left-radius: 1.4rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 1.4rem;
+      border-bottom-right-radius: 1.4rem;
+    }
+  }
+
 }
 </style>

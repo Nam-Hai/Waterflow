@@ -10,14 +10,14 @@
 import { FlowProvider, provideFlowProvider } from '@nam-hai/water-flow'
 
 import index from '@/pages/index.vue';
-import home from '@/pages/home.vue';
+// import home from '@/pages/home.vue';
 
 const flowProvider = new FlowProvider()
 
 provideFlowProvider(flowProvider)
 
 flowProvider.registerPage('index', index)
-flowProvider.registerPage('home', home)
+// flowProvider.registerPage('home', home)
 
 onMounted(() => {
 })

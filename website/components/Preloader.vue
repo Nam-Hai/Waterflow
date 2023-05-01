@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper__preloader">
+
   </div>
 </template>
 
@@ -19,15 +20,15 @@ onMounted(() => {
     if (i == $manifest.length) {
       show.value = true
 
-      const route = useRoute()
-      if(route.name == 'home') return
+      // const route = useRoute()
+      // if(route.name == 'home') return
 
-      $canvas.onChange({ name: 'home' })
+      // $canvas.onChange({ name: 'home' })
 
-      $canvas.currentCanvasPage?.destroy()
-      $canvas.currentCanvasPage = $canvas.nextCanvasPage
+      // $canvas.currentCanvasPage?.destroy()
+      // $canvas.currentCanvasPage = $canvas.nextCanvasPage
 
-      router.push('/home')
+      // router.push('/home')
     }
   }
   $manifest.loadManifest()
@@ -48,5 +49,10 @@ onMounted(() => {
 .wrapper__preloader{
   z-index: 14;
   position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
 }
 </style>

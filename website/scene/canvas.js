@@ -4,14 +4,14 @@ import {
   Transform,
 } from "ogl";
 import { useFlowProvider } from "@nam-hai/water-flow";
-import homeCanvas from "./Pages/homeCanvas";
 
 import { N } from "~/helpers/namhai-utils";
 import { ROR } from "~/plugins/core/resize";
 import TitleMSDF from "./Components/TitleMSDF";
+import indexCanvas from "./Pages/indexCanvas";
 
 const CanvasRouteMap = new Map([
-  ['home', homeCanvas]
+  ['index', indexCanvas]
 ])
 export default class Canvas {
   constructor() {
