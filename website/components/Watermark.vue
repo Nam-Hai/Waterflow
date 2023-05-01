@@ -1,8 +1,10 @@
 <template>
-  <div class="wt-wrapper">
-    <span>A Nam Hai Library</span>
-    <span class="daffodil">- Be water</span>
-  </div>
+  <a href="https://twitter.com/_NamHai" target="_blank">
+    <div class="wt-wrapper">
+      <span>A Nam Hai Library</span>
+      <span class="daffodil">- Be water</span>
+    </div>
+  </a>
 </template>
 
 <script setup lang="ts">
