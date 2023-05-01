@@ -28,7 +28,7 @@ const wrapperRef = ref()
     width: 100%;
     height: 100%;
     // transform: translateY(-100%) scale(0.9);
-    translate: 0 -100%;
+    translate: 0 100%;
     scale: 0.9;
     transition: translate 500ms 500ms ease-out, scale 500ms 0ms ease;
     background-color: #141D4D;
