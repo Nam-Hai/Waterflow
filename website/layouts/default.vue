@@ -1,9 +1,10 @@
 <template>
-  <Preloader />
   <WebGLScene />
 
   <BufferPage>
-    <slot />
+    <Preloader>
+      <slot />
+    </Preloader>
   </BufferPage>
 </template>
 
