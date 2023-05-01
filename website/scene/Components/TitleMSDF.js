@@ -85,7 +85,6 @@ export default class TitleMSDF {
     const gl = this.gl
 
     const { $manifest } = useNuxtApp()
-    console.log('manifes', $manifest, this.gl, 'yoooo');
     const texture = $manifest.textures.font['msdf/Amarante-Regular.png']
 
     const tMap = { value: texture }

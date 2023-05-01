@@ -41,7 +41,6 @@
 <script lang="ts" setup>
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
-import { N } from '~/helpers/namhai-utils';
 import indexOutMap from './index.transition'
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
@@ -183,8 +182,6 @@ usePageFlow({
     top: $title-height-mobile + 1.6rem;
   }
 }
-
-#home.wrapper {}
 
 .page {
   height: 100vh;

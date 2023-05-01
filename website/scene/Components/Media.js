@@ -106,33 +106,6 @@ export default class Media {
       program
     })
     this.mesh.setParent(this.scene)
-
-    // const videoTexture = new Texture(this.gl, {
-    //   generateMipmaps: false,
-    //   width: 1280,
-    //   height: 720,
-    // });
-    //
-    // let video = document.createElement('video');
-    // video.src = 'images/loop.mp4';
-    //
-    // // Disclaimer: video autoplay is a confusing, constantly-changing browser feature.
-    // // The best approach is to never assume that it will work, and therefore prepare for a fallback.
-    // video.loop = true;
-    // video.muted = true;
-    // video.setAttribute('playsinline', 'playsinline');
-    // video.play();
-    //
-    // const { $RafR } = useNuxtApp()
-    // const raf = new $RafR(() => {
-    //   if (video.readyState >= video.HAVE_ENOUGH_DATA) {
-    //     if (!videoTexture.image) videoTexture.image = video;
-    //     videoTexture.needsUpdate = true;
-    //     this.mesh.program.uniforms.tMap.value = videoTexture
-    //   }
-    // })
-    // raf.run()
-
   }
 
   destroy() {
