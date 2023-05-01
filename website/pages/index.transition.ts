@@ -1,5 +1,3 @@
-import { useFlowProvider } from "@nam-hai/water-flow"
-import { N } from "~/helpers/namhai-utils"
 
 const indexOutExample2 = async ({ wrapperRef, waterFlowTitleRef}: any, resolve: () => void, { canvasWrapperRef, flowRef }: any) => {
     const { $TL, $canvas } = useNuxtApp()
