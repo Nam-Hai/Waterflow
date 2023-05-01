@@ -3,16 +3,24 @@
 
         <div class="container" ref="containerRef">
             <h2>Modular</h2>
-            <p>
-                Waterflow does not tie your project to use a specific tween library. Gsap, anime.js, Smooth-scroll or
-                whatever. You do you.
-            </p>
+            <div class="p__container">
+                <p ref="pRef">
+                    Waterflow does not tie your project to use a specific tween library. Gsap, anime.js, Smooth-scroll or
+                    whatever. You do you.
+                </p>
+                <p class="p__float">
+                    Waterflow does not tie your project to use a specific tween library. Gsap, anime.js, Smooth-scroll or
+                    whatever. You do you.
+                </p>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { Lerp } from '~/helpers/core/utils'
+import { N } from '~/helpers/namhai-utils'
+import { split } from '~/helpers/text'
 
 useLenisScroll(() => {
 })
@@ -42,6 +50,28 @@ useScrollEvent({
     },
 })
 
+const pRef = ref()
+const splitedPRef = ref()
+
+onMounted(() => {
+    split(pRef.value)
+    // split(h2Ref.value)
+    splitedPRef.value = N.getAll('span', pRef.value)
+})
+
+useScrollEvent({
+    el: containerRef,
+    end: -100,
+    onProgress(t) {
+        if (!splitedPRef.value.length) return
+        const index = Math.floor((splitedPRef.value.length) * t) || 0
+        for (let i = 0; i < splitedPRef.value.length; i++) {
+            N.O(splitedPRef.value[i], i >= index ? 0 : 1)
+
+        }
+    },
+})
+
 usePin({
     el: containerRef,
     start: 0,
@@ -50,13 +80,12 @@ usePin({
 
 </script>
 
-<style scoped lang="scss">
-
+<style lang="scss">
 $bg: #EBFF70;
 $primary: #55C187;
 $soft: #CDE057;
 
-.wrapper.slice {
+.wrapper.slice-3 {
     position: relative;
     height: 300vh;
     width: 100vw;
@@ -82,10 +111,31 @@ $soft: #CDE057;
 
         p {
             font-size: 3.2rem;
-            width: 82.3rem;
+            position: relative;
+            color: $primary;
+            z-index: 1;
+
+            span {
+                opacity: 0;
+            }
+        }
+
+        p.p__float {
+            z-index: 0;
+            position: absolute;
+            top: 0;
             color: $soft;
         }
     }
 
+    .p__container {
+        width: 82.3rem;
+        position: relative;
+
+
+        span {
+            transition: opacity 500ms;
+        }
+    }
 }
 </style>

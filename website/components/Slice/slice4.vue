@@ -72,11 +72,14 @@ $soft: #C12B2D;
 
         .left {
             width: 62.5%;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
 
             >.github {
-                height: 60rem;
+                max-height: 60rem;
+                height: 100%;
                 width: 100%;
                 background-color: #dddddd15;
             }

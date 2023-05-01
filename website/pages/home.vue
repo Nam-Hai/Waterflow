@@ -22,7 +22,19 @@
             <h3 ref="headerRef">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
 
             <Clipboard />
-            <HeroImage />
+
+            <div class="table">
+              <div class="table__cell">
+               <LinkTransition1 /> 
+              </div>
+              <div class="table__cell">
+                <LinkTransition2 />
+              </div>
+              <div class="table__cell">
+               <LinkTransition3 /> 
+              </div>
+            </div>
+            <!-- <HeroImage /> -->
           </div>
           <div class="right">
             <Watermark />
@@ -70,7 +82,7 @@ useRO(() => {
 
 const { lenis } = useLenisScroll(({ current }) => {
   T(contentRef.value, 0, -current, 'px')
-})  
+})
 
 onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
@@ -263,5 +275,33 @@ div.title-container {
   &.slice-1 {
     margin-top: 0;
   }
+}
+
+.table {
+  width: 100%;
+  height: 24rem;
+  display: flex;
+  margin-top: auto;
+
+  .table__cell {
+    overflow: hidden;
+    flex-grow: 1;
+    border-top: 1px solid #FFFFFF15;
+    border-bottom: 1px solid #FFFFFF15;
+    border-right: 1px solid #FFFFFF15;
+    background-color: #ffffff0e;
+
+    &:first-child {
+      border-left: 1px solid #FFFFFF15;
+      border-top-left-radius: 1.4rem;
+      border-bottom-left-radius: 1.4rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 1.4rem;
+      border-bottom-right-radius: 1.4rem;
+    }
+  }
+
 }
 </style>

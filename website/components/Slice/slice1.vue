@@ -109,6 +109,7 @@ $soft: #C12B2D;
         text-align: center;
         font-weight: 700;
         line-height: 1;
+        row-gap: 2rem;
 
         h2 {
             width: 121.9rem;
@@ -141,7 +142,7 @@ $soft: #C12B2D;
 
 
         span {
-            transition: opacity 200ms;
+            transition: opacity 500ms;
         }
     }
 }
