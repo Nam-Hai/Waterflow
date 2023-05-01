@@ -40,6 +40,7 @@ useScrollEvent({
     end: 0,
     onProgress: (t) => {
         if (!$canvas.currentCanvasPage) return
+        if(!$canvas.currentCanvasPage.noiseBackground) return
         const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
         const r = Lerp(bgColors[1][0], bgColors[2][0], t)
         const g = Lerp(bgColors[1][1], bgColors[2][1], t)

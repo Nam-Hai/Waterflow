@@ -1,7 +1,9 @@
 <template>
-    <div class="link__wrapper" ref="wrapperRef" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
-        <div v-for="i in 10" class="blade"></div>
-    </div>
+    <!-- <NuxtLink to="/example1"> -->
+        <div class="link__wrapper" ref="wrapperRef" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+            <div v-for="i in 10" class="blade"></div>
+        </div>
+    <!-- </NuxtLink> -->
 </template>
 
 <script lang="ts" setup>

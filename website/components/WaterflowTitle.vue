@@ -1,14 +1,12 @@
 <template>
   <div class="title-container">
-    <h1 ref="titleRef">WATERFLOW</h1>
+    <h1 :class="{ display: show }" ref="titleRef">WATERFLOW</h1>
     <div v-if="display" ref="borderRef" class="border"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onFlow } from '@nam-hai/water-flow';
-import { O } from '~/helpers/core/utils';
-import { Timeline } from '~/plugins/core/motion';
 
 const { $TL, $canvas } = useNuxtApp()
 
@@ -17,11 +15,17 @@ const titleRef = ref()
 
 const props = withDefaults(defineProps<{
   display?: boolean,
-  tl?: Ref<Timeline>
-}>(), { display: true, tl: undefined })
+  show?: boolean
+}>(), { display: true, tl: undefined, show: false })
 
 defineExpose({
   border: borderRef
+})
+
+onMounted(() => {
+
+  if (!props.display) return
+  borderRef.value.style.transform = 'scale(1)'
 })
 
 onFlow(() => {
@@ -29,21 +33,6 @@ onFlow(() => {
     $canvas.currentCanvasPage.addTitle(titleRef.value)
   }
 
-  if (!props.display) return
-
-  // let tl = new $TL
-
-  // tl.from({
-  //   el: borderRef.value,
-  //   p: {
-  //     scaleX: [0, 1],
-  //     o: [0, 1],
-  //   },
-  //   d: 1500,
-  //   e: 'o3'
-  // })
-
-  borderRef.value.style.transform = 'scale(1)'
 })
 
 </script>
@@ -78,7 +67,7 @@ onFlow(() => {
 
     // width: calc(100% - 21rem);
     height: 2px;
-    background-color: $primary;
+    background-color: currentColor;
     position: absolute;
     bottom: 0;
   }
@@ -91,6 +80,10 @@ h1 {
   font-weight: 400;
 
   opacity: 0;
+
+  &.display {
+    opacity: 1;
+  }
 
   @include breakpoint(mobile) {
     font-size: $title-height-mobile

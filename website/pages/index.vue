@@ -50,8 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { vOpacityFlow } from '@/directives/OpacityFlow'
-import { onFlow, usePageFlow } from '@nam-hai/water-flow';
+import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
@@ -79,15 +78,12 @@ useRO(() => {
   lenis.emit()
 })
 
-
 const { lenis } = useLenisScroll(({ current }) => {
   T(contentRef.value, 0, -current, 'px')
 })
 
 onFlow(() => {
   const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
-  $canvas.currentCanvasPage?.init()
-
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
 
@@ -98,7 +94,6 @@ onFlow(() => {
     p: {
       y: [100, 0],
       x: [-2, 0],
-      // rotateX: [70,0]
     },
     e: 'o3'
   }).from({
@@ -125,7 +120,7 @@ onFlow(() => {
     },
     delay: 500
   }).from({
-    d: 2500,
+    d: 2000,
     delay: 500,
     update: ({ progE }) => {
       if (noiseWebGL) {
@@ -135,28 +130,23 @@ onFlow(() => {
   }).play()
 })
 
+const flowProvider = useFlowProvider()
+
 usePageFlow({
-  props: {
-    waterFlowTitleRef
+  props: {},
+  enableCrossfade: 'TOP',
+  flowOut: async ({}, resolve)=>{
+    $canvas.onChange(flowProvider.getRouteTo())
+    await $canvas.nextCanvasPage?.init()
+    console.log('index next page');
+    $canvas.currentCanvasPage?.destroy()
+    $canvas.currentCanvasPage = $canvas.nextCanvasPage
+    resolve()
   },
-  enableCrossfade: true,
-  flowInCrossfade: ({ waterFlowTitleRef }, resolve) => {
-    console.log('test');
-    const tl = new $TL();
-    tl
-      .from({
-        el: waterFlowTitleRef.value.border,
-        p: {
-          s: [0, 1]
-        },
-        cb: resolve,
-        d: 1500,
-        delay: 500,
-        e: 'o3'
-      }).play()
+  flowInCrossfade: ({}, resolve)=>{
+    resolve()
   }
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -176,7 +166,6 @@ usePageFlow({
 }
 
 #home.wrapper {}
-
 .page {
   height: 100vh;
   display: flex;

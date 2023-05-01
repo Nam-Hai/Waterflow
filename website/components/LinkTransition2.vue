@@ -1,8 +1,10 @@
 <template>
-    <div class="link__wrapper" ref="wrapperRef">
-        <div class="blade" ref="bladeRef">
+    <NuxtLink to="/example2">
+        <div class="link__wrapper" ref="wrapperRef">
+            <div class="blade" ref="bladeRef">
+            </div>
         </div>
-    </div>
+    </NuxtLink>
 </template>
 
 <script lang="ts" setup>

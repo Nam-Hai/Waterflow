@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper__preloader" v-if="showPreloader || !preloadComplete">
+  <div class="wrapper__preloader" v-if="!hidePreloader">
     <div class="title-placeholder" ref="titlePlaceholderRef">
       <h1><span ref="titleSpanRef" style="opacity: 0;">WATER</span><span
           style="display: inline-flex; overflow: hidden;"><span ref="flowSpanRef"
@@ -20,6 +20,7 @@ import { onMounted, ref } from 'vue';
 import { N } from '~/helpers/namhai-utils';
 const showPage = ref(false)
 const showPreloader = ref(true)
+const hidePreloader = ref(false)
 const preloadComplete = ref(false)
 const index = ref(0)
 
@@ -31,6 +32,12 @@ const titlePlaceholderRef = ref()
 const borderRef = ref()
 const flowSpanRef = ref()
 
+watch(() => showPreloader.value || !preloadComplete.value, bool => {
+  setTimeout(() => {
+    hidePreloader.value = true
+    $canvas.currentCanvasPage?.init()
+  }, 300)
+})
 
 onMounted(() => {
 
@@ -98,7 +105,6 @@ onMounted(() => {
 @use "@/styles/shared.scss" as *;
 
 .wrapper__preloader {
-  z-index: 14;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -109,15 +115,12 @@ onMounted(() => {
 
 .wrapper__preloader {
   color: $primary;
-  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   font-family: "Amarante";
 }
-
-.title-placeholder {}
 
 .title {
   transform: translate(-50%, -50%);

@@ -61,7 +61,6 @@ export function usePageFlow<T>({
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
 
     let flowPromise = crossfadeExist ? provider.hijackFlow() : null
-    console.log(crossfadeExist, flowPromise)
     await Promise.all([promiseOut, flowPromise])
 
     next()
@@ -79,9 +78,7 @@ function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction
 
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
 
-
   let FlowFunction = getFlowFunction(key, flowMap, flow)
-  console.log(from.name, to.name, FlowFunction)
   return new Promise<void>(cb => {
     if (!FlowFunction) cb()
     else FlowFunction(props, cb, flowProps)

@@ -42,7 +42,7 @@ onMounted(() => {
 useScrollEvent({
     el: containerRef,
     end: -100,
-    onProgress(t) {
+    onProgress: (t) => {
         if (!splitedPRef.value.length) return
         const index = Math.floor((splitedPRef.value.length) * t) || 0
         for (let i = 0; i < splitedPRef.value.length; i++) {
@@ -64,6 +64,7 @@ useScrollEvent({
     end: 0,
     onProgress: (t) => {
         if (!$canvas.currentCanvasPage) return
+        if(!$canvas.currentCanvasPage.noiseBackground) return
         const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
         const flavorColors = $canvas.currentCanvasPage.noiseBackground.flavorColors
         const r = Lerp(bgColors[0][0], bgColors[1][0], t)

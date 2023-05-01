@@ -1,10 +1,10 @@
 <template>
-  <a href="https://twitter.com/_NamHai" target="_blank">
+  <NuxtLink to="https://twitter.com/_NamHai" target="_blank">
     <div class="wt-wrapper">
       <span>A Nam Hai Library</span>
       <span class="daffodil">- Be water</span>
     </div>
-  </a>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
