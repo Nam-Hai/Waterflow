@@ -8,6 +8,7 @@ import homeCanvas from "./Pages/homeCanvas";
 
 import { N } from "~/helpers/namhai-utils";
 import { ROR } from "~/plugins/core/resize";
+import TitleMSDF from "./Components/TitleMSDF";
 
 const CanvasRouteMap = new Map([
   ['home', homeCanvas]
@@ -35,16 +36,16 @@ export default class Canvas {
 
     this.size = ref({ width: 0, height: 0 })
 
-    // this.ro = new $ROR(this.resize)
     this.ro = new ROR(this.resize)
-
   }
 
   async init() {
+    this.titleMSDF = new TitleMSDF(this.gl)
     this.ro.on();
     const flowProvider = useFlowProvider()
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
+    await this.titleMSDF.init()
   }
 
   resize({ vh, vw, scale }) {
@@ -67,7 +68,7 @@ export default class Canvas {
   onChange(route) {
     const page = CanvasRouteMap.get(route.name)
     if (!page) return
-    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera })
+    this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera, titleMSDF: this.titleMSDF })
     // this.pages[route.name] = this.nextCanvasPage
   }
 

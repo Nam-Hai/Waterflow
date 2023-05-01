@@ -4,10 +4,9 @@ import Media from "../Components/Media"
 import { RenderTarget, Program, Mesh, Triangle } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
-import TitleMSDF from "../Components/TitleMSDF"
 
 export default class homeCanvas {
-  constructor({ gl, scene, camera }) {
+  constructor({ gl, scene, camera, titleMSDF }) {
     console.log('homeCanvas');
     this.gl = gl
     this.renderer = this.gl.renderer
@@ -21,13 +20,15 @@ export default class homeCanvas {
     this.canvasSize = useCanvasSize(() => {
       this.ro.trigger()
     })
-    this.target = new RenderTarget(this.gl)
+    this.target = new RenderTarget(this.gl, {
+      width: innerWidth,
+      height: innerHeight
+    })
     this.ro.trigger()
 
     this.raf = new $RafR(this.render)
 
-    this.titleMSDF = new TitleMSDF(this.gl)
-
+    this.titleMSDF = titleMSDF
     const noiseBackground = new NoiseBackground(this.gl)
     // noiseBackground.backgroundMesh.setParent(this.scene)
     // noiseBackground.mesh.setParent(this.scene)
@@ -41,7 +42,7 @@ export default class homeCanvas {
       threshold: 0.02,
       iteration: 5,
       screen: true,
-      enabled: false,
+      // enabled: false,
       direction: {
         x: 6,
         y: 6
@@ -66,11 +67,11 @@ export default class homeCanvas {
     })
   }
   async init() {
-    await this.titleMSDF.init()
     this.raf.run()
   }
 
   resize({ vh, vw, scale, breakpoint }) {
+    this.target.setSize(vw, vh)
   }
 
 
@@ -105,8 +106,8 @@ export default class homeCanvas {
     this.noiseBackground && this.noiseBackground.destroy()
     this.noiseBackground && (this.noiseBackground = null)
 
-    this.titleMSDF && this.titleMSDF.destroy()
-    this.titleMSDF = null
+    // this.titleMSDF && this.titleMSDF.destroy()
+    // this.titleMSDF = null
     this.destroyed = true
   }
 
