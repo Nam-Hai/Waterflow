@@ -23,6 +23,12 @@ const contentRef = ref()
 const titleWrapperRef = ref()
 
 const flowProvider = useFlowProvider()
+const { $TL, $lenis } = useNuxtApp()
+
+onMounted(()=>{
+  $lenis.dimensions.onWindowResize()
+  $lenis.dimensions.onContentResize()
+})
 
 onFlow(() => {
     N.O(wrapperRef.value, 1)
@@ -33,13 +39,28 @@ onFlow(() => {
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },
     flowInCrossfadeMap: example2InMap,
+    enableCrossfade: true,
     flowOut: async ({ }, resolve) => {
+        let tl = new $TL
         const { $canvas } = useNuxtApp()
         $canvas.onChange(flowProvider.getRouteTo())
         await $canvas.nextCanvasPage?.init()
         $canvas.currentCanvasPage?.destroy()
         $canvas.currentCanvasPage = $canvas.nextCanvasPage
-        resolve()
+
+        tl.from({
+            el: wrapperRef.value,
+            p: {
+                y: [0, 100]
+            },
+            d: 800,
+            e: 'io4',
+            cb: async () => {
+                resolve()
+            }
+        })
+        tl.play()
+
     }
 })
 </script>
@@ -61,6 +82,7 @@ usePageFlow({
 .title__wrapper {
     opacity: 0;
 }
+
 .content {
     padding: 2.4rem 0rem 4rem;
     margin: 0 auto;

@@ -58,6 +58,7 @@ onMounted(() => {
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
 
+  $lenis.scrollTo('top')
 })
 
 useRO(() => {
@@ -162,7 +163,20 @@ usePageFlow({
       .play()
   },
   flowInCrossfade: ({ }, resolve) => {
-    resolve()
+    let tl = new $TL
+    waterFlowTitleRef.value.border.style.transformOrigin = 'center'
+    tl.from({
+      el: waterFlowTitleRef.value.border,
+      p: {
+        scale: [0, 1]
+      },
+      d: 1000,
+      e: 'io4',
+      cb: () => {
+        resolve()
+      }
+    })
+    tl.play()
   }
 })
 </script>

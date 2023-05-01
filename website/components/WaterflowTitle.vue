@@ -23,7 +23,6 @@ defineExpose({
 })
 
 onMounted(() => {
-
   if (!props.display) return
   borderRef.value.style.transform = 'scale(1)'
 })

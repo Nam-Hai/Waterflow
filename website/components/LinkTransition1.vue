@@ -40,7 +40,7 @@ const onMouseEnter = () => {
             d: 200,
             delay: 50 * i,
             p: {
-                scaleX: [0, 1]
+                scaleX: [0, 1.05]
             }
         })
         i++
