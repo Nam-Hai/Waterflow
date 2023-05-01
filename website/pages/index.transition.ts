@@ -40,7 +40,7 @@ const indexOutExample2 = async ({ wrapperRef, waterFlowTitleRef}: any, resolve: 
             }
         })
     tl.from({
-        delay: 800,
+        delay: 1300,
         update() {
 
         },

@@ -11,7 +11,7 @@ const example2 = async ({ wrapperRef, contentRef, titleWrapperRef }: any, resolv
         el: wrapperRef.value,
         d: 500,
         delay: 800,
-        e: 'o4',
+        e: 'io4',
         p: {
             s: [0.8, 1]
         },
