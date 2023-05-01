@@ -47,7 +47,7 @@
     }
 
     >div {
-        transition: transform 400ms ease-in-out;
+        transition: transform 200ms ease-in-out;
         transform: translateY(0%);
     }
 
