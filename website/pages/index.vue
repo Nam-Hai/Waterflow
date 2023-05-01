@@ -23,17 +23,7 @@
 
             <Clipboard />
 
-            <div class="table">
-              <div class="table__cell">
-                <LinkTransition1 />
-              </div>
-              <div class="table__cell">
-                <LinkTransition2 />
-              </div>
-              <div class="table__cell">
-                <LinkTransition3 />
-              </div>
-            </div>
+            <Links />
           </div>
           <div class="right">
             <Watermark />
@@ -137,7 +127,7 @@ usePageFlow({
   },
   enableCrossfade: 'TOP',
   flowOutMap: indexOutMap,
-  flowOut: async ({ wrapperRef}, resolve, { canvasWrapperRef, flowRef}) => {
+  flowOut: async ({ wrapperRef }, resolve, { canvasWrapperRef, flowRef }) => {
     let tl = new $TL()
     const transiMesh = $canvas.currentCanvasPage.createTransiMesh()
     const canvasSize = $canvas.size.value
@@ -148,16 +138,16 @@ usePageFlow({
         o: [1, 0]
       }
     })
-    .from({
-      d:800,
-      delay: 400,
-      update: ({progE})=>{
-        transiMesh.position.y = canvasSize.height * (1 - progE)
-      }
-    })
+      .from({
+        d: 800,
+        delay: 400,
+        update: ({ progE }) => {
+          transiMesh.position.y = canvasSize.height * (1 - progE)
+        }
+      })
     tl.from({
       delay: 1200,
-      update(){
+      update() {
 
       },
       cb: async () => {
@@ -294,33 +284,5 @@ div.title-container {
   &.slice-1 {
     margin-top: 0;
   }
-}
-
-.table {
-  width: 100%;
-  height: 24rem;
-  display: flex;
-  margin-top: auto;
-
-  .table__cell {
-    overflow: hidden;
-    flex-grow: 1;
-    border-top: 1px solid #FFFFFF15;
-    border-bottom: 1px solid #FFFFFF15;
-    border-right: 1px solid #FFFFFF15;
-    background-color: #ffffff0e;
-
-    &:first-child {
-      border-left: 1px solid #FFFFFF15;
-      border-top-left-radius: 1.4rem;
-      border-bottom-left-radius: 1.4rem;
-    }
-
-    &:last-child {
-      border-top-right-radius: 1.4rem;
-      border-bottom-right-radius: 1.4rem;
-    }
-  }
-
 }
 </style>
