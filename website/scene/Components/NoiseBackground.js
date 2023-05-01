@@ -58,7 +58,6 @@ export default class NoiseBackground {
 
     lenis.on()
     this.raf.run()
-    // this.ro.on()
   }
   scroll(e) {
     this.scrollOffset = e.current
@@ -115,7 +114,6 @@ export default class NoiseBackground {
         },
       })
     })
-    // this.backgroundMesh.program.uniforms.uScale.value = 0.5
     this.backgroundMesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
 
 
@@ -124,7 +122,6 @@ export default class NoiseBackground {
       geometry
     })
 
-    // this.mesh.scale.set(this.canvasSize.value.width, this.canvasSize.value.height, 1)
     this.mesh.position.y = 0;
     this.mesh.position.z = -1
     this.mesh.rotation.x = -Math.PI / 3

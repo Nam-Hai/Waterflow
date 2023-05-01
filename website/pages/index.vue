@@ -25,16 +25,15 @@
 
             <div class="table">
               <div class="table__cell">
-               <LinkTransition1 /> 
+                <LinkTransition1 />
               </div>
               <div class="table__cell">
                 <LinkTransition2 />
               </div>
               <div class="table__cell">
-               <LinkTransition3 /> 
+                <LinkTransition3 />
               </div>
             </div>
-            <!-- <HeroImage /> -->
           </div>
           <div class="right">
             <Watermark />
@@ -52,6 +51,8 @@
 <script lang="ts" setup>
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
+import { N } from '~/helpers/namhai-utils';
+import indexOutMap from './index.transition'
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
@@ -100,8 +101,6 @@ onFlow(() => {
     el: rotateRef.value,
     d: 1000,
     p: {
-      // y: [100, 0],
-      // x: [-2,0],
       rotateX: [-90, 0]
     },
     e: 'o3'
@@ -120,8 +119,7 @@ onFlow(() => {
     },
     delay: 500
   }).from({
-    d: 2000,
-    delay: 500,
+    d: 1000,
     update: ({ progE }) => {
       if (noiseWebGL) {
         noiseWebGL.uAlpha.value = progE
@@ -133,17 +131,49 @@ onFlow(() => {
 const flowProvider = useFlowProvider()
 
 usePageFlow({
-  props: {},
-  enableCrossfade: 'TOP',
-  flowOut: async ({}, resolve)=>{
-    $canvas.onChange(flowProvider.getRouteTo())
-    await $canvas.nextCanvasPage?.init()
-    console.log('index next page');
-    $canvas.currentCanvasPage?.destroy()
-    $canvas.currentCanvasPage = $canvas.nextCanvasPage
-    resolve()
+  props: {
+    wrapperRef,
+    waterFlowTitleRef
   },
-  flowInCrossfade: ({}, resolve)=>{
+  enableCrossfade: 'TOP',
+  flowOutMap: indexOutMap,
+  flowOut: async ({ wrapperRef}, resolve, { canvasWrapperRef, flowRef}) => {
+    let tl = new $TL()
+    const noiseWebGL = $canvas.currentCanvasPage!.noiseBackground
+    const transiMesh = $canvas.currentCanvasPage.createTransiMesh()
+    const canvasSize = $canvas.size.value
+    tl.from({
+      d: 400,
+      el: wrapperRef.value,
+      p: {
+        o: [1, 0]
+      }
+    })
+    .from({
+      d:800,
+      delay: 400,
+      update: ({progE})=>{
+        transiMesh.position.y = canvasSize.height * (1 - progE)
+      }
+    })
+    tl.from({
+      delay: 1200,
+      update(){
+
+      },
+      cb: async () => {
+
+        canvasWrapperRef.value.style.zIndex = 15
+        $canvas.onChange(flowProvider.getRouteTo())
+        await $canvas.nextCanvasPage?.init()
+        $canvas.currentCanvasPage?.destroy()
+        $canvas.currentCanvasPage = $canvas.nextCanvasPage
+        resolve()
+      }
+    })
+      .play()
+  },
+  flowInCrossfade: ({ }, resolve) => {
     resolve()
   }
 })
@@ -166,6 +196,7 @@ usePageFlow({
 }
 
 #home.wrapper {}
+
 .page {
   height: 100vh;
   display: flex;

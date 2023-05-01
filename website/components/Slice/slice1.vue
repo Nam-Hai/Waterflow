@@ -143,7 +143,7 @@ $soft: #C12B2D;
 
 
         span {
-            transition: opacity 500ms;
+            transition: opacity 200ms;
         }
     }
 }

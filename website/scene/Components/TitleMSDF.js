@@ -18,10 +18,6 @@ export default class TitleMSDF {
     this.canvasSize = useCanvasSize(() => {
       this.ro.trigger()
     })
-    this.targetMask = new RenderTarget(this.gl, {
-      minFilter: this.gl.NEAREST
-    })
-    this.createMeshMask()
 
     this.uAlpha = { value: 1 }
 
@@ -51,8 +47,8 @@ export default class TitleMSDF {
 
   resize({ vh, vw, scale, breakpoint }) {
     // this.targetMask.setSize(vw, vh)
-    this.maskMesh.scale.y = this.canvasSize.value.height - 280 * scale * this.canvasSize.value.height / vh
-    this.maskMesh.position.y = -140 * scale * this.canvasSize.value.height / vh
+    // this.maskMesh.scale.y = this.canvasSize.value.height - 280 * scale * this.canvasSize.value.height / vh
+    // this.maskMesh.position.y = -140 * scale * this.canvasSize.value.height / vh
 
     const w = scale
     const h = scale
@@ -83,9 +79,6 @@ export default class TitleMSDF {
   }
 
   async createGeometryMobile() {
-
-    const { $manifest } = useNuxtApp()
-
   }
 
   async loadText() {
@@ -156,20 +149,6 @@ export default class TitleMSDF {
     this.meshMobile.setParent(this.scene)
   }
 
-  createMeshMask() {
-    const geometry = new Plane(this.gl)
-    const program = new Program(this.gl, {
-      fragment: fragmentMask,
-      vertex: basicVer,
-      uniforms: {
-      }
-    })
-    this.maskMesh = new Mesh(this.gl, { geometry, program })
-    this.maskMesh.scale.x = this.canvasSize.value.width
-
-    this.sceneMask = new Transform()
-    this.maskMesh.setParent(this.sceneMask)
-  }
 
   destroy() {
     this.ro.off()
@@ -199,12 +178,3 @@ void main() {
     color.a = alpha * uAlpha;
 }
 `;
-
-const fragmentMask = /* glsl */ `#version 300 es
-precision lowp float;
-in vec2 vUv;
-
-out vec4 FragColor;
-void main() {
-  FragColor = vec4(1.); 
-}`;

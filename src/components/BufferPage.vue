@@ -30,7 +30,7 @@ provider.connectBuffer(bufferRouteState, bufferTopZ)
 }
 
 .buffer-page__TOP {
-  z-index: 11;
+  z-index: 16;
 }
 
 #buffer-page__app {

@@ -1,23 +1,19 @@
-
-const example2 = ({ wrapperRef, contentRef, titleWrapperRef }: any, resolve: () => void) => {
-    const { $TL } = useNuxtApp()
+const example2 = async ({ wrapperRef, contentRef, titleWrapperRef }: any, resolve: () => void, { canvasWrapperRef }: any) => {
+    const { $TL, $canvas } = useNuxtApp()
     let tl = new $TL()
     tl.from({
         el: wrapperRef.value,
-        d: 750,
-        e: 'o4',
+        delay: 800,
         p: {
-            y: [100, 0],
-            s: [0.9, .9]
+            o: [1,1]
         },
     }).from({
         el: wrapperRef.value,
         d: 500,
-        delay: 750,
+        delay: 800,
         e: 'o4',
         p: {
-            y: [0, 0],
-            s: [0.9, 1]
+            s: [0.8, 1]
         },
         cb: () => {
             resolve()
@@ -28,16 +24,16 @@ const example2 = ({ wrapperRef, contentRef, titleWrapperRef }: any, resolve: () 
             o: [0, 1]
         },
         d: 500,
-        delay: 750
+        delay: 800
     }).from({
         el: titleWrapperRef.value,
         p: {
             o: [0, 1]
         },
         d: 500,
-        delay: 750
+        delay: 800
     })
-    .play()
+        .play()
 }
 
 const example2InMap = new Map([

@@ -1,7 +1,7 @@
 import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
 import Media from "../Components/Media"
-import { RenderTarget, Program, Mesh, Triangle } from 'ogl'
+import { RenderTarget, Program, Mesh, Plane } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
 
@@ -30,8 +30,6 @@ export default class homeCanvas {
 
     this.titleMSDF = titleMSDF
     const noiseBackground = new NoiseBackground(this.gl)
-    // noiseBackground.backgroundMesh.setParent(this.scene)
-    // noiseBackground.mesh.setParent(this.scene)
     this.noiseBackground = noiseBackground
 
 
@@ -58,8 +56,6 @@ export default class homeCanvas {
       fragment: fragmentComposer,
       uniforms: {
         tMap: { value: this.target.textures },
-        // tAlpha: { value: this.target.textures[1] },
-        tMask: { value: this.titleMSDF.targetMask.texture },
         tNoise: { value: null },
         tTitle: this.titleMSDF.post.uniform
       },
@@ -87,32 +83,53 @@ export default class homeCanvas {
       camera: this.camera,
       target: this.target
     })
-    this.renderer.render({
-      scene: this.titleMSDF.sceneMask,
-      camera: this.camera,
-      target: this.titleMSDF.targetMask
-    })
 
     this.postProcessor.render(e, {
       scene: this.noiseBackground.scene,
       camera: this.camera
     })
+
   }
+
+
 
   destroy() {
     this.raf.stop()
     // this.ro.off()
-    console.log('DESTROY CANVAS HOME');
+
     this.noiseBackground && this.noiseBackground.destroy()
     this.noiseBackground && (this.noiseBackground = null)
-
-    // this.titleMSDF && this.titleMSDF.destroy()
-    // this.titleMSDF = null
+    this.transiMesh.setParent(null)
+    this.transiMesh = null
     this.destroyed = true
   }
 
-  addTitle(el) {
-    console.log(el)
+  createTransiMesh() {
+    let geometry = new Plane(this.gl, {
+      heightSegments: 50
+    })
+    let program = new Program(this.gl, {
+      fragment,
+      vertex,
+      uniforms: {
+        uProg: {value:1}
+      },
+    })
+    let mesh = new Mesh(this.gl, { geometry, program })
+    mesh.scale.set(
+      this.canvasSize.value.width * 0.8,
+      this.canvasSize.value.height * 0.8,
+      1
+    )
+    mesh.position.set(
+      0,
+      this.canvasSize.value.height,
+      0
+    )
+
+    mesh.setParent(this.scene)
+    this.transiMesh = mesh
+    return this.transiMesh
   }
 
   addMedia(el) {
@@ -149,7 +166,38 @@ void main() {
   // vec4 alpha = texture(tAlpha, vUv);
   vec4 noise = texture(tNoise, vUv);
   vec4 title = texture(tTitle, vUv);
-  vec4 mask = texture(tMask, vUv);
-  color *= mask.a;
-  FragColor = color * (1. - title.a) + noise * (1. - color.a) * (1. - title.a) + title;
+
+  FragColor = color + noise * (1. - color.a) * (1. - title.a) + title * (1. -color.a);
+}`;
+
+
+const fragment = /* glsl */ `#version 300 es
+precision highp float;
+
+out vec4 FragColor;
+
+void main() {
+    vec4 color = vec4(0.878,0.212,0.212, 1.);
+    FragColor = color;
+}
+`
+
+const vertex = /* glsl */`#version 300 es
+precision highp float;
+
+in vec3 position;
+in vec2 uv;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform float uProg;
+
+out vec2 vUv;
+
+void main() {
+  vUv = uv;
+  vec4 newPos = modelViewMatrix * vec4(position, 1.);
+  float y= newPos.y;
+  newPos.z -= step(newPos.y, -.5) * (y+ 0.5) * (y + .5) * 0.3 * uProg;
+  gl_Position = projectionMatrix * newPos;
 }`;

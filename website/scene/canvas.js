@@ -9,17 +9,20 @@ import { N } from "~/helpers/namhai-utils";
 import { ROR } from "~/plugins/core/resize";
 import TitleMSDF from "./Components/TitleMSDF";
 import indexCanvas from "./Pages/indexCanvas";
+import example2Canvas from "./Pages/example2Canvas";
 
 const CanvasRouteMap = new Map([
-  ['index', indexCanvas]
+  ['example2', example2Canvas],
+  ['index', indexCanvas],
 ])
 export default class Canvas {
   constructor() {
     this.pages = {
-      home: null
+      index: null,
+      example2: null
     }
     this.renderer = new Renderer({
-      alpha: false,
+      alpha: true,
       antialias: true,
       dpr: devicePixelRatio,
     });
@@ -69,6 +72,7 @@ export default class Canvas {
     const page = CanvasRouteMap.get(route.name)
     if (!page) return
     this.nextCanvasPage = new page({ gl: this.gl, scene: this.scene, camera: this.camera, titleMSDF: this.titleMSDF })
+    this.pages[route.name] = this.nextCanvasPage
     // this.pages[route.name] = this.nextCanvasPage
   }
 

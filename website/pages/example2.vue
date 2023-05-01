@@ -1,5 +1,5 @@
 <template>
-    <div class="example-1__wrapper" ref="wrapperRef">
+    <div class="example-2__wrapper" ref="wrapperRef">
         <div ref="titleWrapperRef" class="title__wrapper">
             <WaterflowTitle :show="true"></WaterflowTitle>
         </div>
@@ -25,6 +25,7 @@ const titleWrapperRef = ref()
 const flowProvider = useFlowProvider()
 
 onFlow(() => {
+    N.O(wrapperRef.value, 1)
     N.O(contentRef.value, 1)
     N.O(titleWrapperRef.value, 1)
 })
@@ -43,8 +44,8 @@ usePageFlow({
 })
 </script>
 
-<style lang="scss">
-.example-1__wrapper {
+<style scoped lang="scss">
+.example-2__wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -54,6 +55,7 @@ usePageFlow({
     color: #87F062;
     display: flex;
     flex-direction: column;
+    opacity: 0;
 }
 
 .title__wrapper {

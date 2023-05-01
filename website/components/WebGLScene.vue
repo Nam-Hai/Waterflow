@@ -4,6 +4,8 @@
 </template>
 
 <script lang='ts' setup>
+import { useFlowProvider } from '@nam-hai/water-flow'
+
 
 
 const sceneRef = ref()
@@ -15,6 +17,11 @@ onMounted(() => {
   sceneRef.value = $canvas
   wrapperSceneRef.value.appendChild($canvas.gl.canvas)
 })
+
+const flowProvider = useFlowProvider()
+flowProvider.addProps('canvasWrapperRef', wrapperSceneRef)
+const flowRef = ref(flowProvider)
+flowProvider.addProps('flowRef', flowRef)
 
 onUnmounted(() => {
 
