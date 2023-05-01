@@ -1,78 +1,12 @@
 <template>
-    <div class="link__wrapper" ref="wrapperRef" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+    <div class="link__wrapper" ref="wrapperRef">
         <div class="blade" ref="bladeRef">
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { N } from '~/helpers/namhai-utils'
-
-
-const { $TL } = useNuxtApp()
 const wrapperRef = ref()
-const bladeRef = ref()
-let onLeave = false
-let onEnter = false
-
-// const onMouseLeave = () => {
-//     let tl = new $TL()
-//     onLeave = true
-
-//     if (onEnter) return
-
-//     tl.from({
-//         el: bladeRef.value,
-//         p: {
-//             y: [0, 100],
-//             s: [0.9, 0.9],
-//         },
-//         d: 500,
-//         delay: 500,
-//         e: 'o3',
-//         cb: () => {
-//             onLeave = false
-//             onEnter && onMouseEnter()
-//         }
-//     }).from({
-//         el: bladeRef.value,
-//         p: {
-//             s: [1, 0.9]
-//         },
-//         d: 500,
-//         delay: 0,
-//         e: 'o3'
-//     })
-//     tl.play()
-// }
-
-// const onMouseEnter = () => {
-//     onEnter = true
-//     if (onLeave) return
-//     let tl = new $TL()
-//     tl.from({
-//         el: bladeRef.value,
-//         p: {
-//             y: [-100, 0],
-//             s: [0.9, 0.9],
-//         },
-//         d: 500,
-//         e: 'o3'
-//     }).from({
-//         el: bladeRef.value,
-//         p: {
-//             s: [0.9, 1]
-//         },
-//         d: 500,
-//         delay: 500,
-//         e: 'o3',
-//         cb: () => {
-//             onEnter = false
-//             onLeave && onMouseLeave()
-//         }
-//     })
-//     tl.play()
-// }
 
 </script>
 
