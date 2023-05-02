@@ -1,4 +1,3 @@
-import example2Canvas from "~/scene/Pages/example2Canvas"
 import indexCanvas from "~/scene/Pages/indexCanvas"
 
 const indexOutExample2 = async ({ wrapperRef, waterFlowTitleRef }: any, resolve: () => void, { canvasWrapperRef, flowRef }: any) => {

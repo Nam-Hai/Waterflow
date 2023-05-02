@@ -1,6 +1,4 @@
 import { BM } from "~/helpers/core/utils"
-import { basicFrag } from "../shaders/BasicFrag"
-import { basicVer } from "../shaders/BasicVer"
 import { Program, Plane, Mesh } from 'ogl'
 
 export default class example2Canvas {
