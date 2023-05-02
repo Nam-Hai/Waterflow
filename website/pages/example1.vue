@@ -36,17 +36,12 @@ const fromPreloader = inject('from-preloader') as Ref<boolean>
 onMounted(() => {
     $lenis.dimensions.onWindowResize()
     $lenis.dimensions.onContentResize()
-
-
 })
 
 onFlow(() => {
     overflowRef.value.style.transition = 'none'
     overflowRef.value.style.width = 100 + 'vw'
-
 })
-
-
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },
@@ -86,26 +81,45 @@ usePageFlow({
         tl.play()
     },
     flowOut: async ({ }, resolve) => {
-        let tl = new $TL
+        const tl = new $TL
         const { $canvas } = useNuxtApp()
         $canvas.onChange(flowProvider.getRouteTo())
         await $canvas.nextCanvasPage?.init()
         $canvas.currentCanvasPage?.destroy()
         $canvas.currentCanvasPage = $canvas.nextCanvasPage
+        overflowRef.value.style.transition = 'width linear 750ms'
 
+        const blades = N.getAll('.blade', transitionRef.value)
+        const lenght = blades.length
+
+        for (let i = 0; i < blades.length; i++) {
+            tl.from({
+                el: blades[i] as HTMLElement,
+                p: {
+                    scaleX: [0, 1.03]
+                },
+                d: 200,
+                delay: 30 * (lenght - i),
+            }).from({
+                el: blades[i] as HTMLElement,
+                p: {
+                    scaleX: [1.03, .0]
+                },
+                d: 200,
+                delay: 200 + 30 * (lenght - i),
+            })
+        }
         tl.from({
-            el: wrapperRef.value,
-            p: {
-                y: [0, 100]
+            update: ({ progE }) => {
+                overflowRef.value.style.width = 0 + 'vw'
             },
-            d: 800,
-            e: 'io4',
-            cb: async () => {
+            delay: 180,
+            d: 30 * lenght,
+            cb: () => {
                 resolve()
             }
         })
         tl.play()
-
     }
 })
 </script>
