@@ -34,9 +34,12 @@ const flowSpanRef = ref()
 
 const wrapperRef = ref()
 
+const fromPreloader = inject('from-preloader')
+console.log('inject', fromPreloader);
 watch(() => showPreloader.value || !preloadComplete.value, bool => {
   setTimeout(() => {
     hidePreloader.value = true
+    fromPreloader.value = false
     $canvas.currentCanvasPage?.init()
   }, 300)
 })

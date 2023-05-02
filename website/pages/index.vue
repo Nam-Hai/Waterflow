@@ -48,6 +48,7 @@ const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
 const rotateRef = ref()
 
+const fromPreloader = inject('from-preloader')
 const wrapperRef = ref()
 const contentRef = ref()
 const heightHolderRef = ref()
@@ -80,6 +81,14 @@ onFlow(() => {
 
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
+
+  if (!fromPreloader.value) {
+    titleSpanRef.value.style.transform = "translate(0px , 0px)"
+    rotateRef.value.style.transform = "rotateX(0deg)"
+    pRef.value.style.opacity = '1'
+    headerRef.value.style.opacity = '1'
+    return
+  }
 
   let tl = new $TL()
   tl.from({
@@ -140,6 +149,10 @@ usePageFlow({
   flowInCrossfade: ({ }, resolve) => {
     let tl = new $TL
     waterFlowTitleRef.value.border.style.transformOrigin = 'center'
+
+    const indexCanvas = $canvas.pages.index as unknown as indexCanvas
+    const noiseWebGL = indexCanvas.noiseBackground
+
     tl.from({
       el: waterFlowTitleRef.value.border,
       p: {
@@ -150,8 +163,14 @@ usePageFlow({
       cb: () => {
         resolve()
       }
-    })
-    tl.play()
+    }).play()
+
+    noiseWebGL.uAlpha.value = 1
+    titleSpanRef.value.style.transform = "translate(0px , 0px)"
+    rotateRef.value.style.transform = "rotateX(0deg)"
+    pRef.value.style.opacity = '1'
+    headerRef.value.style.opacity = '1'
+
   }
 })
 </script>

@@ -25,9 +25,9 @@ const titleWrapperRef = ref()
 const flowProvider = useFlowProvider()
 const { $TL, $lenis } = useNuxtApp()
 
-onMounted(()=>{
-  $lenis.dimensions.onWindowResize()
-  $lenis.dimensions.onContentResize()
+onMounted(() => {
+    $lenis.dimensions.onWindowResize()
+    $lenis.dimensions.onContentResize()
 })
 
 onFlow(() => {
@@ -50,14 +50,25 @@ usePageFlow({
 
         tl.from({
             el: wrapperRef.value,
-            p: {
-                y: [0, 100]
-            },
+            delay: 400,
             d: 800,
+            p: {
+                y: [0, -100],
+                s: [0.8, 0.8]
+            },
             e: 'io4',
             cb: async () => {
                 resolve()
             }
+        })
+        tl.from({
+            el: wrapperRef.value,
+            p: {
+                y: [0, 0],
+                s: [1, 0.8]
+            },
+            d: 400,
+            e: 'io4',
         })
         tl.play()
 

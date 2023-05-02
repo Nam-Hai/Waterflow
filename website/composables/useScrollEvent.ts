@@ -1,3 +1,4 @@
+import { onFlow } from "@nam-hai/water-flow"
 import { N } from "~/helpers/namhai-utils"
 
 type useScrollEventOptions = {
@@ -40,6 +41,7 @@ export const useScrollEvent = ({
   })
 
   const { lenis } = useLenisScroll(() => {
+    if (!bounds.value) return
     const dist = window.scrollY - bounds.value.y + vh.value * vStart / 100 - bounds.value.height * eStart / 100
     const offset = N.Clamp(dist, 0, vh.value * (vStart - end) / 100)
 
@@ -53,7 +55,7 @@ export const useScrollEvent = ({
         lenis.stop()
       }
     }
-    onProgress && onProgress(t)
+    if (t > 0) onProgress && onProgress(t)
   })
 
   const intersectionObserver = ref() as Ref<IntersectionObserver>

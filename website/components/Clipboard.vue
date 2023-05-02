@@ -48,8 +48,11 @@ const showSuccessBox = ref(false)
 const timer = ref() as Ref<Timer>
 const timerBox = ref() as Ref<Timer>
 const timeline = ref() as Ref<Timeline>
+const fromPreloader = inject('from-preloader')
 
 onFlow(() => {
+    if(!fromPreloader.value) return
+
     timer.value = new $Timer(() => { showSuccess.value = false }, 400)
     timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 1000)
 

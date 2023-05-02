@@ -11,11 +11,14 @@ import { FlowProvider, provideFlowProvider } from '@nam-hai/water-flow'
 
 import index from '@/pages/index.vue';
 import Example2 from './pages/example2.vue';
+import { createContext } from '@nam-hai/water-flow/src/util/apiInject';
 // import home from '@/pages/home.vue';
 
 const flowProvider = new FlowProvider()
 
 provideFlowProvider(flowProvider)
+
+provide('from-preloader', {value: true})
 
 flowProvider.registerPage('index', index)
 flowProvider.registerPage('example2', Example2)

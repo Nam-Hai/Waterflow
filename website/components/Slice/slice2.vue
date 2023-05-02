@@ -39,6 +39,7 @@ useScrollEvent({
     vStart: 100,
     end: 0,
     onProgress: (t) => {
+        console.log('slice2', t);
         if (!$canvas.currentCanvasPage) return
         if(!$canvas.currentCanvasPage.noiseBackground) return
         const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
