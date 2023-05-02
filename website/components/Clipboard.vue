@@ -48,7 +48,7 @@ const showSuccessBox = ref(false)
 const timer = ref() as Ref<Timer>
 const timerBox = ref() as Ref<Timer>
 const timeline = ref() as Ref<Timeline>
-const fromPreloader = inject('from-preloader')
+const fromPreloader = inject('from-preloader') as Ref<boolean>
 
 onMounted(() => {
     if (!fromPreloader.value) {

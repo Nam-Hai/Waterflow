@@ -48,6 +48,7 @@ const mapRouteBg = new Map([
   ['index', ['#000000', '#ffffff']],
   ['example1', ['#E03636', '#87F062']],
   ['example2', ['#141D4D', '#A48A9B']],
+  ['example3', ['#FFF27A', '#FFFB8F']],
 ])
 
 onMounted(() => {

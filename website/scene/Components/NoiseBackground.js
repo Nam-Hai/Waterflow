@@ -171,7 +171,7 @@ float io3(float x) {
 void main() {
   float n1 = noise3d(vec3(vUv.x * 1. * uScale, vUv.y * 1. * uScale, uTime)) * 0.7;
   float n2 = noise3d(vec3(vUv.x * 2. * uScale, vUv.y * 5. * uScale + 56., 2982. + uTime));
-  n1 = io3(n1) * 1.;
+  n1 = io3(n1) * .5;
   n2 = io3(n2) * 1.;
 
   vec3 color1 = uFlavor1 * n1;

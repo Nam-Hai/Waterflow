@@ -1,7 +1,9 @@
 <template>
-    <div class="link__wrapper" ref="wrapperRef">
-        <div ref="bladeRef" class="blade"></div>
-    </div>
+    <NuxtLink to="/example3">
+        <div class="link__wrapper" ref="wrapperRef">
+            <div ref="bladeRef" class="blade"></div>
+        </div>
+    </NuxtLink>
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +18,7 @@ const bladeRef = ref()
 
 <style lang="scss" scoped>
 @use '@/styles/sass/easing.scss' as *;
+
 .link__wrapper {
     width: 100%;
     height: 100%;

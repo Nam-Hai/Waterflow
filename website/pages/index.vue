@@ -25,7 +25,7 @@
 
             <Links />
           </div>
-          <div class="right">
+          <div class="right" ref="watermarkContainerRef">
             <Watermark />
           </div>
         </div>
@@ -41,20 +41,21 @@
 <script lang="ts" setup>
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { T } from '~/helpers/core/utils';
-import indexOutMap from './index.transition'
+import { indexOutMap, indexInMap } from './index.transition'
 import indexCanvas from '~/scene/Pages/indexCanvas';
 
 const { $RafR, $TL, $lenis, $canvas } = useNuxtApp()
 const titleSpanRef = ref()
 const rotateRef = ref()
 
-const fromPreloader = inject('from-preloader')
+const fromPreloader = inject('from-preloader') as Ref<boolean>
 const wrapperRef = ref()
 const contentRef = ref()
 const heightHolderRef = ref()
 const waterFlowTitleRef = ref()
 const pRef = ref()
 const headerRef = ref()
+const watermarkContainerRef = ref()
 
 onMounted(() => {
   $lenis.dimensions.onWindowResize()
@@ -135,7 +136,12 @@ const flowProvider = useFlowProvider()
 usePageFlow({
   props: {
     wrapperRef,
-    waterFlowTitleRef
+    waterFlowTitleRef,
+    watermarkContainerRef,
+    titleSpanRef,
+    pRef,
+    headerRef,
+    rotateRef
   },
   enableCrossfade: 'TOP',
   flowOutMap: indexOutMap,
@@ -146,6 +152,7 @@ usePageFlow({
     $canvas.currentCanvasPage = $canvas.nextCanvasPage
     resolve()
   },
+  flowInCrossfadeMap: indexInMap,
   flowInCrossfade: ({ }, resolve) => {
     let tl = new $TL
     waterFlowTitleRef.value.border.style.transformOrigin = 'center'
@@ -170,7 +177,6 @@ usePageFlow({
     rotateRef.value.style.transform = "rotateX(0deg)"
     pRef.value.style.opacity = '1'
     headerRef.value.style.opacity = '1'
-
   }
 })
 </script>
