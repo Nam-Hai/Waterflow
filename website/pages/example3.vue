@@ -16,7 +16,6 @@
 <script lang="ts" setup>
 import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
 import { N } from '~/helpers/namhai-utils';
-import example2InMap from './example2.transition';
 
 const wrapperRef = ref()
 const contentRef = ref()
@@ -31,19 +30,14 @@ onMounted(() => {
 })
 
 onFlow(() => {
-    N.O(wrapperRef.value, 1)
-    N.O(contentRef.value, 1)
-    N.O(titleWrapperRef.value, 1)
 })
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },
-    flowInCrossfadeMap: example2InMap,
     enableCrossfade: true,
     flowInCrossfade: ({ }, resolve) => {
         let tl = new $TL
         const { $canvas } = useNuxtApp()
-
         tl.from({
             el: wrapperRef.value,
             d: 800,
@@ -77,7 +71,6 @@ usePageFlow({
             }
         })
         tl.play()
-
     }
 })
 </script>
@@ -93,11 +86,9 @@ usePageFlow({
     color: #FFFB8F;
     display: flex;
     flex-direction: column;
-    opacity: 0;
 }
 
 .title__wrapper {
-    opacity: 0;
 }
 
 .content {
@@ -106,7 +97,6 @@ usePageFlow({
     width: 151.4rem;
     display: flex;
     height: 100%;
-    opacity: 0;
 }
 
 .return {
