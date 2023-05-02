@@ -50,12 +50,18 @@ const timerBox = ref() as Ref<Timer>
 const timeline = ref() as Ref<Timeline>
 const fromPreloader = inject('from-preloader')
 
-onFlow(() => {
-    if(!fromPreloader.value) return
+onMounted(() => {
+    if (!fromPreloader.value) {
+        containerRef.value.style.opacity = 1
+        return
+    }
+})
 
+onFlow(() => {
     timer.value = new $Timer(() => { showSuccess.value = false }, 400)
     timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 1000)
 
+    if (!fromPreloader.value) return
     const lenght = clipText.length
 
     timeline.value = new $TL()
@@ -93,12 +99,13 @@ onFlow(() => {
             o: [0, 1]
         },
         delay: 500
-    }).from({
+    })
+    onFlowTL.from({
         d: 200,
         delay: 500,
         update: ({ prog }) => {
             let text = ''
-            for (let index = 0; index < Math.floor( Math.floor(Math.random()* 2 - 1)+lenght + (seed.value - 0.7) * 2 * 15); index++) {
+            for (let index = 0; index < Math.floor(Math.floor(Math.random() * 2 - 1) + lenght + (seed.value - 0.7) * 2 * 15); index++) {
                 const letter = Rand.arr(ASCII)
                 text += letter
             }
@@ -167,9 +174,10 @@ const copy = () => {
     }
 }
 
-.container:focus-visible{
+.container:focus-visible {
     outline: none;
 }
+
 .container:focus-visible .success__wrapper {
     transition-duration: 100ms;
     opacity: 1;
