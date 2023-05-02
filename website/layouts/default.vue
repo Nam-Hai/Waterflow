@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { BufferPage, useFlowProvider } from '~/../index';
+import { BufferPage, useFlowProvider } from '@nam-hai/water-flow';
 
 const { $lenis } = useNuxtApp()
 
