@@ -1,5 +1,5 @@
 <template>
-    <div class="slice wrapper slice-4">
+    <div class="slice wrapper slice-4" ref="wrapperRef">
         <div class="container" ref="containerRef">
             <div class="left">
                 <h3>contribute to this project</h3>
@@ -17,11 +17,12 @@
 import { Lerp } from '~/helpers/core/utils'
 
 const containerRef = ref()
+const wrapperRef = ref()
 const { $canvas } = useNuxtApp()
 
 
 useScrollEvent({
-    el: containerRef,
+    el: wrapperRef,
     vStart: 100,
     end: 0,
     onProgress: (t) => {

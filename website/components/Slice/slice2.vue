@@ -1,5 +1,5 @@
 <template>
-  <div class="slice wrapper slice-2">
+  <div class="slice wrapper slice-2" ref="wrapperRef">
 
     <div class="container" ref="containerRef">
       <div class="slice__header">
@@ -30,6 +30,7 @@ useLenisScroll(() => {
 })
 
 const containerRef = ref()
+const wrapperRef = ref()
 const endRef = ref(0)
 useResize(({ vh, vw }) => {
   endRef.value = vh * 4
@@ -39,7 +40,7 @@ useResize(({ vh, vw }) => {
 const { $canvas } = useNuxtApp()
 
 useScrollEvent({
-  el: containerRef,
+  el: wrapperRef,
   vStart: 100,
   end: 0,
   onProgress: (t) => {

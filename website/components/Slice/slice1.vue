@@ -1,5 +1,5 @@
 <template>
-  <div class="slice wrapper slice-1">
+  <div class="slice wrapper slice-1" ref='wrapperRef'>
 
     <div class="container" ref="containerRef">
       <h2 ref="h2Ref">Create smooth page transition</h2>
@@ -39,27 +39,22 @@ onMounted(() => {
 
 })
 
+const wrapperRef = ref()
 useScrollEvent({
-  el: containerRef,
+  el: wrapperRef,
   end: -100,
   onProgress: (t) => {
-    if (!splitedPRef.value.length) return
-    const index = Math.floor((splitedPRef.value.length) * t) || 0
-    for (let i = 0; i < splitedPRef.value.length; i++) {
-      N.O(splitedPRef.value[i], i >= index ? 0 : 1)
-
-    }
   },
 })
 
 useResize(({ vh, vw }) => {
-  endRef.value = vh * 2
+  endRef.value = vh * 4
 })
 
 const { $canvas } = useNuxtApp()
 
 useScrollEvent({
-  el: containerRef,
+  el: wrapperRef,
   vStart: 100,
   end: 0,
   onProgress: (t) => {
@@ -81,7 +76,15 @@ usePin({
   el: containerRef,
   // start: -100,
   start: 0,
-  end: endRef
+  end: endRef,
+  onProgress(t) {
+    if (!splitedPRef.value.length) return
+    const index = Math.floor((splitedPRef.value.length) * t) || 0
+    for (let i = 0; i < splitedPRef.value.length; i++) {
+      N.O(splitedPRef.value[i], i >= index ? 0 : 1)
+
+    }
+  },
 })
 
 </script>
@@ -94,7 +97,7 @@ $soft: #C12B2D;
 
 .wrapper.slice-1 {
   position: relative;
-  height: 300vh;
+  height: 500vh;
   width: 100vw;
 
 
@@ -143,7 +146,7 @@ $soft: #C12B2D;
 
 
     span {
-      transition: opacity 200ms;
+      transition: opacity 400ms;
     }
   }
 }
