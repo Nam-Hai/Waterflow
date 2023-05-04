@@ -184,15 +184,18 @@ const compositeScreenFragment = /* glsl */ `#version 300 es
   uniform sampler2D tBloom;
   uniform vec2 uResolution;
   uniform float uBloomStrength;
+  uniform float uTime;
 
   in vec2 vUv;
   out vec4 color;
 
   ${screen}
+  ${noise}
 
   void main() {
     vec4 tex = texture(tMap, vUv); 
     vec4 bloom = texture(tBloom, vUv) * uBloomStrength;
     color = screen(tex, bloom, .8);
+    color *= mix(0.85, 1.,noise(gl_FragCoord.xy, uTime * 100.));
   }
 `;
