@@ -4,6 +4,7 @@ import Media from "../Components/Media"
 import { RenderTarget, Program, Mesh, Plane } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
+import Slice3Canvas from "../Components/Slice3Canvas"
 
 export default class indexCanvas {
   constructor({ gl, scene, camera, titleMSDF }) {
@@ -52,12 +53,13 @@ export default class indexCanvas {
       // targetOnly: true
     })
       .addPassEffect(this.bloomPass)
-    this.postProcessor.addPass({
+    this.composerPass = this.postProcessor.addPass({
       fragment: fragmentComposer,
       uniforms: {
         tMap: { value: this.target.textures },
         tNoise: { value: null },
-        tTitle: this.titleMSDF.post.uniform
+        tTitle: this.titleMSDF.post.uniform,
+        uZindex: { value: 0 }
       },
       textureUniform: 'tNoise'
     })
@@ -98,9 +100,9 @@ export default class indexCanvas {
     // this.ro.off()
 
     this.noiseBackground && this.noiseBackground.destroy()
-    this.noiseBackground && (this.noiseBackground = null)
+    this.noiseBackground && (this.noiseBackground = undefined)
     this.transiMesh && this.transiMesh.setParent(null)
-    this.transiMesh = null
+    this.transiMesh = undefined
     this.destroyed = true
   }
 
@@ -112,7 +114,7 @@ export default class indexCanvas {
       fragment,
       vertex,
       uniforms: {
-        uProg: {value:1}
+        uProg: { value: 1 }
       },
     })
     let mesh = new Mesh(this.gl, { geometry, program })
@@ -127,11 +129,16 @@ export default class indexCanvas {
       0
     )
 
+    this.composerPass.program.uniforms.uZindex.value = 1;
+
     mesh.setParent(this.scene)
     this.transiMesh = mesh
     return this.transiMesh
   }
 
+  addSlice3(el) {
+    this.slice3 = new Slice3Canvas(this.gl, { el, scene: this.scene })
+  }
   addMedia(el) {
     this.media = new Media(this.gl, { el, scene: this.scene })
   }
@@ -158,6 +165,7 @@ uniform sampler2D tMap;
 uniform sampler2D tNoise;
 uniform sampler2D tTitle;
 uniform sampler2D tMask;
+uniform float uZindex;
 
 out vec4 FragColor;
 void main() {
@@ -167,7 +175,7 @@ void main() {
   vec4 noise = texture(tNoise, vUv);
   vec4 title = texture(tTitle, vUv);
 
-  FragColor = color + noise * (1. - color.a) * (1. - title.a) + title * (1. -color.a);
+  FragColor = color   + noise * (1. - color.a) * (1. - title.a) + title * (1. - color.a);
 }`;
 
 

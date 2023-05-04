@@ -4,7 +4,7 @@
             <div class="content-wrapper">
                 <div>Return</div>
                 <div class="bg-hover">
-                    Return
+                  <span>Return</span>
                 </div>
             </div>
         </div>
@@ -41,9 +41,10 @@
     }
 
     .bg-hover {
-        // position: absolute;
-        color: white;
-        background-color: #87F06290;
+        background: currentColor;
+        > span {
+          color: #00000050;
+        }
     }
 
     >div {

@@ -19,7 +19,7 @@
               transitions that you always
               dreamed of. Enable your creativity with Waterflow and make your website stand out. A Vue.js library
               for page transitions crossfade.</p>
-            <h3 ref="headerRef">Fast. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
+            <h3 ref="headerRef">Fast 🐢. Light. Modular. For <span class="secondary">Vue.js</span>.</h3>
 
             <Clipboard />
 
@@ -32,7 +32,6 @@
       </div>
       <SliceSlice1 />
       <SliceSlice2 />
-      <SliceSlice3 />
       <SliceSlice4 />
     </div>
   </div>
@@ -56,6 +55,9 @@ const waterFlowTitleRef = ref()
 const pRef = ref()
 const headerRef = ref()
 const watermarkContainerRef = ref()
+const slice3Ref = ref()
+const titleOpacity = ref()
+titleOpacity.value = ref(1)
 
 onMounted(() => {
   $lenis.dimensions.onWindowResize()

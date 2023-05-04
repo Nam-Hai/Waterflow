@@ -21,15 +21,11 @@ export const useScrollEvent = ({
 }: useScrollEventOptions) => {
   const hasEnter = ref(false)
   const bounds = ref() as Ref<DOMRect>
+  const progress = ref(0)
 
   const resize = () => {
     bounds.value = el.value.getBoundingClientRect()
     bounds.value.y = bounds.value.top + window.scrollY
-
-    // intersectionObserver.value.disconnect()
-    // lenis.run()
-    // lenis.emit()
-    // intersectionInit()
   }
 
   const { vh } = useResize(resize)
@@ -55,7 +51,9 @@ export const useScrollEvent = ({
         lenis.stop()
       }
     }
-    if (t > 0) onProgress && onProgress(t)
+    if(t == progress.value) return
+    progress.value = t
+    onProgress && onProgress(t)
   })
 
   const intersectionObserver = ref() as Ref<IntersectionObserver>

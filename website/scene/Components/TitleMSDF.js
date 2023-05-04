@@ -10,6 +10,11 @@ export default class TitleMSDF {
 
     this.breakpoint = ref()
 
+    this.uColor = { value: [0.933, 0.98, 0.918] }
+    this.colors = {
+      default: [0.933, 0.98, 0.918],
+      slice3: [0.333,0.757,0.529]
+    }
 
     this.scene = new Transform()
     const { $ROR } = useNuxtApp()
@@ -94,7 +99,8 @@ export default class TitleMSDF {
       fragment: fragment,
       uniforms: {
         tMap,
-        uAlpha: this.uAlpha
+        uAlpha: this.uAlpha,
+        uColor: this.uColor
       },
     });
     this.program = program
@@ -160,6 +166,7 @@ precision highp float;
 uniform sampler2D tMap;
 
 uniform float uAlpha;
+uniform vec3 uColor;
 in vec2 vUv;
 out vec4 color;
 
@@ -172,7 +179,7 @@ void main() {
     // if (alpha > 0.99) discard;
     if (alpha < 0.01) discard;
 
-    color.rgb = vec3(0.933,0.98,0.918) * uAlpha;
+    color.rgb = uColor* uAlpha;
     // color.rgb = vec3(1.,0.,0.2);
     color.a = alpha * uAlpha;
 }

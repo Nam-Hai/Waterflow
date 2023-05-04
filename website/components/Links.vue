@@ -20,6 +20,7 @@ const link2Ref = ref()
 const link3Ref = ref()
 
 const { $TL } = useNuxtApp()
+const durationStep = 500
 onFlow(()=>{
     let tl = new $TL
     tl.from({
@@ -27,26 +28,26 @@ onFlow(()=>{
         p: {
             scaleX: [0,1]
         },
-        d: 500,
-        e: 'io4'
+        d: durationStep,
+        e: 'io2'
     })
     .from({
         el: link2Ref.value,
         p: {
             scaleX: [0,1]
         },
-        d: 500,
-        delay: 500,
-        e: 'io4'
+        d: durationStep,
+        delay: durationStep,
+        e: 'io2'
     })
     .from({
         el: link3Ref.value,
         p: {
             scaleX: [0,1]
         },
-        d: 500,
-        delay: 1000,
-        e: 'io4'
+        d: durationStep,
+        delay: durationStep * 2,
+        e: 'io2'
     })
 
     tl.play()
@@ -67,7 +68,7 @@ onFlow(()=>{
         border-top: 1px solid #FFFFFF15;
         border-bottom: 1px solid #FFFFFF15;
         border-right: 1px solid #FFFFFF15;
-        background-color: #ffffff0e;
+        background-color: #ffffff20;
 
         transform: scaleX(0);
         transform-origin: left;

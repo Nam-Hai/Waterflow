@@ -15,7 +15,7 @@ const titleRef = ref()
 
 const props = withDefaults(defineProps<{
   display?: boolean,
-  show?: boolean
+  show?: boolean,
 }>(), { display: true, tl: undefined, show: false })
 
 defineExpose({

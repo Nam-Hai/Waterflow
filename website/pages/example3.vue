@@ -83,7 +83,8 @@ usePageFlow({
     width: 100vw;
     height: 100vh;
     background-color: #FFF27A;
-    color: #FFFB8F;
+
+    color: #46afff;
     display: flex;
     flex-direction: column;
 }

@@ -18,14 +18,12 @@ export default class NoiseBackground {
       new Color('#000000'),
       new Color('#E2383B'),
       new Color('#151E4D'),
-      new Color('#000000'),
       new Color('#000000')
     ]
 
     this.flavorColors = [
       [[0.024, 1., 0.18], [0.2, 0.4, 0.6]],
       [[0.788, 0.361, 0.302], [0.996, 0.255, 0.267]],
-      [ [0.996, 0.255, 0.267], [0.333,0.757,0.529]],
       [ [0.996, 0.255, 0.267], [0.333,0.757,0.529]]
     ]
     this.flavorColor1 = {

@@ -78,8 +78,6 @@ export default class Media {
   }
 
   createMesh() {
-
-
     const { $manifest} = useNuxtApp()
     console.log('media manifest', $manifest)
     const texture = $manifest.textures.images[this.el.getAttribute('data-src')]
@@ -112,6 +110,7 @@ export default class Media {
     this.lenis.off()
   }
 }
+
 const fragment = /* glsl */ `#version 300 es
 precision highp float;
 

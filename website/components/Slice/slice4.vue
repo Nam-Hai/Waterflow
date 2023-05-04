@@ -16,28 +16,29 @@
 <script setup lang="ts">
 import { Lerp } from '~/helpers/core/utils'
 
-useLenisScroll(() => {
-})
-
-
 const containerRef = ref()
 const { $canvas } = useNuxtApp()
+
 
 useScrollEvent({
     el: containerRef,
     vStart: 100,
     end: 0,
     onProgress: (t) => {
+        const title = $canvas.titleMSDF
+
         if (!$canvas.currentCanvasPage) return
-        if(!$canvas.currentCanvasPage.noiseBackground) return
+        if (!$canvas.currentCanvasPage.noiseBackground) return
         const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
-        const r = Lerp(bgColors[3][0], bgColors[4][0], t)
-        const g = Lerp(bgColors[3][1], bgColors[4][1], t)
-        const b = Lerp(bgColors[3][2], bgColors[4][2], t)
-        $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r,g,b]
+
+        const r = Lerp(bgColors[2][0], bgColors[3][0], t)
+        const g = Lerp(bgColors[2][1], bgColors[3][1], t)
+        const b = Lerp(bgColors[2][2], bgColors[3][2], t)
+        $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
         const flavorColors = $canvas.currentCanvasPage.noiseBackground.flavorColors
-        $canvas.currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[1][0][0], flavorColors[2][0][0],t), Lerp(flavorColors[1][0][1], flavorColors[2][0][1], t), Lerp(flavorColors[1][0][2], flavorColors[2][0][2],t)]
-        $canvas.currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[1][1][0], flavorColors[2][1][0],t), Lerp(flavorColors[1][1][1], flavorColors[2][1][1], t), Lerp(flavorColors[1][1][2], flavorColors[2][1][2],t)]
+        $canvas.currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[1][0][0], flavorColors[2][0][0], t), Lerp(flavorColors[1][0][1], flavorColors[2][0][1], t), Lerp(flavorColors[1][0][2], flavorColors[2][0][2], t)]
+
+        $canvas.currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[1][1][0], flavorColors[2][1][0], t), Lerp(flavorColors[1][1][1], flavorColors[2][1][1], t), Lerp(flavorColors[1][1][2], flavorColors[2][1][2], t)]
     },
 })
 

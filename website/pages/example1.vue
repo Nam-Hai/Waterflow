@@ -49,7 +49,7 @@ usePageFlow({
     flowInCrossfade: ({ }, resolve) => {
         const blades = N.getAll('.blade', transitionRef.value)
         const tl = new $TL
-        const lenght = blades.length
+        const length = blades.length
 
         for (let i = 0; i < blades.length; i++) {
             tl.from({
@@ -73,7 +73,7 @@ usePageFlow({
                 overflowRef.value.style.width = 100 + 'vw'
             },
             delay: 180,
-            d: 30 * lenght,
+            d: 30 * length,
             cb: () => {
                 resolve()
             }
@@ -90,7 +90,7 @@ usePageFlow({
         overflowRef.value.style.transition = 'width linear 750ms'
 
         const blades = N.getAll('.blade', transitionRef.value)
-        const lenght = blades.length
+        const length = blades.length
 
         for (let i = 0; i < blades.length; i++) {
             tl.from({
@@ -99,14 +99,14 @@ usePageFlow({
                     scaleX: [0, 1.03]
                 },
                 d: 200,
-                delay: 30 * (lenght - i),
+                delay: 30 * (length - i),
             }).from({
                 el: blades[i] as HTMLElement,
                 p: {
                     scaleX: [1.03, .0]
                 },
                 d: 200,
-                delay: 200 + 30 * (lenght - i),
+                delay: 200 + 30 * (length - i),
             })
         }
         tl.from({
@@ -114,7 +114,7 @@ usePageFlow({
                 overflowRef.value.style.width = 0 + 'vw'
             },
             delay: 180,
-            d: 30 * lenght,
+            d: 30 * length,
             cb: () => {
                 resolve()
             }

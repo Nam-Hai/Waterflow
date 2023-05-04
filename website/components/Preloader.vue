@@ -35,7 +35,7 @@ const flowSpanRef = ref()
 const wrapperRef = ref()
 
 const fromPreloader = inject('from-preloader')
-console.log('inject', fromPreloader);
+
 watch(() => showPreloader.value || !preloadComplete.value, bool => {
   setTimeout(() => {
     hidePreloader.value = true
@@ -48,7 +48,7 @@ const mapRouteBg = new Map([
   ['index', ['#000000', '#ffffff']],
   ['example1', ['#E03636', '#87F062']],
   ['example2', ['#141D4D', '#A48A9B']],
-  ['example3', ['#FFF27A', '#FFFB8F']],
+  ['example3', ['#FFF27A', '#46afff']]
 ])
 
 onMounted(() => {
@@ -116,7 +116,7 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "@/styles/shared.scss" as *;
 @use '@/styles/app/colors.scss' as *;
 @use "@/styles/app/variables.scss" as *;
