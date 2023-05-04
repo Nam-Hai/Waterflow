@@ -36,9 +36,9 @@ export const useScrollEvent = ({
     bounds.value.y = bounds.value.top + window.scrollY
   })
 
-  const { lenis } = useLenisScroll(() => {
+  const { lenis } = useLenisScroll(({ current }) => {
     if (!bounds.value) return
-    const dist = window.scrollY - bounds.value.y + vh.value * vStart / 100 - bounds.value.height * eStart / 100
+    const dist = current - bounds.value.y + vh.value * vStart / 100 - bounds.value.height * eStart / 100
     const offset = N.Clamp(dist, 0, vh.value * (vStart - end) / 100)
 
     const t = N.iLerp(offset / vh.value, 0, (vStart - end) / 100)
@@ -51,7 +51,7 @@ export const useScrollEvent = ({
         lenis.stop()
       }
     }
-    if(t == progress.value) return
+    if (t == progress.value) return
     progress.value = t
     onProgress && onProgress(t)
   })
