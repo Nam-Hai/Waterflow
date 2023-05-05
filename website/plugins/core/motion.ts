@@ -316,7 +316,7 @@ class Motion {
         const x = Has(t, "x") ? props[t.x].curr + props[t.x].unit : 0,
             y = Has(t, 'y') ? props[t.y].curr + props[t.y].unit : 0;
         const translate = !x && !y ? 0 : `translate3d(${x},${y},0)`,
-            r = Has(t, 'r') ? `${props[t.r].name == 'r' ? 'rotate': props[t.r].name}(${props[t.r].curr}deg)` : 0,
+            r = Has(t, 'r') ? `${props[t.r].name == 'r' ? 'rotate' : props[t.r].name}(${props[t.r].curr}deg)` : 0,
             s = Has(t, 's') ? `${props[t.s].name == 's' ? 'scale' : props[t.s].name}(${props[t.s].curr})` : 0;
         const transform = !translate && !r && !s ? 0 : [translate, r, s].filter(t => !!t).join(" "),
             o = Has(t, "o") ? props[t.o].curr : -1
@@ -333,9 +333,10 @@ class Motion {
     uLine() {
         if (!this.v.el) throw "el not specified for line motion"
         const line = this.v.line!
-        for (let index = 0; index < this.v.el.length - 1; index++) {
+        for (let index = 0; index < this.v.el.length; index++) {
             line.curr[index] = this.lerp(line.start[index], line.end[index]);
-            (this.v.el[index] as HTMLElement).style.strokeDasharray = '' + line.curr[index]
+
+            (this.v.el[index] as HTMLElement).style.strokeDashoffset = '' + line.curr[index]
         }
     }
     uSvg() {
@@ -343,19 +344,18 @@ class Motion {
         const svg = this.v.svg!
         let currTemp = ""
 
-        // console.log(svg.arrL);
         for (let index = 0; index < svg.arrL; index++) {
             svg.val[index] = isNaN(+svg.arr.start[index]) ? svg.arr.start[index] : this.lerp(svg.arr.start[index] as number, svg.arr.end[index] as number)
             currTemp += svg.val[index] + " "
             svg.curr = currTemp.trim()
         }
-        for (let index = 0; index < this.v.el.length - 1 && !Is.und(this.v.el[index]); index++) {
+        for (let index = 0; index < this.v.elL! && !Is.und(this.v.el[index]); index++) {
             (this.v.el![index] as HTMLElement).setAttribute(svg.attr, svg.curr)
         }
     }
 
     lerp(start: number, end: number) {
-        return(Lerp(start, end, this.v.progE))
+        return (Lerp(start, end, this.v.progE))
     }
 }
 
