@@ -20,12 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { title } from 'process'
-import { Ease } from '~/helpers/core/eases'
 import { Lerp } from '~/helpers/core/utils'
 import { N } from '~/helpers/namhai-utils'
 import { split } from '~/helpers/text'
-import indexCanvas from '~/scene/Pages/indexCanvas'
 
 
 const containerRef = ref()
