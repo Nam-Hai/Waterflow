@@ -4,7 +4,9 @@
             <div class="left">
                 <h3>contribute to this project</h3>
                 <h2>OPEN SOURCE</h2>
-                <div class="github"></div>
+                <div class="github">
+                    <GitHub />
+                </div>
             </div>
             <div class="right">
                 <Watermark />
@@ -49,9 +51,6 @@ useScrollEvent({
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
 
-$bg: #E2383B;
-$soft: #C12B2D;
-
 .wrapper.slice {
     position: relative;
     height: 100vh;
@@ -81,10 +80,11 @@ $soft: #C12B2D;
             justify-content: flex-end;
 
             >.github {
-                max-height: 60rem;
+                max-height: 40rem;
                 height: 100%;
                 width: 100%;
                 background-color: #dddddd15;
+                border: 0.1rem solid rgba(255, 255, 255, 0.0823529412);
             }
         }
 
@@ -95,7 +95,7 @@ $soft: #C12B2D;
 
         h3 {
             font-size: 4rem;
-            color: $soft;
+            color: white;
         }
 
         .right {

@@ -80,6 +80,7 @@ export interface MotionArgBasics {
     delay?: number,
     cb?: () => void,
     r?: number,
+    reverse?: boolean
 }
 
 export interface MotionArgP extends MotionArgBasics {
@@ -260,6 +261,9 @@ class Motion {
     vUpdate(arg: MotionArg = {}) {
         let s: 'start' | 'end' = Has(arg, 'reverse') ? 'start' : 'end'
 
+        this.v.e.curve = arg.e || this.v.e.curve
+        this.v.e.calc = Is.str(this.v.e.curve) ? Ease[this.v.e.curve] : Ease4(this.v.e.curve)
+
         if (Has(this.v, 'prop') && this.v.prop) {
             for (let prop of this.v.prop) {
                 prop.end = prop.origin[s]
@@ -269,21 +273,25 @@ class Motion {
                     Has(arg.p[prop.name], 'newStart') && (prop.start = (arg.p[prop.name] as { newStart: number }).newStart);
                 }
             }
+        } else if (Has(this.v, 'update')){
+            if(s == 'start') {
+                const ease = this.v.e.calc
+                this.v.e.calc = (t:number) => 1 - ease(t)
+            }
         } else if (Has(this.v, 'svg')) {
             // TODO
         } else if (Has(this.v, 'line')) {
             // TODO
-        }
+        } 
 
         this.v.d && (this.v.d.curr = Has(arg, 'd') ? arg.d! : Round(this.v.d!.origin - this.v.d!.curr + this.v.elapsed))
 
-        this.v.e.curve = arg.e || this.v.e.curve
-        this.v.e.calc = Is.str(this.v.e.curve) ? Ease[this.v.e.curve] : Ease4(this.v.e.curve)
         this.v.delay = (Has(arg, 'delay') ? arg : this.v).delay ?? 0
         this.v.cb = (Has(arg, "cb") ? arg : this.v).cb
 
         this.v.prog = this.v.progE = (this.v.d && this.v.d.curr === 0) ? 1 : 0
         this.delay = new Delay(this.initRaf, this.v.delay)
+
     }
 
     initRaf() {
