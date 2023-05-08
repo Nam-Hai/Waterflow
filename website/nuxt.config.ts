@@ -32,7 +32,17 @@ export default defineNuxtConfig({
                     rel: 'manifest',
                     href: 'site.webmanifest'
                 }
-            ]
+            ],
+            meta: [
+                {
+                    name: "description",
+                    content: "Waterflow"
+                },
+                {
+                    charset: 'utf-8'
+                }
+            ],
+            title: 'Waterflow'
         }
     }
 })
