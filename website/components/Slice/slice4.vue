@@ -52,6 +52,8 @@ useScrollEvent({
 
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
 
 .wrapper.slice {
     position: relative;
@@ -70,9 +72,14 @@ useScrollEvent({
         text-transform: uppercase;
         font-weight: 700;
 
-        padding: 28rem 0rem 4rem;
+        padding: $title-height 0rem 4rem;
         margin: 0 auto;
         width: 151.4rem;
+
+        @include breakpoint(mobile) {
+            width: 32rem;
+            padding: $title-height-mobile 0rem 4rem;
+        }
 
         .left {
             width: 62.5%;
@@ -81,7 +88,15 @@ useScrollEvent({
             flex-direction: column;
             justify-content: flex-end;
 
+            @include breakpoint(mobile) {
+                width: 100%;
+            }
+
             >.github {
+                @include breakpoint(mobile) {
+                    max-height: 20rem;
+                }
+
                 max-height: 40rem;
                 height: 100%;
                 width: 100%;
@@ -93,11 +108,19 @@ useScrollEvent({
         h2 {
             font-size: 12.8rem;
             color: $secondary;
+
+            @include breakpoint(mobile) {
+                font-size: 5rem;
+            }
         }
 
         h3 {
             font-size: 4rem;
             color: white;
+
+            @include breakpoint(mobile) {
+                font-size: 3rem;
+            }
         }
 
         .right {
@@ -105,6 +128,10 @@ useScrollEvent({
             justify-content: flex-end;
             align-items: flex-end;
             text-transform: initial;
+
+            @include breakpoint(mobile) {
+                display: none;
+            }
         }
     }
 

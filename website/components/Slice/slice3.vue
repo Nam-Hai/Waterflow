@@ -23,6 +23,7 @@
 import { Lerp } from '~/helpers/core/utils'
 import { N } from '~/helpers/namhai-utils'
 import { split } from '~/helpers/text'
+import indexCanvas from '~/scene/Pages/indexCanvas'
 
 
 const containerRef = ref()
@@ -59,14 +60,14 @@ useScrollEvent({
   onProgress: (t) => {
     // props.titleOpacity = t
     if (!$canvas.currentCanvasPage) return
-    if (!$canvas.currentCanvasPage.noiseBackground) return
+    const currentCanvasPage = $canvas.currentCanvasPage as any as indexCanvas
+    if (!currentCanvasPage.noiseBackground) return
 
-    const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
+    const bgColors = currentCanvasPage.noiseBackground.bgColors
     const r = Lerp(bgColors[2][0], bgColors[0][0], t)
     const g = Lerp(bgColors[2][1], bgColors[0][1], t)
     const b = Lerp(bgColors[2][2], bgColors[0][2], t)
-    // $canvas.currentCanvasPage.noiseBackground.uAlpha.value = 1 - t
-    $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
+    currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
   },
 })
 

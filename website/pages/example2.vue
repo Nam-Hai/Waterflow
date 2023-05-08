@@ -77,6 +77,7 @@ usePageFlow({
 </script>
 
 <style scoped lang="scss">
+@use "@/styles/shared.scss" as *;
 .example-2__wrapper {
     position: absolute;
     top: 0;
@@ -92,15 +93,25 @@ usePageFlow({
 
 .title__wrapper {
     opacity: 0;
+    position: relative;
 }
 
+.title-container{
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+}
 .content {
     padding: 2.4rem 0rem 4rem;
     margin: 0 auto;
-    width: 151.4rem;
     display: flex;
     height: 100%;
     opacity: 0;
+    width: 151.4rem;
+
+    @include breakpoint(mobile){
+        width: 32rem;
+    };
 }
 
 .return {

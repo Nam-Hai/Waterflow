@@ -34,7 +34,7 @@ const flowSpanRef = ref()
 
 const wrapperRef = ref()
 
-const fromPreloader = inject('from-preloader')
+const fromPreloader = inject('from-preloader') as Ref<boolean>
 
 watch(() => showPreloader.value || !preloadComplete.value, bool => {
   setTimeout(() => {
@@ -138,6 +138,10 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   font-family: "Amarante";
+
+  @include breakpoint(mobile) {
+    margin-top: 1.6rem;
+  }
 }
 
 .title {
@@ -155,7 +159,9 @@ onMounted(() => {
 
 .title-placeholder {
   height: $title-height;
-  width: 100%;
+  width: 120vw;
+  left: 50%;
+  transform: translateX(-50%);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -164,7 +170,6 @@ onMounted(() => {
 
   @include breakpoint(mobile) {
     height: $title-height-mobile;
-    margin-top: 1.6rem;
   }
 
   .border {

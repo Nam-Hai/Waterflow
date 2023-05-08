@@ -1,6 +1,6 @@
 <template>
   <WaterflowTitle ref="waterFlowTitleRef" />
-  <div ref="heightHolderRef" style="margin-top: 28rem">
+  <div ref="heightHolderRef" class="placeholder-scroll">
   </div>
   <div class="container-home" ref="wrapperRef">
 
@@ -199,6 +199,12 @@ usePageFlow({
   }
 }
 
+.placeholder-scroll {
+  margin-top: $title-height;
+  @include breakpoint(mobile) {
+    margin-top: $title-height-mobile;
+  }
+}
 .page {
   height: 100vh;
   display: flex;
@@ -219,7 +225,11 @@ usePageFlow({
 }
 
 .grid-container {
-  // padding: 2.4rem 10rem 4rem;
+  @include breakpoint(mobile) {
+    width: 32rem;
+    flex-direction: column;
+  }
+
   padding: 2.4rem 0rem 4rem;
   margin: 0 auto;
   width: 151.4rem;
@@ -233,6 +243,11 @@ usePageFlow({
     row-gap: 1.6rem;
     width: 50%;
 
+    @include breakpoint(mobile){
+      width: 100%;
+      height: 100%;
+    }
+
     p,
     h3 {
       opacity: 0;
@@ -244,6 +259,10 @@ usePageFlow({
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+
+    @include breakpoint(mobile){
+      display: none;
+    }
   }
 }
 
@@ -254,6 +273,9 @@ span {
 .mask-split-line {
   display: flex;
   height: 9rem;
+  @include breakpoint(mobile){
+    height: 3.2rem;
+  }
 
   >span {
     perspective: 1000px;
@@ -266,24 +288,37 @@ h2 {
   line-height: 100%;
   margin-left: -0.4rem;
   margin-bottom: -1rem;
+
+  @include breakpoint(mobile){
+    margin-left: 0rem;
+    font-size: 3.2rem;
+  }
 }
 
 p {
   font-size: 2rem;
   font-weight: 400;
   line-height: 100%;
+  @include breakpoint(mobile){
+    font-size: 1.4rem;
+  }
 }
 
 h3 {
   font-size: 4rem;
   font-weight: 700;
   line-height: 100%;
+  @include breakpoint(mobile){
+    font-size: 2.4rem;
+  }
 }
 
 div.title-container {
   position: fixed;
   z-index: 9;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .hero-wrapper {

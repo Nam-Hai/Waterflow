@@ -39,8 +39,7 @@ onFlow(() => {
 
 .title-container {
   height: $title-height;
-  width: 100%;
-  position: relative;
+  width: 120vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

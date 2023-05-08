@@ -4,7 +4,8 @@
 
             <div class="arrows__wrapper">
                 <div v-for="i in 8" class="arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" :style="`transform: rotate(${Lerp(0, 180, i/9)}deg)`">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                        :style="`transform: rotate(${Lerp(0, 180, i / 9)}deg)`">
                         <path fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10"
                             stroke-width="48" d="M268 112l144 144-144 144M392 256H100" />
                     </svg>
@@ -19,7 +20,8 @@
 
             <div class="arrows__wrapper">
                 <div v-for="i in 8" class="arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" :style="`transform: rotate(${Lerp(0, -180, i/9)}deg)`">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                        :style="`transform: rotate(${Lerp(0, -180, i / 9)}deg)`">
                         <path fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10"
                             stroke-width="48" d="M268 112l144 144-144 144M392 256H100" />
                     </svg>
@@ -89,6 +91,8 @@ function mouseLeave() {
 
 <style scoped lang="scss">
 @use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
 
 .wrapper-github {
     width: 100%;
@@ -99,6 +103,11 @@ function mouseLeave() {
     justify-content: center;
     align-items: center;
     font-size: 10rem;
+    overflow: hidden;
+
+    @include breakpoint(mobile) {
+        font-size: 4rem;
+    }
 
     .arrows__wrapper {
         position: relative;
@@ -116,6 +125,11 @@ function mouseLeave() {
         height: 10rem;
         width: 10rem;
         right: 0;
+
+        @include breakpoint(mobile) {
+            width: 8rem;
+            height: 8rem;
+        }
     }
 
     .github-text {
@@ -128,6 +142,11 @@ function mouseLeave() {
         z-index: 1;
 
         top: -1rem;
+
+        @include breakpoint(mobile) {
+            padding: 0 2rem;
+            top: -0.5rem;
+        }
     }
 
     .background {

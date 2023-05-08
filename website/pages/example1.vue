@@ -125,6 +125,7 @@ usePageFlow({
 </script>
 
 <style scoped lang="scss">
+@use "@/styles/shared.scss" as *;
 .transition__wrapper {
     position: absolute;
     top: 0;
@@ -168,7 +169,14 @@ usePageFlow({
     flex-direction: column;
 }
 
-.title__wrapper {}
+.title__wrapper {
+    position: relative;
+}
+.title-container{
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+}
 
 .content {
     padding: 2.4rem 0rem 4rem;
@@ -176,6 +184,10 @@ usePageFlow({
     width: 151.4rem;
     display: flex;
     height: 100%;
+
+    @include breakpoint(mobile){
+        width: 32rem;
+    };
 }
 
 .return {

@@ -177,9 +177,19 @@ usePin({
 </script>
 
 <style scoped lang="scss">
+@use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
+
 $primary: #F0D6F4;
 $bg: #151E4D;
 $soft: #2A356B;
+
+.title-mobile {
+  position: absolute;
+  top: 20rem;
+  font-size: 4rem;
+}
 
 .wrapper.slice {
   position: relative;
@@ -187,9 +197,13 @@ $soft: #2A356B;
   width: 100vw;
   display: flex;
   justify-content: center;
+  // flex-direction: column;
+  // justify-content: flex-start;
+  // align-items: center;
 
   .container {
-    padding-top: 28rem;
+    position: relative;
+    padding-top: $title-height;
     height: 100vh;
     width: 154rem;
     display: flex;
@@ -202,6 +216,11 @@ $soft: #2A356B;
     font-weight: 700;
     position: relative;
 
+    @include breakpoint(mobile) {
+      width: 32rem;
+      padding-top: $title-height-mobile;
+    }
+
     .displayer {
       position: relative;
       display: flex;
@@ -211,9 +230,16 @@ $soft: #2A356B;
         position: absolute;
         width: 25rem;
         height: 25rem;
+
+        @include breakpoint(mobile) {
+          width: 10rem;
+          height: 10rem
+        }
+
         border-radius: 1rem;
         transform: rotate(15deg);
-        transition: opacity 300ms, transform 300ms;
+        transition: opacity 300ms,
+        transform 300ms;
 
         &.layer-1 {
           background-color: #627378;
@@ -221,6 +247,12 @@ $soft: #2A356B;
           top: -20rem;
           opacity: 0;
           transform: translate(-10px, -45px) rotate(10deg);
+
+          @include breakpoint(mobile) {
+            left: 5rem;
+            top: -7rem;
+            transform: translate(-5px, -25px) rotate(10deg);
+          }
 
           &.active {
             transform: translate(0, 0) rotate(15deg);
@@ -235,6 +267,11 @@ $soft: #2A356B;
           transform: translateY(-20rem);
           opacity: 0;
           transition: opacity 300ms;
+
+          @include breakpoint(mobile) {
+            left: 2rem;
+            top: -6rem;
+          }
 
           &.active {
             opacity: 1;
@@ -257,11 +294,19 @@ $soft: #2A356B;
     h2 {
       font-size: 11rem;
       color: $primary;
+
+      @include breakpoint(mobile) {
+        font-size: 4rem;
+      }
     }
 
     p {
       font-size: 2.6rem;
       color: $primary;
+      @include breakpoint(mobile) {
+        font-size: 1.4rem;
+        display: none;
+      }
     }
 
     .slice__header {
@@ -270,6 +315,12 @@ $soft: #2A356B;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      @include breakpoint(mobile) {
+        position: absolute;
+        width: 30rem;
+        top: 10rem;
+      }
     }
 
     .displayer {
@@ -279,6 +330,12 @@ $soft: #2A356B;
     .flavor-text {
       // width: 25rem;
       font-size: 2.4rem;
+
+      @include breakpoint(mobile) {
+        font-size: 1.6rem;
+        width: 25rem;
+      }
+
       color: $primary;
       position: relative;
       width: 30rem;
@@ -301,14 +358,32 @@ $soft: #2A356B;
 
       .mount__wrapper {
         top: -5rem;
+
+        @include breakpoint(mobile) {
+          top: -2rem
+        }
       }
 
       .crossfade__wrapper {
-        top: -2.5rem
+        top: -2.5rem;
+
+        @include breakpoint(mobile) {
+          top: -2rem
+        }
+      }
+
+      .change-page__wrapper {
+        @include breakpoint(mobile) {
+          top: -2rem
+        }
       }
 
       .unmount__wrapper {
-        top: 2.5rem
+        top: 2.5rem;
+
+        @include breakpoint(mobile) {
+          top: -2rem
+        }
       }
 
 

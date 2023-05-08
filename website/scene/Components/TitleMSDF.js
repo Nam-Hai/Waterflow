@@ -13,7 +13,7 @@ export default class TitleMSDF {
     this.uColor = { value: [0.933, 0.98, 0.918] }
     this.colors = {
       default: [0.933, 0.98, 0.918],
-      slice3: [0.333,0.757,0.529]
+      slice3: [0.333, 0.757, 0.529]
     }
 
     this.scene = new Transform()
@@ -64,14 +64,13 @@ export default class TitleMSDF {
     let y = -14 * scale * this.canvasSize.value.height / vh
     if (breakpoint == 'mobile') {
       this.fluidPass.setTextPosition(50, 32)
-      // this.fluidPass.pass.mesh.position.y += this.canvasSize.value.height / 2 - 8 * this.canvasSize.value.height / innerHeight
+      this.fluidPass.pass.mesh.position.y = y + this.canvasSize.value.height / 2 + 3.2* scale * this.canvasSize.value.height / vh
       if (this.breakpoint.value == breakpoint) return
       this.breakpoint.value = breakpoint
       this.meshMobile.setParent(this.scene)
       this.mesh.setParent(null)
     } else {
       // this.fluidPass.pass.mesh.position.y += this.canvasSize.value.height / 2
-      console.log(scale, this.canvasSize.value.height, vh)
       this.fluidPass.pass.mesh.position.y = y + this.canvasSize.value.height / 2 - (140 - 187.5) * scale * this.canvasSize.value.height / vh
       this.fluidPass.setTextPosition(40, 160)
 

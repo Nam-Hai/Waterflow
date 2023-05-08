@@ -22,6 +22,7 @@
 import { Lerp, getAll } from '~/helpers/core/utils'
 import { N } from '~/helpers/namhai-utils'
 import { split } from '~/helpers/text'
+import indexCanvas from '~/scene/Pages/indexCanvas'
 
 useLenisScroll(() => {
 })
@@ -59,15 +60,16 @@ useScrollEvent({
   end: 0,
   onProgress: (t) => {
     if (!$canvas.currentCanvasPage) return
-    if (!$canvas.currentCanvasPage.noiseBackground) return
-    const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
-    const flavorColors = $canvas.currentCanvasPage.noiseBackground.flavorColors
+    const currentCanvasPage = $canvas.currentCanvasPage as any as indexCanvas
+    if (!currentCanvasPage.noiseBackground) return
+    const bgColors = currentCanvasPage.noiseBackground.bgColors
+    const flavorColors = currentCanvasPage.noiseBackground.flavorColors
     const r = Lerp(bgColors[0][0], bgColors[1][0], t)
     const g = Lerp(bgColors[0][1], bgColors[1][1], t)
     const b = Lerp(bgColors[0][2], bgColors[1][2], t)
-    $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
-    $canvas.currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[0][0][0], flavorColors[1][0][0], t), Lerp(flavorColors[0][0][1], flavorColors[1][0][1], t), Lerp(flavorColors[0][0][2], flavorColors[1][0][2], t)]
-    $canvas.currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[0][1][0], flavorColors[1][1][0], t), Lerp(flavorColors[0][1][1], flavorColors[1][1][1], t), Lerp(flavorColors[0][1][2], flavorColors[1][1][2], t)]
+    currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
+    currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[0][0][0], flavorColors[1][0][0], t), Lerp(flavorColors[0][0][1], flavorColors[1][0][1], t), Lerp(flavorColors[0][0][2], flavorColors[1][0][2], t)]
+    currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[0][1][0], flavorColors[1][1][0], t), Lerp(flavorColors[0][1][1], flavorColors[1][1][1], t), Lerp(flavorColors[0][1][2], flavorColors[1][1][2], t)]
 
   },
 })
@@ -91,6 +93,8 @@ usePin({
 
 <style lang="scss">
 @use '@/styles/app/colors.scss' as *;
+@use "@/styles/app/variables.scss" as *;
+@use "@/styles/shared.scss" as *;
 
 $bg: #E2383B;
 $soft: #C12B2D;
@@ -102,7 +106,7 @@ $soft: #C12B2D;
 
 
   .container {
-    padding-top: 28rem;
+    padding-top: $title-height;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -115,10 +119,19 @@ $soft: #C12B2D;
     line-height: 1;
     row-gap: 2rem;
 
+    @include breakpoint(mobile) {
+      padding-top: $title-height-mobile;
+    }
+
     h2 {
       width: 121.9rem;
       font-size: 12.8rem;
       color: $secondary;
+
+      @include breakpoint(mobile) {
+        font-size: 4rem;
+        width: 38rem;
+      }
     }
 
     p {
@@ -126,6 +139,10 @@ $soft: #C12B2D;
       position: relative;
       color: $secondary;
       z-index: 1;
+
+      @include breakpoint(mobile) {
+        font-size: 1.6rem;
+      }
 
       span {
         opacity: 0;
@@ -144,6 +161,9 @@ $soft: #C12B2D;
     width: 82.3rem;
     position: relative;
 
+    @include breakpoint(mobile) {
+      width: 32rem
+    }
 
     span {
       transition: opacity 400ms;

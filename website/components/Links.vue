@@ -56,11 +56,15 @@ onFlow(()=>{
 </script>
 
 <style scoped lang="scss">
+@use "@/styles/shared.scss" as *;
 .table {
     width: 100%;
     height: 24rem;
     display: flex;
     margin-top: auto;
+    @include breakpoint(mobile){
+        height: 12rem
+    };
 
     .table__cell {
         overflow: hidden;

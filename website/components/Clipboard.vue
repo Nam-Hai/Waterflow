@@ -149,6 +149,7 @@ const copy = () => {
 
 <style scoped lang="scss">
 @use '@/styles/app/index.scss' as *;
+@use "@/styles/shared.scss" as *;
 
 .container {
     position: relative;
@@ -205,6 +206,13 @@ const copy = () => {
     cursor: pointer;
 
     transition: opacity 300ms ease;
+
+    @include breakpoint(mobile){
+        font-size: 1.4rem;
+        height: 4rem;
+        border-radius: 0.7rem;
+        padding: 0 1rem;
+    }
 }
 
 
@@ -247,6 +255,11 @@ const copy = () => {
     border-color: #ffffff00;
     border-style: solid;
     border-width: 1px;
+
+    @include breakpoint(mobile){
+        height: 3rem;
+        width: 3rem;
+    }
 }
 
 svg {
@@ -258,6 +271,10 @@ svg {
     top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
+    @include breakpoint(mobile){
+        height: 2rem;
+        width: 2rem;
+    }
 
     &.active {
         opacity: 1;
