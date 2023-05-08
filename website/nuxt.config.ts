@@ -15,6 +15,22 @@ export default defineNuxtConfig({
                     as: 'font',
                     type: "font/ttf",
                     crossorigin: 'anonymous'
+                },
+                {
+                    rel: 'icon',
+                    type: 'image/png',
+                    sizes: '32x32',
+                    href: 'favicon-32x32.png'
+                },
+                {
+                    rel: 'icon',
+                    type: 'image/png',
+                    sizes: '16x16x',
+                    href: 'favicon-16x16.png'
+                },
+                {
+                    rel: 'manifest',
+                    href: 'site.webmanifest'
                 }
             ]
         }
