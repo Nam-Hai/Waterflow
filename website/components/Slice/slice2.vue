@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { Ease } from '~/helpers/core/eases'
 import { Clamp, Lerp, T, iLerp } from '~/helpers/core/utils'
+import indexCanvas from '~/scene/Pages/indexCanvas'
 
 useLenisScroll(() => {
 })
@@ -61,12 +62,13 @@ useScrollEvent({
   end: 0,
   onProgress: (t) => {
     if (!$canvas.currentCanvasPage) return
-    if (!$canvas.currentCanvasPage.noiseBackground) return
-    const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
+    const currentCanvasPage = $canvas.currentCanvasPage as any as indexCanvas
+    if (!currentCanvasPage.noiseBackground) return
+    const bgColors = currentCanvasPage.noiseBackground.bgColors
     const r = Lerp(bgColors[1][0], bgColors[2][0], t)
     const g = Lerp(bgColors[1][1], bgColors[2][1], t)
     const b = Lerp(bgColors[1][2], bgColors[2][2], t)
-    $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
+    currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
   },
 })
 

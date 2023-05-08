@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { Lerp } from '~/helpers/core/utils'
+import indexCanvas from '~/scene/Pages/indexCanvas'
 
 const containerRef = ref()
 const wrapperRef = ref()
@@ -31,17 +32,18 @@ useScrollEvent({
         const title = $canvas.titleMSDF
 
         if (!$canvas.currentCanvasPage) return
-        if (!$canvas.currentCanvasPage.noiseBackground) return
-        const bgColors = $canvas.currentCanvasPage.noiseBackground.bgColors
+        const currentCanvasPage = $canvas.currentCanvasPage as any as indexCanvas
+        if (!currentCanvasPage.noiseBackground) return
+        const bgColors = currentCanvasPage.noiseBackground.bgColors
 
         const r = Lerp(bgColors[2][0], bgColors[3][0], t)
         const g = Lerp(bgColors[2][1], bgColors[3][1], t)
         const b = Lerp(bgColors[2][2], bgColors[3][2], t)
-        $canvas.currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
-        const flavorColors = $canvas.currentCanvasPage.noiseBackground.flavorColors
-        $canvas.currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[1][0][0], flavorColors[2][0][0], t), Lerp(flavorColors[1][0][1], flavorColors[2][0][1], t), Lerp(flavorColors[1][0][2], flavorColors[2][0][2], t)]
+        currentCanvasPage.noiseBackground.bgColor.value = [r, g, b]
+        const flavorColors = currentCanvasPage.noiseBackground.flavorColors
+        currentCanvasPage.noiseBackground.flavorColor1.value = [Lerp(flavorColors[1][0][0], flavorColors[2][0][0], t), Lerp(flavorColors[1][0][1], flavorColors[2][0][1], t), Lerp(flavorColors[1][0][2], flavorColors[2][0][2], t)]
 
-        $canvas.currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[1][1][0], flavorColors[2][1][0], t), Lerp(flavorColors[1][1][1], flavorColors[2][1][1], t), Lerp(flavorColors[1][1][2], flavorColors[2][1][2], t)]
+        currentCanvasPage.noiseBackground.flavorColor2.value = [Lerp(flavorColors[1][1][0], flavorColors[2][1][0], t), Lerp(flavorColors[1][1][1], flavorColors[2][1][1], t), Lerp(flavorColors[1][1][2], flavorColors[2][1][2], t)]
     },
 })
 
