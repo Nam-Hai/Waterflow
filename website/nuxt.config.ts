@@ -17,6 +17,20 @@ export default defineNuxtConfig({
                     crossorigin: 'anonymous'
                 },
                 {
+                    rel: "preload",
+                    href: "fonts/HelveticaNeue-Regular.otf",
+                    as: 'font',
+                    type: "font/otf",
+                    crossorigin: 'anonymous'
+                },
+                {
+                    rel: "preload",
+                    href: "fonts/HelveticaNeue-Bold.otf",
+                    as: 'font',
+                    type: "font/otf",
+                    crossorigin: 'anonymous'
+                },
+                {
                     rel: 'icon',
                     type: 'image/png',
                     sizes: '32x32',
