@@ -62,7 +62,6 @@ titleOpacity.value = ref(1)
 onMounted(() => {
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
-
   $lenis.scrollTo('top')
 })
 

@@ -5,6 +5,9 @@
         </div>
 
         <div class="content" ref="contentRef">
+            <div class="images__wrapper">
+                <video ref='videoRef' src="/images/Loop.mp4" loop="true"></video>
+            </div>
 
             <div class="return">
                 <ReturnButton />
@@ -30,10 +33,13 @@ onMounted(() => {
     $lenis.dimensions.onContentResize()
 })
 
+const videoRef = ref()
 onFlow(() => {
     N.O(wrapperRef.value, 1)
     N.O(contentRef.value, 1)
     N.O(titleWrapperRef.value, 1)
+
+    videoRef.value.setAttribute('autoplay', true)
 })
 
 usePageFlow({
@@ -78,6 +84,8 @@ usePageFlow({
 
 <style scoped lang="scss">
 @use "@/styles/shared.scss" as *;
+@use "@/styles/app/variables.scss" as *;
+
 .example-2__wrapper {
     position: absolute;
     top: 0;
@@ -96,25 +104,47 @@ usePageFlow({
     position: relative;
 }
 
-.title-container{
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
+.title-container {
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
 }
+
 .content {
     padding: 2.4rem 0rem 4rem;
-    margin: 0 auto;
+    margin: $title-height auto 0;
     display: flex;
     height: 100%;
     opacity: 0;
     width: 151.4rem;
+    flex-direction: column;
 
-    @include breakpoint(mobile){
+    min-height: calc(100% - 28rem);
+
+    @include breakpoint(mobile) {
+        min-height: calc(100% - 4rem);
+        margin: $title-height-mobile auto 0;
         width: 32rem;
-    };
+    }
+
 }
 
 .return {
     margin-top: auto;
+}
+
+.images__wrapper {
+    width: 100%;
+    height: 100%;
+    max-height: 50vh;
+
+    img,
+    video {
+        width: 100%;
+        max-height: 50vh;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        object-position: center;
+    }
 }
 </style>

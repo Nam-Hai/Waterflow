@@ -4,9 +4,6 @@ export default class Manifest {
   constructor(gl) {
     const textures = {
       images: {
-        'images/1.png': new Texture(gl),
-        'images/2.jpg': new Texture(gl),
-        'images/3.png': new Texture(gl),
       },
       font: {
         'msdf/Amarante-Regular.png': new Texture(gl, {

@@ -17,7 +17,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import { N } from '~/helpers/namhai-utils';
 const showPage = ref(false)
 const showPreloader = ref(true)
 const hidePreloader = ref(false)
@@ -52,16 +51,18 @@ const mapRouteBg = new Map([
 ])
 
 onMounted(() => {
-  
+
   const route = useRoute()
   const bg = mapRouteBg.get(route.name?.toString() || 'index')
-  wrapperRef.value.style.backgroundColor =  bg![0]
+  wrapperRef.value.style.backgroundColor = bg![0]
+  document.body.style.backgroundColor = bg![0]
   wrapperRef.value.style.color = bg![1]
 
 
   $manifest.callback = (i) => {
     index.value = i
     if (i == $manifest.length) {
+      document.body.style.backgroundColor = ''
       preloadComplete.value = true
     }
   }
