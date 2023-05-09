@@ -5,7 +5,9 @@ export default defineNuxtPlugin(nuxtApp =>{
     provide: {
         lenis: new Lenis({
             normalizeWheel: true,
-            smoothTouch: true
+            smoothTouch: false,
+            syncTouch: true,
+            syncTouchLerp: 1
         })
     }
   }
