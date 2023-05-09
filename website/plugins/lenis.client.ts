@@ -4,7 +4,8 @@ export default defineNuxtPlugin(nuxtApp =>{
   return {
     provide: {
         lenis: new Lenis({
-            normalizeWheel: true
+            normalizeWheel: true,
+            smoothTouch: true
         })
     }
   }

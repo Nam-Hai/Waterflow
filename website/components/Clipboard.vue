@@ -2,7 +2,7 @@
     <div style="opacity: 0;" ref="containerRef" class="container" tabindex="0" @keydown="onKeydown">
         <div :class="{ active: showSuccess }" class="success__wrapper clipboard__wrapper">
         </div>
-        <div class="clipboard__wrapper" @click="copy">
+        <div class="clipboard__wrapper" @click="copy" @touchend="copy">
             <div ref="npmRef"><span style="color: #23ED67">></span> <span ref="textRef">npm i @nam-hai/water-flow</span>
             </div>
 
