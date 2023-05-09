@@ -1,14 +1,11 @@
 import { BM } from "~/helpers/core/utils"
 import NoiseBackground from "../Components/NoiseBackground"
-import Media from "../Components/Media"
 import { RenderTarget, Program, Mesh, Plane } from 'ogl'
 import PostProcessor from "../PostProcessor"
 import BloomPass from "../Passes/BloomPass"
-import Slice3Canvas from "../Components/Slice3Canvas"
 
 export default class indexCanvas {
   constructor({ gl, scene, camera, titleMSDF }) {
-    console.log('homeCanvas');
     this.gl = gl
     this.renderer = this.gl.renderer
 
@@ -135,26 +132,7 @@ export default class indexCanvas {
     this.transiMesh = mesh
     return this.transiMesh
   }
-
-  addSlice3(el) {
-    this.slice3 = new Slice3Canvas(this.gl, { el, scene: this.scene })
-  }
-  addMedia(el) {
-    this.media = new Media(this.gl, { el, scene: this.scene })
-  }
 }
-const vertexPost = /* glsl */ `#version 300 es
-precision lowp float;
-in vec3 position;
-in vec2 uv;
-
-out vec2 vUv;
-
-void main() {
-    vUv = uv;
-    gl_Position = vec4(position, 1.0);
-}
-`;
 
 const fragmentComposer = /* glsl */ `#version 300 es
 precision lowp float;

@@ -56,7 +56,6 @@ const Ro = new class {
         this.breakpoints = {}
         this.deviceTypes = {}   // Get breakpoints and device types from Sass
         this.mode = SassVars.scale_mode
-        console.log(this.mode)
         SassVars.breakpoints.split(',').forEach((b: string) => {
             const point = b.trim()
 

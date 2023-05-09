@@ -137,8 +137,11 @@ usePageFlow({
         font-size: 3rem;
         font-weight: 800;
         color: #FFFB8F;
-        text-shadow: 0 0 2px #0000001a;
         text-transform: uppercase;
+
+        @include breakpoint(mobile) {
+            font-size: 1rem;
+        }
     }
 }
 

@@ -136,7 +136,6 @@ export default class NoiseBackground {
     this.ro.off()
     this.lenisOff()
 
-    console.log('DESTROY');
   }
 }
 

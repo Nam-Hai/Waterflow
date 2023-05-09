@@ -39,6 +39,7 @@ watch(() => showPreloader.value || !preloadComplete.value, bool => {
   setTimeout(() => {
     hidePreloader.value = true
     fromPreloader.value = false
+    document.body.style.backgroundColor = ''
     $canvas.currentCanvasPage?.init()
   }, 300)
 })
@@ -62,7 +63,6 @@ onMounted(() => {
   $manifest.callback = (i) => {
     index.value = i
     if (i == $manifest.length) {
-      document.body.style.backgroundColor = ''
       preloadComplete.value = true
     }
   }

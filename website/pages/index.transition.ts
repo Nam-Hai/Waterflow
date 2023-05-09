@@ -92,7 +92,6 @@ const example3InIndex = async ({ wrapperRef, waterFlowTitleRef, watermarkContain
         d: 1000,
         e: 'o3'
     }).play()
-    console.log('object');
 
     noiseWebGL.uAlpha.value = 1
     titleSpanRef.value.style.transform = "translate(0px , 0px)"
