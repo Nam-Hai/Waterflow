@@ -179,8 +179,6 @@ usePageFlow({
 
 .example-1__wrapper {
     // position: absolute;
-    position: relative;
-    z-index: 0;
     top: 0;
     left: 0;
     width: 100vw;
@@ -213,7 +211,7 @@ usePageFlow({
     min-height: calc(100% - 28rem);
 
     @include breakpoint(mobile) {
-        min-height: calc(100% - $title-height-mobile);
+        min-height: calc(100% - 4rem);
         margin: $title-height-mobile auto 0;
         width: 32rem;
     }
