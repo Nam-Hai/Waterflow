@@ -1,5 +1,5 @@
 <template>
-    <div class="example-2__wrapper" ref="wrapperRef">
+    <div class="example-3__wrapper" ref="wrapperRef">
         <div ref="titleWrapperRef" class="title__wrapper">
             <WaterflowTitle :show="true"></WaterflowTitle>
         </div>
@@ -96,7 +96,7 @@ usePageFlow({
 @use "@/styles/shared.scss" as *;
 @use "@/styles/app/variables.scss" as *;
 
-.example-2__wrapper {
+.example-3__wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -107,6 +107,7 @@ usePageFlow({
     color: #46afff;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .title__wrapper {

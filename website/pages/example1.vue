@@ -10,9 +10,9 @@
 
             <div class="content" ref="contentRef">
                 <div class="images__wrapper">
-                    <img src="images/caracal1.jpg" />
-                    <img src="images/caracal2.jpg" />
-                    <img src="images/caracal3.jpg" />
+                    <img src="/images/Caracal1.jpg" />
+                    <img src="/images/Caracal2.jpg" />
+                    <img src="/images/Caracal3.jpg" />
                     <div>
                         The caracal (Caracal caracal) (/ˈkærəkæl/) is a medium-sized wild cat native to Africa, the Middle
                         East,
@@ -190,6 +190,7 @@ usePageFlow({
     color: #87F062;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .title__wrapper {
@@ -212,7 +213,7 @@ usePageFlow({
     min-height: calc(100% - 28rem);
 
     @include breakpoint(mobile) {
-        min-height: calc(100% - 4rem);
+        min-height: calc(100% - $title-height-mobile);
         margin: $title-height-mobile auto 0;
         width: 32rem;
     }

@@ -97,6 +97,7 @@ usePageFlow({
     display: flex;
     flex-direction: column;
     opacity: 0;
+    overflow: hidden;
 }
 
 .title__wrapper {
