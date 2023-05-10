@@ -90,7 +90,7 @@ usePageFlow({
             update: ({ progE }) => {
                 overflowRef.value.style.width = 100 + 'vw'
             },
-            delay: 180,
+            delay: 150,
             d: 30 * length,
             cb: () => {
                 (new $Delay(resolve, 200)).run()
