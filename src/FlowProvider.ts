@@ -45,8 +45,8 @@ export class FlowProvider {
     this.routerMap = new Map()
   }
 
-  registerPage(pageComponent: DefineComponent<{}, {}, any>) {
-    this.routerMap.set(pageComponent.__name, pageComponent)
+  registerPage(path: string, pageComponent: DefineComponent<{}, {}, any>) {
+    this.routerMap.set(path, pageComponent)
   }
 
   registerScrollInterface(api: { stop: () => void, resume: () => void, scrollToTop: () => void } | undefined) {

@@ -41,8 +41,9 @@ const flowProvider = new FlowProvider()
 provideFlowProvider(flowProvider)
 
 // register each page where you will use 
-flowProvider.registerPage(index)
-flowProvider.registerPage(about)
+flowProvider.registerPage('/', index)
+flowProvider.registerPage('/home', about)
+flowProvider.registerPage('/about', about)
 ```
 
 # Example
