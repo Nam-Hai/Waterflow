@@ -25,7 +25,7 @@ $ npm i @nam-hai/water-flow
 </template>
 
 <script lang='ts'>
-import { BufferPage } from '@nam-hai/water-flow';
+import { BufferPage } from '~/../index';
 </script>
 ```
 
@@ -34,7 +34,7 @@ import { BufferPage } from '@nam-hai/water-flow';
 import index from '@/pages/index.vue';
 import about from '@/pages/about.vue';
 import home from '@/pages/home.vue';
-import { FlowProvider, provideFlowProvider } from '@nam-hai/water-flow'
+import { FlowProvider, provideFlowProvider } from '~/../index'
 
 // provide useFlowProvider through out your whole project
 const flowProvider = new FlowProvider()

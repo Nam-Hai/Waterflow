@@ -1,5 +1,5 @@
 import { RouteLocationNormalized, useRoute } from 'vue-router';
-import { DefineComponent, Ref, ShallowRef } from 'vue';
+import { DefineComponent, Ref, ShallowRef, nextTick } from 'vue';
 import { createContext } from './util/apiInject';
 
 export type FlowProps = Record<string, any>
@@ -17,8 +17,10 @@ export class FlowProvider {
   private routeTo!: RouteLocationNormalized;
   private routeFrom!: RouteLocationNormalized;
 
-  bufferRouteState?: ShallowRef;
+  // bufferRouteState?: ShallowRef;
   bufferTopZState?: ShallowRef;
+  bufferPageRef!: ShallowRef;
+  currentPageRef!: ShallowRef;
 
   props: FlowProps = {}
   flowIsHijacked: boolean = false;
@@ -36,6 +38,7 @@ export class FlowProvider {
       document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
   }
+  swapWrapper!: () => void;
 
   constructor() {
     const route = useRoute()
@@ -55,9 +58,13 @@ export class FlowProvider {
   }
 
   // connect the BufferPage in the Layout for crossfade animations
-  public connectBuffer(bufferRouteState: ShallowRef, bufferTopZState: ShallowRef) {
+  public connectBuffer(currentPageRef: ShallowRef, bufferPageRef: ShallowRef, bufferTopZState: ShallowRef, swapWrapper: ()=> void) {
     this.bufferTopZState = bufferTopZState
-    this.bufferRouteState = bufferRouteState
+    this.bufferPageRef = bufferPageRef
+    this.currentPageRef = currentPageRef
+    this.swapWrapper = swapWrapper
+    // this.currentPageRef.value = this.routeFrom.
+    this.currentPageRef.value = this.routerMap.get(this.routeTo.name!.toString())
   }
 
   // to add global props, like layout component or a webGL context
@@ -68,23 +75,39 @@ export class FlowProvider {
   }
 
   public unMountBufferPage() {
-    this.bufferRouteState && (this.bufferRouteState.value = undefined)
+    // this.bufferRouteState && (this.bufferRouteState.value = undefined)
+    this.swapWrapper()
+    let temp = this.currentPageRef
+
+    console.log(this.currentPageRef.value, this.bufferPageRef.value);
+    this.currentPageRef = this.bufferPageRef
+    this.bufferPageRef = temp
+    this.bufferPageRef.value = undefined
+    nextTick()
+    console.log(this.currentPageRef, this.bufferPageRef);
     this.bufferTopZState && (this.bufferTopZState.value = false)
+  }
+
+  public resolveBufferPage(){
+    this.swapWrapper()
   }
 
   public onChangeRoute(routeTo: RouteLocationNormalized) {
     this.routeFrom = this.routeTo
     this.routeTo = routeTo
+
+    this.bufferPageRef.value = this.routerMap.get(this.routeTo.name!.toString())
   }
 
   public triggerCrossfade(crossfadeMode: boolean | 'TOP' | 'UNDER' | 'BOTTOM') {
-    this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.name!.toString()));
-    if (!!this.bufferRouteState?.value) {
-      this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
-    }
+    // this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.name!.toString()));
 
-    let a = !(crossfadeMode == false) && !!this.bufferRouteState?.value
-    return a
+    // if (!!this.bufferRouteState?.value) {
+      this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
+    // }
+
+    // let a = !(crossfadeMode == false) && !!this.bufferRouteState?.value
+    // return a
   }
 
   public getRouteFrom(): RouteLocationNormalized {

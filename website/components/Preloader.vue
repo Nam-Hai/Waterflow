@@ -53,6 +53,7 @@ const mapRouteBg = new Map([
 
 onMounted(() => {
 
+  console.log('preloader');
   const route = useRoute()
   const bg = mapRouteBg.get(route.name?.toString() || 'index')
   wrapperRef.value.style.backgroundColor = bg![0]

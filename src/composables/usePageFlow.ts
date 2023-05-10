@@ -1,6 +1,6 @@
-import { onMounted } from "vue";
+import { getCurrentInstance, onMounted, watch } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 
 export type FlowFunction<T> = (props: T, resolve: () => void, flowProps: FlowProps) => void
 
@@ -34,42 +34,48 @@ export function usePageFlow<T>({
 
   const flowProps = provider.props
 
-  onMounted(() => {
-    provider.flowIsHijacked ? flowCrossfade() : flowIn()
+  onMounted(async() => {
+    provider.flowIsHijacked && flowCrossfade() 
   })
 
   const flowIn = async () => {
-    provider.unMountBufferPage()
+    // provider.unMountBufferPage()
   }
 
   const flowCrossfade = async () => {
+    console.log('release');
     await createFlow<T>(provider, flowInCrossfadeMap, flowInCrossfade, props, flowProps)
+    console.log('release');
     provider.releaseHijackFlow()
   }
 
-  if (provider.flowIsHijacked) return
-  onBeforeRouteLeave(async (to, _from, next) => {
-    if(disablePointerEvent) {
+  const router = useRouter()
+  console.log(router);
+  router.beforeEach(async (to, _from, next) => {
+    if (disablePointerEvent) {
       document.body.style.pointerEvents = 'none'
     }
     provider.scrollFlow.stop()
+
+    // mount next page
     provider.onChangeRoute(to)
 
-    let crossfadeExist = false
-    crossfade && (crossfadeExist = provider.triggerCrossfade(crossfade))
+    crossfade && provider.triggerCrossfade(crossfade)
 
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
-
-    let flowPromise = crossfadeExist ? provider.hijackFlow() : null
+    let flowPromise = crossfade ? provider.hijackFlow() : null
     await Promise.all([promiseOut, flowPromise])
+    provider.unMountBufferPage()
 
     next()
-    if(disablePointerEvent) {
+    if (disablePointerEvent) {
       document.body.style.pointerEvents = 'all'
     }
     provider.scrollFlow.resume()
     provider.scrollFlow.scrollToTop()
   })
+
+  
 }
 
 function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction<T>> | undefined, flow: FlowFunction<T> | undefined, props: T, flowProps: FlowProps): Promise<void> {

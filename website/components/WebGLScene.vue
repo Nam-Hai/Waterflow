@@ -4,7 +4,7 @@
 </template>
 
 <script lang='ts' setup>
-import { useFlowProvider } from '@nam-hai/water-flow'
+import { useFlowProvider } from '~/../index'
 
 
 
@@ -14,6 +14,7 @@ const wrapperSceneRef = ref()
 const { $canvas } = useNuxtApp()
 onMounted(() => {
   $canvas.init()
+  console.log('WEBGL INIT');
   sceneRef.value = $canvas
   wrapperSceneRef.value.appendChild($canvas.gl.canvas)
 })

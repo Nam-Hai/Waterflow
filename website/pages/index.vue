@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
+import { onFlow, useFlowProvider, usePageFlow } from '~/../index';
 import { T } from '~/helpers/core/utils';
 import { indexOutMap, indexInMap } from './index.transition'
 import indexCanvas from '~/scene/Pages/indexCanvas';
@@ -60,6 +60,7 @@ const titleOpacity = ref()
 titleOpacity.value = ref(1)
 
 onMounted(() => {
+  console.log('test');
   $lenis.dimensions.onWindowResize()
   $lenis.dimensions.onContentResize()
   $lenis.scrollTo('top')
@@ -77,7 +78,7 @@ const { lenis } = useLenisScroll(({ current }) => {
   T(contentRef.value, 0, -current, 'px')
 })
 
-onFlow(() => {
+onMounted(() => {
   const curCanvas = $canvas.currentCanvasPage as unknown as indexCanvas
   const noiseWebGL = curCanvas.noiseBackground
 

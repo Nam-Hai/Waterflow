@@ -1,10 +1,10 @@
 <template>
-  <div :class="{'buffer-page__TOP': bufferTopZ}"  class="buffer-page__wrapper">
-    <component :is="bufferRouteState" />
+  <div class="buffer-page__wrapper" ref="wrapper1Ref">
+    <component :is="bufferPage" />
   </div>
 
-  <div id="buffer-page__app">
-    <slot />
+  <div class="current-page" ref="wrapper2Ref">
+    <component :is="currentPage" />
   </div>
 </template>
 
@@ -12,11 +12,24 @@
 import { shallowRef } from 'vue';
 import { useFlowProvider } from '../FlowProvider';
 
-const bufferRouteState = shallowRef()
+const bufferPage = shallowRef()
+const currentPage = shallowRef()
 const bufferTopZ = shallowRef(false)
 const provider = useFlowProvider()
-provider.connectBuffer(bufferRouteState, bufferTopZ)
 
+const wrapper1Ref = ref()
+const wrapper2Ref = ref()
+
+const swapClass = () => {
+  console.log('swap class');
+  wrapper1Ref.value.classList.toggle('buffer-page__wrapper')
+  wrapper1Ref.value.classList.toggle('current-page')
+
+  wrapper2Ref.value.classList.toggle('buffer-page__wrapper')
+  wrapper2Ref.value.classList.toggle('current-page')
+}
+
+provider.connectBuffer(currentPage, bufferPage, bufferTopZ, swapClass)
 </script>
 
 <style scoped>
@@ -33,7 +46,7 @@ provider.connectBuffer(bufferRouteState, bufferTopZ)
   z-index: 16;
 }
 
-#buffer-page__app {
+.current-page {
   position: relative;
   z-index: 10;
 }

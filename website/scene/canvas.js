@@ -3,7 +3,7 @@ import {
   Camera,
   Transform,
 } from "ogl";
-import { useFlowProvider } from "@nam-hai/water-flow";
+import { useFlowProvider } from '~/../index';
 
 import { N } from "~/helpers/namhai-utils";
 import { ROR } from "~/plugins/core/resize";
@@ -46,6 +46,7 @@ export default class Canvas {
     this.titleMSDF = new TitleMSDF(this.gl)
     this.ro.on();
     const flowProvider = useFlowProvider()
+    console.log('canvas flow route',flowProvider.getRouteFrom().name);
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
     await this.titleMSDF.init()
