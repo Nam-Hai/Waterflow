@@ -1,6 +1,6 @@
 import { onMounted } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { NavigationGuard, onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from "vue-router";
 
 export type FlowFunction<T> = (props: T, resolve: () => void, flowProps: FlowProps) => void
 
@@ -48,8 +48,8 @@ export function usePageFlow<T>({
   }
 
   if (provider.flowIsHijacked) return
-  onBeforeRouteLeave(async (to, _from, next) => {
-    if(disablePointerEvent) {
+  const navigationGuard: NavigationGuard = async (to, _from, next) => {
+    if (disablePointerEvent) {
       document.body.style.pointerEvents = 'none'
     }
     provider.scrollFlow.stop()
@@ -64,12 +64,14 @@ export function usePageFlow<T>({
     await Promise.all([promiseOut, flowPromise])
 
     next()
-    if(disablePointerEvent) {
+    if (disablePointerEvent) {
       document.body.style.pointerEvents = 'all'
     }
     provider.scrollFlow.resume()
     provider.scrollFlow.scrollToTop()
-  })
+  }
+  onBeforeRouteUpdate(navigationGuard)
+  onBeforeRouteLeave(navigationGuard)
 }
 
 function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction<T>> | undefined, flow: FlowFunction<T> | undefined, props: T, flowProps: FlowProps): Promise<void> {
