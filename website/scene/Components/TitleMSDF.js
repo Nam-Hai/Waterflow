@@ -46,7 +46,6 @@ export default class TitleMSDF {
   async init() {
     await this.loadText()
 
-    console.log('load init');
     this.ro.trigger()
     this.ro.on()
   }

@@ -14,7 +14,6 @@ const wrapperSceneRef = ref()
 const { $canvas } = useNuxtApp()
 onMounted(() => {
   $canvas.init()
-  console.log('WEBGL INIT');
   sceneRef.value = $canvas
   wrapperSceneRef.value.appendChild($canvas.gl.canvas)
 })

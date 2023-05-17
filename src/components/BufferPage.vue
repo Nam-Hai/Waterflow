@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang='ts'>
-import { shallowRef } from 'vue';
+import { shallowRef, watch, ref, Ref } from 'vue';
 import { useFlowProvider } from '../FlowProvider';
 
 const bufferPage = shallowRef()
@@ -17,16 +17,31 @@ const currentPage = shallowRef()
 const bufferTopZ = shallowRef(false)
 const provider = useFlowProvider()
 
-const wrapper1Ref = ref()
-const wrapper2Ref = ref()
+const wrapper1Ref = ref() as Ref<HTMLElement>
+const wrapper2Ref = ref() as Ref<HTMLElement>
 
 const swapClass = () => {
+  console.log('swapClass');
   wrapper1Ref.value.classList.toggle('buffer-page__wrapper')
   wrapper1Ref.value.classList.toggle('current-page')
 
   wrapper2Ref.value.classList.toggle('buffer-page__wrapper')
   wrapper2Ref.value.classList.toggle('current-page')
 }
+
+watch(bufferTopZ, state => {
+  if (state == true) {
+
+    wrapper1Ref.value.classList.add('buffer-page__TOP')
+    wrapper2Ref.value.classList.add('buffer-page__TOP')
+  } else {
+    wrapper1Ref.value.classList.remove('buffer-page__TOP')
+    wrapper2Ref.value.classList.remove('buffer-page__TOP')
+
+  }
+
+  console.log(state);
+})
 
 provider.connectBuffer(currentPage, bufferPage, bufferTopZ, swapClass)
 </script>
@@ -39,9 +54,10 @@ provider.connectBuffer(currentPage, bufferPage, bufferTopZ, swapClass)
   height: 100vh;
   width: 100vw;
   z-index: 9;
+
 }
 
-.buffer-page__TOP {
+.buffer-page__wrapper.buffer-page__TOP {
   z-index: 16;
 }
 

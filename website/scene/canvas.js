@@ -46,7 +46,6 @@ export default class Canvas {
     this.titleMSDF = new TitleMSDF(this.gl)
     this.ro.on();
     const flowProvider = useFlowProvider()
-    console.log('canvas flow route',flowProvider.getRouteFrom().name);
     this.onChange(flowProvider.getRouteFrom())
     this.currentCanvasPage = this.nextCanvasPage
     await this.titleMSDF.init()

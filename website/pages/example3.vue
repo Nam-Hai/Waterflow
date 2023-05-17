@@ -42,7 +42,6 @@ const flowProvider = useFlowProvider()
 const { $TL, $lenis } = useNuxtApp()
 
 onMounted(() => {
-    console.log(wrapperRef.value, 'onmounted');
     $lenis.dimensions.onWindowResize()
     $lenis.dimensions.onContentResize()
 })
@@ -50,10 +49,9 @@ onMounted(() => {
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },
-    enableCrossfade: true,
+    enableCrossfade: 'BOTTOM',
     flowInCrossfade: ({ }, resolve) => {
         let tl = new $TL
-        const { $canvas } = useNuxtApp()
         tl.from({
             el: wrapperRef.value,
             d: 800,

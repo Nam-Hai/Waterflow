@@ -34,7 +34,7 @@ export function usePageFlow<T>({
   const flowProps = provider.props
 
   onMounted(() => {
-    flowCrossfade() 
+    provider.flowIsHijacked.value && flowCrossfade() 
   })
 
 
@@ -53,11 +53,11 @@ export function usePageFlow<T>({
     // mount next page
     provider.onChangeRoute(to)
 
-    crossfade && provider.triggerCrossfade(crossfade)
+    console.log(crossfade);
+    crossfade && provider.setCrossfadeMode(crossfade)
 
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
     let flowPromise = crossfade ? provider.hijackFlow() : null
-    console.log(promiseOut, flowPromise);
     await Promise.all([promiseOut, flowPromise])
     provider.unMountBufferPage()
 
@@ -82,7 +82,6 @@ function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
 
   let FlowFunction = getFlowFunction(key, flowMap, flow)
-  console.log('flow function', FlowFunction);
   return new Promise<void>(cb => {
     if (!FlowFunction) cb()
     else FlowFunction(props, cb, flowProps)
