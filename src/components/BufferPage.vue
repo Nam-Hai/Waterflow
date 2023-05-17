@@ -21,7 +21,6 @@ const wrapper1Ref = ref()
 const wrapper2Ref = ref()
 
 const swapClass = () => {
-  console.log('swap class');
   wrapper1Ref.value.classList.toggle('buffer-page__wrapper')
   wrapper1Ref.value.classList.toggle('current-page')
 

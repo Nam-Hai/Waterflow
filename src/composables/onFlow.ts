@@ -5,7 +5,8 @@ import { useFlowProvider } from "../FlowProvider"
 export function onFlow(mountedCallback: () => void) {
   const flow = useFlowProvider()
   onMounted(() => {
-    !flow.flowIsHijacked && mountedCallback()
+    // !flow.flowIsHijacked && mountedCallback()
+    mountedCallback()
   })
 }
 

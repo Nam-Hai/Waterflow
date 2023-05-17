@@ -1,5 +1,5 @@
 import { RouteLocationNormalized, useRoute } from 'vue-router';
-import { DefineComponent, Ref, ShallowRef, nextTick } from 'vue';
+import { DefineComponent, Ref, ShallowRef, nextTick, ref } from 'vue';
 import { createContext } from './util/apiInject';
 
 export type FlowProps = Record<string, any>
@@ -23,7 +23,6 @@ export class FlowProvider {
   currentPageRef!: ShallowRef;
 
   props: FlowProps = {}
-  flowIsHijacked: boolean = false;
 
   routerMap: Map<string, DefineComponent<{}, {}, any>>
   scrollFlow = {
@@ -39,6 +38,7 @@ export class FlowProvider {
     }
   }
   swapWrapper!: () => void;
+  flowIsHijacked = ref(false)
 
   constructor() {
     const route = useRoute()
@@ -79,12 +79,9 @@ export class FlowProvider {
     this.swapWrapper()
     let temp = this.currentPageRef
 
-    console.log(this.currentPageRef.value, this.bufferPageRef.value);
     this.currentPageRef = this.bufferPageRef
     this.bufferPageRef = temp
     this.bufferPageRef.value = undefined
-    nextTick()
-    console.log(this.currentPageRef, this.bufferPageRef);
     this.bufferTopZState && (this.bufferTopZState.value = false)
   }
 
@@ -97,6 +94,7 @@ export class FlowProvider {
     this.routeTo = routeTo
 
     this.bufferPageRef.value = this.routerMap.get(this.routeTo.name!.toString())
+    console.log('onChange route', this.currentPageRef.value, this.bufferPageRef.value);
   }
 
   public triggerCrossfade(crossfadeMode: boolean | 'TOP' | 'UNDER' | 'BOTTOM') {
@@ -121,13 +119,13 @@ export class FlowProvider {
   public releaseHijackFlow(): void {
     if (this.flowHijackResolver) {
       this.flowHijackResolver();
-      this.flowIsHijacked = false
+      this.flowIsHijacked.value = false
       this.flowHijackResolver = undefined
     }
   }
 
   public hijackFlow() {
-    this.flowIsHijacked = true
+    this.flowIsHijacked.value = true
     this.flowHijacked = new Promise<void>((resolve) => {
       this.flowHijackResolver = resolve;
     });

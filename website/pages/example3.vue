@@ -42,12 +42,11 @@ const flowProvider = useFlowProvider()
 const { $TL, $lenis } = useNuxtApp()
 
 onMounted(() => {
+    console.log(wrapperRef.value, 'onmounted');
     $lenis.dimensions.onWindowResize()
     $lenis.dimensions.onContentResize()
 })
 
-onFlow(() => {
-})
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },

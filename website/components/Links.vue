@@ -21,7 +21,7 @@ const link3Ref = ref()
 
 const { $TL } = useNuxtApp()
 const durationStep = 500
-onFlow(()=>{
+onMounted(()=>{
     let tl = new $TL
     tl.from({
         el: link1Ref.value,

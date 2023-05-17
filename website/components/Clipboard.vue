@@ -57,7 +57,7 @@ onMounted(() => {
     }
 })
 
-onFlow(() => {
+onMounted(() => {
     timer.value = new $Timer(() => { showSuccess.value = false }, 400)
     timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 1000)
 

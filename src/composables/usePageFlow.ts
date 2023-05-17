@@ -1,4 +1,4 @@
-import { getCurrentInstance, onMounted, watch } from "vue";
+import { getCurrentInstance, onMounted, onUnmounted, watch } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 
@@ -19,7 +19,6 @@ type PageFlowOptions<T> = {
   enableCrossfade?: false | true | 'TOP' | 'BOTTOM'
 }
 
-
 export function usePageFlow<T>({
   props,
   flowOutMap,
@@ -34,24 +33,18 @@ export function usePageFlow<T>({
 
   const flowProps = provider.props
 
-  onMounted(async() => {
-    provider.flowIsHijacked && flowCrossfade() 
+  onMounted(() => {
+    flowCrossfade() 
   })
 
-  const flowIn = async () => {
-    // provider.unMountBufferPage()
-  }
 
   const flowCrossfade = async () => {
-    console.log('release');
     await createFlow<T>(provider, flowInCrossfadeMap, flowInCrossfade, props, flowProps)
-    console.log('release');
     provider.releaseHijackFlow()
   }
 
   const router = useRouter()
-  console.log(router);
-  router.beforeEach(async (to, _from, next) => {
+  const routerGuard = router.beforeEach(async (to, _from, next) => {
     if (disablePointerEvent) {
       document.body.style.pointerEvents = 'none'
     }
@@ -64,6 +57,7 @@ export function usePageFlow<T>({
 
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)
     let flowPromise = crossfade ? provider.hijackFlow() : null
+    console.log(promiseOut, flowPromise);
     await Promise.all([promiseOut, flowPromise])
     provider.unMountBufferPage()
 
@@ -76,6 +70,9 @@ export function usePageFlow<T>({
   })
 
   
+  onUnmounted(()=>{
+    routerGuard()
+  })
 }
 
 function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction<T>> | undefined, flow: FlowFunction<T> | undefined, props: T, flowProps: FlowProps): Promise<void> {
@@ -85,6 +82,7 @@ function createFlow<T>(provider: FlowProvider, flowMap: Map<string, FlowFunction
   const key: string = from.name?.toString() + ' => ' + to.name?.toString()
 
   let FlowFunction = getFlowFunction(key, flowMap, flow)
+  console.log('flow function', FlowFunction);
   return new Promise<void>(cb => {
     if (!FlowFunction) cb()
     else FlowFunction(props, cb, flowProps)
