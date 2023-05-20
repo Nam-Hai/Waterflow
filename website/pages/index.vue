@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '~/../index';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 import { T } from '~/helpers/core/utils';
 import { indexOutMap, indexInMap } from './index.transition'
 import indexCanvas from '~/scene/Pages/indexCanvas';

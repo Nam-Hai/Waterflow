@@ -1,5 +1,4 @@
 import { ROR } from "~/plugins/core/resize";
-// import { useCanvas } from "~/scene/useCanvas.client";
 
 export default function useResize(callback?: ({ vh, vw }: { vh: number, vw: number }) => void) {
   const onResize = ref<boolean>(false);

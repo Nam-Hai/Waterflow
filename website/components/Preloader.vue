@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 const showPage = ref(false)
 const showPreloader = ref(true)
 const hidePreloader = ref(false)

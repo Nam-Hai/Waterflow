@@ -31,8 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '~/../index';
-import { N } from '~/helpers/namhai-utils';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 
 const wrapperRef = ref()
 const contentRef = ref()

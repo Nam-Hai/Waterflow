@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow } from '~/../src/composables/onFlow';
 
 const link1Ref = ref()
 const link2Ref = ref()

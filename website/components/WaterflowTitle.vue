@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { onFlow } from '~/../index';
+import { onFlow } from '~/waterflow';
 
 const { $TL, $canvas } = useNuxtApp()
 

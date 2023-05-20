@@ -4,7 +4,7 @@
 </template>
 
 <script lang='ts' setup>
-import { useFlowProvider } from '~/../index'
+import { useFlowProvider } from '~/waterflow'
 
 
 

@@ -1,4 +1,3 @@
-import { onFlow } from '~/../index'
 import { N } from "~/helpers/namhai-utils"
 
 type useScrollEventOptions = {

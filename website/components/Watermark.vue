@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { onFlow } from '~/../src/composables/onFlow';
+import { onFlow } from '~/waterflow';
 import { N } from '~/helpers/namhai-utils';
 
 const fromPreloader = inject('from-preloader') as Ref<boolean>

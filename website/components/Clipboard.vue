@@ -25,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { onFlow } from '~/../index';
 import { Lerp, O } from '~/helpers/core/utils';
 import { Rand, random } from '~/helpers/core/utils';
 import { Timeline } from '~/plugins/core/motion';

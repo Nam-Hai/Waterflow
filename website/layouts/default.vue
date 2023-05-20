@@ -5,15 +5,10 @@
     <BufferPage>
     </BufferPage>
   </Preloader>
-  <!-- <BufferPage>
-    <Preloader>
-      <slot />
-    </Preloader>
-  </BufferPage> -->
 </template>
 
 <script setup lang="ts">
-import { BufferPage, useFlowProvider } from '~/../index';
+import { BufferPage, useFlowProvider } from '~/waterflow';
 
 const { $lenis } = useNuxtApp()
 

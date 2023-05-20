@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '~/../index';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 import { N } from '~/helpers/namhai-utils';
 import example2InMap from './example2.transition';
 
