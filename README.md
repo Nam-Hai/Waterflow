@@ -16,12 +16,10 @@ $ npm i @nam-hai/water-flow
 
 # Setup
 
-`layout.vue` in Nuxt3 or pass `<router-view></router-view>` to the BufferPage component.
+Waterflow and its `<BufferPage />` hijack `<router-view>` and can be placed as a replacement (`<slot />` in `layout.vue` for Nuxt3)
 ``` jsx
 <template>
-  <BufferPage>
-    <slot />
-  </BufferPage>
+  <BufferPage />
 </template>
 
 <script lang='ts'>
@@ -154,7 +152,7 @@ Waterflow reset the scroll after each page transitions. But if you use a smooth 
 const flowProvider = useFlowProvider()
 
 useRaf((e) => {
-  !flowProvider.flowIsHijacked && lenis.raf(e.elapsed)
+  !flowProvider.flowIsHijacked.value && lenis.raf(e.elapsed)
 })
 
 flowProvider.registerScrollInterface({
@@ -164,4 +162,4 @@ flowProvider.registerScrollInterface({
 })
 ```
 
-`flowIsHijacked` is true while the crossfade animations.
+`flowIsHijacked.value` is true while the crossfade animations.
