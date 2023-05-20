@@ -17,7 +17,7 @@ const flowProvider = useFlowProvider()
 
 
 useRaf((e) => {
-  !flowProvider.flowIsHijacked && $lenis.raf(e.elapsed)
+  !flowProvider.flowIsHijacked.value && $lenis.raf(e.elapsed)
 }, false, true)
 
 onMounted(() => {
