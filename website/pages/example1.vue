@@ -22,8 +22,7 @@
                         or
                         sandy, while the ventral parts are lighter with small reddish markings. It reaches 40–50 cm (16–20
                         in)
-                        at the shoulder and weighs 8–19 kg (18–42 lb). It was first scientifically described by German
-                        naturalist Johann Christian Daniel von Schreber in 1776. Three subspecies are recognised.
+                        at the shoulder and weighs 8–19 kg (18–42 lb)
                     </div>
                 </div>
 
