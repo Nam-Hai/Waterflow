@@ -31,8 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
-import { N } from '~/helpers/namhai-utils';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 
 const wrapperRef = ref()
 const contentRef = ref()
@@ -46,15 +45,12 @@ onMounted(() => {
     $lenis.dimensions.onContentResize()
 })
 
-onFlow(() => {
-})
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },
-    enableCrossfade: true,
+    enableCrossfade: 'BOTTOM',
     flowInCrossfade: ({ }, resolve) => {
         let tl = new $TL
-        const { $canvas } = useNuxtApp()
         tl.from({
             el: wrapperRef.value,
             d: 800,

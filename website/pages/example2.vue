@@ -6,7 +6,7 @@
 
         <div class="content" ref="contentRef">
             <div class="images__wrapper">
-                <video ref='videoRef' src="/images/Loop.mp4" loop="true"></video>
+                <video ref='videoRef' src="/images/Loop.mp4" loop="true" autoplay muted></video>
             </div>
 
             <div class="return">
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 import { N } from '~/helpers/namhai-utils';
 import example2InMap from './example2.transition';
 
@@ -32,15 +32,13 @@ onMounted(() => {
     $lenis.dimensions.onWindowResize()
     $lenis.dimensions.onContentResize()
 })
-
-const videoRef = ref()
 onFlow(() => {
     N.O(wrapperRef.value, 1)
     N.O(contentRef.value, 1)
     N.O(titleWrapperRef.value, 1)
-
-    videoRef.value.setAttribute('autoplay', true)
 })
+
+const videoRef = ref()
 
 usePageFlow({
     props: { wrapperRef, contentRef, titleWrapperRef },

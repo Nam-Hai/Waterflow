@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow, useFlowProvider, usePageFlow } from '@nam-hai/water-flow';
+import { onFlow, useFlowProvider, usePageFlow } from '~/waterflow';
 import { T } from '~/helpers/core/utils';
 import { indexOutMap, indexInMap } from './index.transition'
 import indexCanvas from '~/scene/Pages/indexCanvas';
@@ -77,6 +77,7 @@ const { lenis } = useLenisScroll(({ current }) => {
   T(contentRef.value, 0, -current, 'px')
 })
 
+
 onFlow(() => {
   const curCanvas = $canvas.currentCanvasPage as unknown as indexCanvas
   const noiseWebGL = curCanvas.noiseBackground
@@ -89,6 +90,7 @@ onFlow(() => {
     rotateRef.value.style.transform = "rotateX(0deg)"
     pRef.value.style.opacity = '1'
     headerRef.value.style.opacity = '1'
+    noiseWebGL.uAlpha.value = 1
     return
   }
 
@@ -200,10 +202,12 @@ usePageFlow({
 
 .placeholder-scroll {
   margin-top: $title-height;
+
   @include breakpoint(mobile) {
     margin-top: $title-height-mobile;
   }
 }
+
 .page {
   height: 100vh;
   display: flex;
@@ -242,7 +246,7 @@ usePageFlow({
     row-gap: 1.6rem;
     width: 50%;
 
-    @include breakpoint(mobile){
+    @include breakpoint(mobile) {
       width: 100%;
       height: 100%;
     }
@@ -259,7 +263,7 @@ usePageFlow({
     align-items: flex-end;
     justify-content: flex-end;
 
-    @include breakpoint(mobile){
+    @include breakpoint(mobile) {
       display: none;
     }
   }
@@ -272,7 +276,8 @@ span {
 .mask-split-line {
   display: flex;
   height: 9rem;
-  @include breakpoint(mobile){
+
+  @include breakpoint(mobile) {
     height: 3.2rem;
   }
 
@@ -288,7 +293,7 @@ h2 {
   margin-left: -0.4rem;
   margin-bottom: -1rem;
 
-  @include breakpoint(mobile){
+  @include breakpoint(mobile) {
     margin-left: 0rem;
     font-size: 3.2rem;
   }
@@ -298,7 +303,8 @@ p {
   font-size: 2rem;
   font-weight: 400;
   line-height: 100%;
-  @include breakpoint(mobile){
+
+  @include breakpoint(mobile) {
     font-size: 1.4rem;
   }
 }
@@ -307,7 +313,8 @@ h3 {
   font-size: 4rem;
   font-weight: 700;
   line-height: 100%;
-  @include breakpoint(mobile){
+
+  @include breakpoint(mobile) {
     font-size: 2.4rem;
   }
 }
@@ -331,5 +338,4 @@ div.title-container {
   &.slice-1 {
     margin-top: 0;
   }
-}
-</style>
+}</style>

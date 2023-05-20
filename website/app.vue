@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <NuxtLayout>
-      <NuxtPage></NuxtPage>
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FlowProvider, provideFlowProvider } from '@nam-hai/water-flow'
+import { FlowProvider, provideFlowProvider } from '~/waterflow'
 
 import index from '@/pages/index.vue';
 import Example2 from './pages/example2.vue';

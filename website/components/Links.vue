@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow } from '~/../src/composables/onFlow';
 
 const link1Ref = ref()
 const link2Ref = ref()
@@ -21,7 +20,7 @@ const link3Ref = ref()
 
 const { $TL } = useNuxtApp()
 const durationStep = 500
-onFlow(()=>{
+onMounted(()=>{
     let tl = new $TL
     tl.from({
         el: link1Ref.value,

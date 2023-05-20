@@ -3,13 +3,13 @@ import {
   Camera,
   Transform,
 } from "ogl";
-import { useFlowProvider } from "@nam-hai/water-flow";
 
 import { N } from "~/helpers/namhai-utils";
 import { ROR } from "~/plugins/core/resize";
 import TitleMSDF from "./Components/TitleMSDF";
 import indexCanvas from "./Pages/indexCanvas";
 import example2Canvas from "./Pages/example2Canvas";
+import { useFlowProvider } from "~/waterflow/FlowProvider";
 
 const CanvasRouteMap = new Map([
   ['example2', example2Canvas],

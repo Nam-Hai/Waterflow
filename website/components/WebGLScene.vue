@@ -4,7 +4,7 @@
 </template>
 
 <script lang='ts' setup>
-import { useFlowProvider } from '@nam-hai/water-flow'
+import { useFlowProvider } from '~/waterflow'
 
 
 

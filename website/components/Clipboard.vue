@@ -25,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { onFlow } from '@nam-hai/water-flow';
 import { Lerp, O } from '~/helpers/core/utils';
 import { Rand, random } from '~/helpers/core/utils';
 import { Timeline } from '~/plugins/core/motion';
@@ -57,7 +56,7 @@ onMounted(() => {
     }
 })
 
-onFlow(() => {
+onMounted(() => {
     timer.value = new $Timer(() => { showSuccess.value = false }, 400)
     timerBox.value = new $Timer(() => { showSuccessBox.value = false }, 1000)
 

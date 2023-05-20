@@ -1,6 +1,6 @@
-import { onMounted, onUnmounted } from "vue";
+import { getCurrentInstance, onMounted, onUnmounted, watch } from "vue";
 import { FlowProps, FlowProvider, useFlowProvider } from "../FlowProvider";
-import { useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 
 export type FlowFunction<T> = (props: T, resolve: () => void, flowProps: FlowProps) => void
 
@@ -34,7 +34,7 @@ export function usePageFlow<T>({
   const flowProps = provider.props
 
   onMounted(() => {
-    provider.flowIsHijacked.value && flowCrossfade()
+    provider.flowIsHijacked.value && flowCrossfade() 
   })
 
 
@@ -68,7 +68,8 @@ export function usePageFlow<T>({
     provider.scrollFlow.scrollToTop()
   })
 
-  onUnmounted(() => {
+  
+  onUnmounted(()=>{
     routerGuard()
   })
 }

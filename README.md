@@ -16,12 +16,10 @@ $ npm i @nam-hai/water-flow
 
 # Setup
 
-`layout.vue` in Nuxt3 or pass `<router-view></router-view>` to the BufferPage component.
+Waterflow and its `<BufferPage />` hijack `<router-view>` and can be placed as a replacement (`<slot />` in `layout.vue` for Nuxt3)
 ``` jsx
 <template>
-  <BufferPage>
-    <slot />
-  </BufferPage>
+  <BufferPage />
 </template>
 
 <script lang='ts'>
@@ -34,7 +32,7 @@ import { BufferPage } from '@nam-hai/water-flow';
 import index from '@/pages/index.vue';
 import about from '@/pages/about.vue';
 import home from '@/pages/home.vue';
-import { FlowProvider, provideFlowProvider } from '@nam-hai/water-flow'
+import { FlowProvider, provideFlowProvider } from '@nam-hai/waterflow'
 
 // provide useFlowProvider through out your whole project
 const flowProvider = new FlowProvider()
@@ -143,7 +141,7 @@ const IndexFlowOutMap = new Map([
 
 # onFlow
 
-You might want to sometimes to init things only for the real page, not the `<BufferPage />`, like animations after the crossfade animations, or heavy computation. Then use `onFlow` instead of `onMounted`. And `onBufferFlow` for things only the `<BufferPage />`.
+You might want to init things or start some animation after crossfade animations have ended. `onMounted` will trigger when the crossfade animation start. Use `onFlow` the same way you'd use `onMounted` to trigger callback when the page is officially changed and crossfade animations have ended.
 
 # Connect your smooth scroll
 
@@ -154,7 +152,7 @@ Waterflow reset the scroll after each page transitions. But if you use a smooth 
 const flowProvider = useFlowProvider()
 
 useRaf((e) => {
-  !flowProvider.flowIsHijacked && lenis.raf(e.elapsed)
+  !flowProvider.flowIsHijacked.value && lenis.raf(e.elapsed)
 })
 
 flowProvider.registerScrollInterface({
@@ -164,4 +162,4 @@ flowProvider.registerScrollInterface({
 })
 ```
 
-`flowIsHijacked` is true while the crossfade animations.
+`flowIsHijacked.value` is true while the crossfade animations.

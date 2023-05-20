@@ -1,15 +1,14 @@
 <template>
   <WebGLScene />
 
-  <BufferPage>
-    <Preloader>
-      <slot />
-    </Preloader>
-  </BufferPage>
+  <Preloader>
+    <BufferPage>
+    </BufferPage>
+  </Preloader>
 </template>
 
 <script setup lang="ts">
-import { BufferPage, useFlowProvider } from '@nam-hai/water-flow';
+import { BufferPage, useFlowProvider } from '~/waterflow';
 
 const { $lenis } = useNuxtApp()
 

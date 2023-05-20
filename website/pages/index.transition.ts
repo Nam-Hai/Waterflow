@@ -64,43 +64,11 @@ const example3InIndex = async ({ wrapperRef, waterFlowTitleRef, watermarkContain
     headerRef,
     rotateRef
 }: any, resolve: () => void, { canvasWrapperRef, flowRef }: any) => {
-    const { $TL, $canvas } = useNuxtApp()
 
-
-    let tl = new $TL
-    waterFlowTitleRef.value.border.style.transformOrigin = 'center'
-
-    const indexCanvas = $canvas.pages.index as unknown as indexCanvas
-    const noiseWebGL = indexCanvas.noiseBackground
-
-    tl.from({
-        el: waterFlowTitleRef.value.border,
-        p: {
-            scale: [0, 1]
-        },
-        d: 1000,
-        e: 'io4',
-        cb: () => {
-            resolve()
-        }
-    })
-    tl.from({
-        el: watermarkContainerRef.value,
-        p: {
-            x: [40, 0]
-        },
-        d: 1000,
-        e: 'o3'
-    }).play()
-
-    noiseWebGL.uAlpha.value = 1
-    titleSpanRef.value.style.transform = "translate(0px , 0px)"
-    rotateRef.value.style.transform = "rotateX(0deg)"
-    pRef.value.style.opacity = '1'
-    headerRef.value.style.opacity = '1'
+    resolve()
 }
 
 const indexInMap = new Map([
     ['example3 => index', example3InIndex]
 ])
-export {indexOutMap, indexInMap}
+export { indexOutMap, indexInMap }

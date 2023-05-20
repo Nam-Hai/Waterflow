@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onFlow } from '~/../src/composables/onFlow';
+import { onFlow } from '~/waterflow';
 import { Lerp, iLerp } from '~/helpers/core/utils';
 import { N } from '~/helpers/namhai-utils';
 import { Motion } from '~/plugins/core/motion'
