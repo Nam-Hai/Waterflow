@@ -63,7 +63,6 @@ export class FlowProvider {
     this.bufferPageRef = bufferPageRef
     this.currentPageRef = currentPageRef
     this.swapWrapper = swapWrapper
-    // this.currentPageRef.value = this.routeFrom.
     this.currentPageRef.value = this.routerMap.get(this.routeTo.name!.toString())
   }
 
@@ -75,11 +74,8 @@ export class FlowProvider {
   }
 
   public unMountBufferPage() {
-    // this.bufferRouteState && (this.bufferRouteState.value = undefined)
     this.swapWrapper()
     let temp = this.currentPageRef
-    console.log('unmount');
-
     this.currentPageRef = this.bufferPageRef
     this.bufferPageRef = temp
     this.bufferPageRef.value = undefined
@@ -94,15 +90,7 @@ export class FlowProvider {
   }
 
   public setCrossfadeMode(crossfadeMode: boolean | 'TOP' | 'UNDER' | 'BOTTOM') {
-    // this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.name!.toString()));
-
-    // if (!!this.bufferRouteState?.value) {
-      console.log(crossfadeMode);
       this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
-    // }
-
-    // let a = !(crossfadeMode == false) && !!this.bufferRouteState?.value
-    // return a
   }
 
   public getRouteFrom(): RouteLocationNormalized {

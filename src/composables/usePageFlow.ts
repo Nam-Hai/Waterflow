@@ -53,7 +53,6 @@ export function usePageFlow<T>({
     // mount next page
     provider.onChangeRoute(to)
 
-    console.log(crossfade);
     crossfade && provider.setCrossfadeMode(crossfade)
 
     let promiseOut = createFlow<T>(provider, flowOutMap, flowOut, props, flowProps)

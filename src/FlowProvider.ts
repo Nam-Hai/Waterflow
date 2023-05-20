@@ -58,7 +58,7 @@ export class FlowProvider {
   }
 
   // connect the BufferPage in the Layout for crossfade animations
-  public connectBuffer(currentPageRef: ShallowRef, bufferPageRef: ShallowRef, bufferTopZState: ShallowRef, swapWrapper: ()=> void) {
+  public connectBuffer(currentPageRef: ShallowRef, bufferPageRef: ShallowRef, bufferTopZState: ShallowRef, swapWrapper: () => void) {
     this.bufferTopZState = bufferTopZState
     this.bufferPageRef = bufferPageRef
     this.currentPageRef = currentPageRef
@@ -78,7 +78,6 @@ export class FlowProvider {
     // this.bufferRouteState && (this.bufferRouteState.value = undefined)
     this.swapWrapper()
     let temp = this.currentPageRef
-    console.log('unmount');
 
     this.currentPageRef = this.bufferPageRef
     this.bufferPageRef = temp
@@ -94,15 +93,8 @@ export class FlowProvider {
   }
 
   public setCrossfadeMode(crossfadeMode: boolean | 'TOP' | 'UNDER' | 'BOTTOM') {
-    // this.bufferRouteState && (this.bufferRouteState.value = this.routerMap.get(this.routeTo.name!.toString()));
 
-    // if (!!this.bufferRouteState?.value) {
-      console.log(crossfadeMode);
-      this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
-    // }
-
-    // let a = !(crossfadeMode == false) && !!this.bufferRouteState?.value
-    // return a
+    this.bufferTopZState && (this.bufferTopZState.value = crossfadeMode == 'TOP')
   }
 
   public getRouteFrom(): RouteLocationNormalized {

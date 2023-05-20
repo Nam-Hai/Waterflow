@@ -21,7 +21,6 @@ const wrapper1Ref = ref() as Ref<HTMLElement>
 const wrapper2Ref = ref() as Ref<HTMLElement>
 
 const swapClass = () => {
-  console.log('swapClass');
   wrapper1Ref.value.classList.toggle('buffer-page__wrapper')
   wrapper1Ref.value.classList.toggle('current-page')
 
@@ -39,8 +38,6 @@ watch(bufferTopZ, state => {
     wrapper2Ref.value.classList.remove('buffer-page__TOP')
 
   }
-
-  console.log(state);
 })
 
 provider.connectBuffer(currentPage, bufferPage, bufferTopZ, swapClass)
