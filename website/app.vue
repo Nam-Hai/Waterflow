@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { FlowProvider, provideFlowProvider } from '~/../index'
+import { FlowProvider, provideFlowProvider } from '~/waterflow'
 
 import index from '@/pages/index.vue';
 import Example2 from './pages/example2.vue';
