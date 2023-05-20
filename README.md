@@ -141,7 +141,7 @@ const IndexFlowOutMap = new Map([
 
 # onFlow
 
-You might want to sometimes to init things only for the real page, not the `<BufferPage />`, like animations after the crossfade animations, or heavy computation. Then use `onFlow` instead of `onMounted`. And `onBufferFlow` for things only the `<BufferPage />`.
+You might want to init things or start some animation after crossfade animations have ended. `onMounted` will trigger when the crossfade animation start. Use `onFlow` the same way you'd use `onMounted` to trigger callback when the page is officially changed and crossfade animations have ended.
 
 # Connect your smooth scroll
 
