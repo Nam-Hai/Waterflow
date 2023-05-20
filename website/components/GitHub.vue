@@ -2,30 +2,11 @@
     <NuxtLink to="https://github.com/Nam-Hai/Waterflow" target="_blank">
         <div class="wrapper-github" ref="wrapperRef" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
 
-            <div class="arrows__wrapper">
-                <div v-for="i in 8" class="arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        :style="`transform: rotate(${Lerp(0, 180, i / 9)}deg)`">
-                        <path fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10"
-                            stroke-width="48" d="M268 112l144 144-144 144M392 256H100" />
-                    </svg>
-                </div>
-                &nbsp;
-            </div>
+
 
             <div class="github-text">
                 github <span class="value"><span ref="valueRef">00</span>%
                 </span>
-            </div>
-
-            <div class="arrows__wrapper">
-                <div v-for="i in 8" class="arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        :style="`transform: rotate(${Lerp(0, -180, i / 9)}deg)`">
-                        <path fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10"
-                            stroke-width="48" d="M268 112l144 144-144 144M392 256H100" />
-                    </svg>
-                </div>
             </div>
 
             <div ref="bgRef" class="background"></div>
@@ -121,18 +102,8 @@ function mouseLeave() {
         opacity: 1;
     }
 
-    .arrow {
-        height: 10rem;
-        width: 10rem;
-        right: 0;
-
-        @include breakpoint(mobile) {
-            width: 8rem;
-            height: 8rem;
-        }
-    }
-
     .github-text {
+        line-height: 0;
         position: relative;
 
         width: 100%;
@@ -141,11 +112,11 @@ function mouseLeave() {
         padding: 0 5rem;
         z-index: 1;
 
-        top: -1rem;
+        top: -0.3rem;
 
         @include breakpoint(mobile) {
             padding: 0 2rem;
-            top: -0.5rem;
+            top: -0rem;
         }
     }
 

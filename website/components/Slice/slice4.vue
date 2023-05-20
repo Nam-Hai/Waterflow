@@ -94,10 +94,10 @@ useScrollEvent({
 
             >.github {
                 @include breakpoint(mobile) {
-                    max-height: 20rem;
+                    max-height: 10rem;
                 }
 
-                max-height: 40rem;
+                max-height: 20rem;
                 height: 100%;
                 width: 100%;
                 background-color: #dddddd15;
