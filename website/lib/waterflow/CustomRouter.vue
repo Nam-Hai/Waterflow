@@ -4,12 +4,6 @@ import type { RouteComponent, RouteLocationNormalized } from '#vue-router';
 const { scrollTopApi } = defineProps<{ scrollTopApi?: () => void }>()
 const router = useRouter()
 const routes = router.getRoutes()
-// const components = {
-//     index: defineAsyncComponent(() => import("@/pages/index.vue")),
-//     foo: defineAsyncComponent(() => import("@/pages/foo.vue")),
-//     baz: defineAsyncComponent(() => import("@/pages/baz.vue")),
-//     "work-slug": defineAsyncComponent(() => import("@/pages/work/[slug].vue"))
-// } as const
 
 const { currentRoute, routeTo, routeFrom, hijackFlow, flowIsHijacked, releaseHijackFlow, flowInPromise } = useFlowProvider()
 
@@ -22,15 +16,12 @@ const pageObject = {
 }
 pageObject.currentPage.value = await getComponent(currentRoute.value)
 
-// watch(currentRoute, async (to, from) => {
 const routerGuard = router.beforeEach(async (to, from, next) => {
     console.log(to.path, from.path);
     if (checkEqualRoute(to, from)) {
-        // console.log("test");
         return
     }
     if (flowIsHijacked.value) return next()
-    // if (flowIsHijacked.value) return
 
     routeFrom.value = routeTo.value
     routeTo.value = to

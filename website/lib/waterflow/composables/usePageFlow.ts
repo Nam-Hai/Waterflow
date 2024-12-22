@@ -63,12 +63,3 @@ function createFlow<T>(from: RouteLocationNormalized, to: RouteLocationNormalize
     else FlowFunction(props, cb)
   })
 }
-
-// TODO Think about the behavior
-// route => any
-// any => route
-function getFlowFunction<T>(key: string, map?: Map<string, FlowFunction<T>>, fallback?: FlowFunction<T>) {
-  const flow = map?.get(key) || map?.get('default') || fallback || undefined
-  console.log(flow);
-  return flow
-}

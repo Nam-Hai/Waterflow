@@ -20,6 +20,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "index.ts"],
+  "include": [
+    "website/lib/waterflow/**/*.ts",
+    "website/lib/waterflow/**/*.d.ts",
+    "website/lib/waterflow/**/*.tsx",
+    "website/lib/waterflow/**/*.vue",
+    "index.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
