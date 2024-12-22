@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     devServer: {
         host: "0.0.0.0",
     },
+    nitro: {
+        static: true
+    },
     css: ["@/styles/core.scss"],
     app: {
         layoutTransition: false,
