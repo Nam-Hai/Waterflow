@@ -59,6 +59,9 @@ export default defineNuxtConfig({
     vue: {
         runtimeCompiler: true,
     },
+    runtimeConfig: {
+        nitro: { envPrefix: 'VERCEL_' },
+    },
     routeRules: {
         "/": { prerender: true },
         "/foo": { prerender: true },
