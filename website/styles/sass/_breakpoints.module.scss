@@ -1,0 +1,22 @@
+@use "sass:math";
+@use "sass:map";
+@use "sass:list";
+
+@use "./breakpoints" as *;
+
+// EXPORTS
+// ****************************
+:export {
+  site_scale: $site-scale;
+  scale_mode: $scale-mode;
+
+  breakpoints: map.keys($breakpoints);
+
+  @each $key, $val in $breakpoints {
+    breakpoint_#{$key}_width: map.get(($val), width);
+    breakpoint_#{$key}_design_width: map.get(($val), design-width);
+    breakpoint_#{$key}_design_height: map.get(($val), design-height);
+    breakpoint_#{$key}_scale_min: map.get(($val), scale-min);
+    breakpoint_#{$key}_scale_max: map.get(($val), scale-max);
+  }
+}

@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.ts",
   "files": [
-    "src"
+    "/website/lib/waterflow"
   ],
   "module": "index.ts",
   "author": "Nam Hai",
@@ -16,10 +16,10 @@
     "build": "vue-tsc && vite build"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
+    "@vitejs/plugin-vue": "^4.6.2",
     "np": "^7.7.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.1.6"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0",

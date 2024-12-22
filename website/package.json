@@ -1,5 +1,6 @@
 {
-  "name": "nuxt-app",
+  "name": "waterflow-website",
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -9,13 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@types/node": "^18",
-    "nuxt": "^3.4.2",
-    "sass": "^1.62.0"
+    "@nuxt/devtools": "1.0.2",
+    "@types/bun": "^1.1.14",
+    "@types/node": "^20.17.10",
+    "eslint": "^8.57.1",
+    "nuxt": "^3.14.1592",
+    "prettier": "3.1.0",
+    "sass": "^1.83.0"
   },
   "dependencies": {
-    "@nam-hai/water-flow": "^0.0.22",
-    "@studio-freight/lenis": "^1.0.12",
-    "ogl": "^0.0.116"
+    "lenis": "^1.1.18",
+    "vue-demi": "^0.14.10"
   }
 }

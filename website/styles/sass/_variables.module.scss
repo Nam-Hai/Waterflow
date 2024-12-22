@@ -1,0 +1,73 @@
+@use "sass:math";
+@use "sass:map";
+
+// ****************************
+// BREAKPOINTS
+// ****************************
+$site-scale: 1;
+$scale-mode: fit; // width, height, fit
+// $scale-mode: fit; // width, height, fit
+
+// height: 932px;
+$design-mobile-width: 430;
+$design-mobile-height: 932;
+$design-desktop-width: 1440;
+$design-desktop-height: 900;
+
+$mobile-scale-min: math.div(320, $design-mobile-width);
+$mobile-scale-max: math.div(550, $design-mobile-width);
+$desktop-scale-min: math.div(768, $design-desktop-width);
+
+$breakpoints: (
+  mobile: (
+    width: 320,
+    design-width: $design-mobile-width,
+    design-height: $design-mobile-height,
+    scale-min: 0.8,
+    scale-max: $mobile-scale-max,
+  ),
+  desktop: (
+    width: 768,
+    design-width: $design-desktop-width,
+    design-height: $design-desktop-height,
+    scale-min: 0.8,
+    scale-max: 3,
+  ),
+);
+
+// ****************************
+// GRID
+// ****************************
+$desktopGridWidth: 1480;
+$desktopWidth: map.get(map.get(($breakpoints), desktop), design-width);
+$desktopMaxScale: map.get(map.get(($breakpoints), desktop), scale-max);
+$scrollbarWidth: 14px;
+
+// ****************************
+// Z-INDEXES
+// ****************************
+$z-popup: 100;
+$z-menu: 200;
+$z-tutorial: 300;
+$z-preloader: 400;
+$z-cursor: 500;
+$z-rotation-message: 600;
+
+// ****************************
+// SIZE
+// ****************************
+$p1: 0.8rem;
+$p2: 1.6rem;
+$p3: 2.4rem;
+$p4: 3.2rem;
+$p5: 4rem;
+$p6: 4.8rem;
+$p7: 5.6rem;
+$p8: 6.4rem;
+$p9: 7.2rem;
+$p10: 8rem;
+
+// ****************************
+// LAYOUT
+// ****************************
+

@@ -1,35 +1,41 @@
 <template>
-  <WebGLScene />
-
-  <Preloader>
-    <BufferPage>
-    </BufferPage>
-  </Preloader>
+  <div class="layout__wrapper">
+    <Overlay />
+    <Menu />
+    <div class="page__wrapper">
+      <slot />
+    </div>
+  </div>
 </template>
 
+<script lang="ts">
+export const [provideLayout, useLayout] = createContext(() => {
+  const overlay: ShallowRef<HTMLElement | undefined> = shallowRef()
+  const provideOverlay = (el: HTMLElement) => {
+    overlay.value = el
+  }
+  return {
+    overlay: shallowReadonly(overlay),
+    provideOverlay
+  }
+})
+</script>
+
 <script setup lang="ts">
-import { BufferPage, useFlowProvider } from '~/waterflow';
+import type { ShallowRef } from 'vue';
 
-const { $lenis } = useNuxtApp()
-
-const flowProvider = useFlowProvider()
-
-
-
-useRaf((e) => {
-  !flowProvider.flowIsHijacked.value && $lenis.raf(e.elapsed)
-}, false, true)
-
-onMounted(() => {
-  $lenis.scrollTo('top')
-})
-
-flowProvider.registerScrollInterface({
-  resume: () => { $lenis.start() },
-  stop: () => { $lenis.stop() },
-  scrollToTop: () => { $lenis.scrollTo('top', { immediate: true }) }
-})
+provideLayout({})
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use "@/styles/shared.scss" as *;
+
+.layout__wrapper {}
+
+.page__wrapper {}
+
+h1 {
+  font-family: "Amarante";
+}
+</style>

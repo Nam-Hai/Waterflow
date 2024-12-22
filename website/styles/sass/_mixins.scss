@@ -1,0 +1,59 @@
+@use "sass:math";
+@use "sass:map";
+@use "./variables.module.scss" as *;
+@use "vh-property.scss" as *;
+
+@mixin full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+@mixin center-img {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+}
+
+@mixin user-select($val) {
+  -webkit-user-select: $val;
+  -moz-user-select: $val;
+  -ms-user-select: $val;
+  user-select: $val;
+}
+@mixin user-drag($val) {
+  -webkit-user-drag: $val;
+  -moz-user-drag: $val;
+  -ms-user-drag: $val;
+  user-drag: $val;
+}
+
+@mixin mainContainer() {
+  $desktopWidth: map.get(map.get(($breakpoints), desktop), design-width);
+  $desktopMaxScale: map.get(map.get(($breakpoints), desktop), scale-max);
+  width: var(--grid-width, 100%);
+  max-width: #{$desktopWidth * $desktopMaxScale * 1px}; // css var doesn't work here for some reason
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin mainGrid() {
+  @include mainContainer;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-column-gap: var(--grid-column-gap);
+}
+
+@mixin hide-cursor() {
+  cursor: none;
+
+  > * {
+    cursor: none;
+  }
+}
