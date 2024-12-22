@@ -13,27 +13,6 @@ export default defineNuxtConfig({
         head: {
             link: [
                 {
-                    rel: "preload",
-                    href: "fonts/Amarante-Regular.ttf",
-                    as: 'font',
-                    type: "font/ttf",
-                    crossorigin: 'anonymous'
-                },
-                {
-                    rel: "preload",
-                    href: "fonts/HelveticaNeue-Regular.otf",
-                    as: 'font',
-                    type: "font/otf",
-                    crossorigin: 'anonymous'
-                },
-                {
-                    rel: "preload",
-                    href: "fonts/HelveticaNeue-Bold.otf",
-                    as: 'font',
-                    type: "font/otf",
-                    crossorigin: 'anonymous'
-                },
-                {
                     rel: 'icon',
                     type: 'image/png',
                     sizes: '32x32',
