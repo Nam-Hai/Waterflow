@@ -27,7 +27,6 @@ export function usePageFlow<T>({
   const scopeIn = effectScope()
   const resolver = startFlowIn()
   onMounted(() => {
-    console.log(flowIsHijackedPromise.value);
     if (!flowIsHijackedPromise.value) return resolver && resolver()
     scopeIn.run(async () => {
       await createFlow<T>(routeFrom.value, routeTo.value, flowInMap, flowIn, props)
