@@ -1,18 +1,5 @@
-// import mocks from "./mocks.json"
+import mocks from "./mocks.json"
 export default defineEventHandler(async (event) => {
-    const response = [
-        {
-            "name": "Neomi"
-        },
-        {
-            "name": "Lea"
-        },
-        {
-            "name": "Leo"
-        },
-        {
-            "name": "Nam"
-        }
-    ]
+    const response = mocks
     return response
 })

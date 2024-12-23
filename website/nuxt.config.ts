@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import mocks from "./server/api/mocks.json"
+
+
 export default defineNuxtConfig({
     compatibilityDate: "2024-11-23",
     ssr: true,
@@ -66,4 +69,7 @@ export default defineNuxtConfig({
         "/work/**": { prerender: true },
         "/api/getSlugs": { prerender: true },
     },
+    generate: {
+        routes: mocks.map(slug => `/work/${slug}`)
+    }
 })

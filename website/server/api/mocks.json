@@ -1,16 +1,14 @@
-{
-    "items": [
-        {
-            "name": "Neomi"
-        },
-        {
-            "name": "Lea"
-        },
-        {
-            "name": "Leo"
-        },
-        {
-            "name": "Nam"
-        }
-    ]
-}
+[
+    {
+        "name": "Neomi"
+    },
+    {
+        "name": "Lea"
+    },
+    {
+        "name": "Leo"
+    },
+    {
+        "name": "Nam"
+    }
+]
