@@ -60,16 +60,12 @@ export default defineNuxtConfig({
         runtimeCompiler: true,
     },
 
-    nitro: {
-        static: true
-    },
     routeRules: {
         "/": { prerender: true },
         "/foo": { prerender: true },
-        "/work/**": { prerender: true },
-        "/api/getSlugs": { prerender: true },
+        "/baz": { prerender: true },
+        // "/work/**": { prerender: true },
+        '/work/**': { isr: true },
+        "/api/**": { isr: true },
     },
-    generate: {
-        routes: [...mocks.map(slug => `/work/${slug}`), "/api/getSlugs"]
-    }
 })
