@@ -4,8 +4,9 @@ import { provideFlowProvider, useFlowProvider } from "./website/lib/waterflow/Fl
 import type { FlowFunction } from "./website/lib/waterflow/composables/usePageFlow"
 import { onFlow, onLeave } from "./website/lib/waterflow/composables/onFlow"
 
+const WaterflowRouter = CustomRouter
 export {
-    CustomRouter,
+    WaterflowRouter,
     useFlowProvider,
     provideFlowProvider,
     usePageFlow,

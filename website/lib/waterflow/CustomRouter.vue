@@ -17,9 +17,6 @@ const pageObject = {
 pageObject.currentPage.value = await getComponent(currentRoute.value)
 
 const routerGuard = router.beforeEach(async (to, from, next) => {
-    // if (checkEqualRoute(to, from)) {
-    //     return
-    // }
     if (flowIsHijacked.value) {
         await Promise.all([flowInPromise.value])
     }

@@ -2,164 +2,82 @@
   <img src="./public/waterflow.png" alt="Waterflow" />
 </p>
 
-
 [![npm version](https://img.shields.io/npm/v/@nam-hai/water-flow/latest?color=green&label=%40nam-hai%2Fwater-flow&logo=npm)](https://www.npmjs.com/package/@nam-hai/water-flow)
 
 # Introduction
 
-Waterflow is a Nuxt3 library that enables flawless page transitions (Vue3's router too).
+Waterflow is a Nuxt3 library that enables seamless page transitions.
 
 # QUICK START
-``` bash
+
+```bash
 $ npm i @nam-hai/water-flow
 ```
 
 # Setup
 
-Waterflow and its `<BufferPage />` hijack `<router-view>` and can be placed as a replacement (`<slot />` in `layout.vue` for Nuxt3)
-``` jsx
+```jsx
 <template>
-  <BufferPage />
+  <NuxtLayout>
+    <WaterflowRouter :scroll-top-api="() => lenis.scrollTo('top', { immediate: true })" />
+  </NuxtLayout>
 </template>
-
-<script lang='ts'>
-import { BufferPage } from '@nam-hai/water-flow';
-</script>
-```
-
-`App.vue`
-``` ts
-import index from '@/pages/index.vue';
-import about from '@/pages/about.vue';
-import home from '@/pages/home.vue';
-import { FlowProvider, provideFlowProvider } from '@nam-hai/waterflow'
-
-// provide useFlowProvider through out your whole project
-const flowProvider = new FlowProvider()
-provideFlowProvider(flowProvider)
-
-// register each page where you will use 
-flowProvider.registerPage('index', index)
-flowProvider.registerPage('home', home)
-flowProvider.registerPage('about', about)
 ```
 
 # Example
-Now use `usePageFlow` for the page transitions :
-``` ts
+
+add `usePageFlow` to your page to enabled page-transtion :
+
+```ts
 usePageFlow({
   props: {
-    buttonRef,
-    wrapperRef
+    main, // shallowRef<HTMLElement | null>,
   },
-  // enable crossfade animations and set if the BufferPage is on top or under the current page
-  enableCrossfade: 'TOP',
-  flowOut: ({ }, resolve) => {
-    // insert animation out for the current page
-  },
-  flowInCrossfade: ({ buttonRef }, resolve) => {
-    // insert animation of the next page
-
-    // use the animation engine you like
-    const tl = anime.timeline({
-        easing: 'easeOutExpo',
-        duration: 750
-    });
-
-    tl
-    .add({
-        targets: wrapperRef.value,
-        translateX: 250,
-    })
-    .add({
-        targets: buttonRef.value,
-        translateX: 250,
-        complete: function(anim) {
-
-            // make sure to call the resolve callback to trigger the route change once the animation is over
-            resolve()
-        }
-    }, '+=600') 
-  },
-})
+  flowOutMap: new Map([
+    ["default", useDefaultFlowOut()],
+    ["any => baz", useDefaultFlowOut("y", -1)],
+    ["any => work-slug", useDefaultFlowOut("x")],
+    ["work-slug => work-slug", useDefaultFlowOut("x")],
+  ]),
+  flowInMap: new Map([
+    ["default", useDefaultFlowIn()],
+    ["any => baz", useDefaultFlowIn("y", -1)],
+    ["any => work-slug", useDefaultFlowIn("x")],
+    ["work-slug => work-slug", useDefaultFlowIn("x")],
+  ]),
+});
 ```
+
+[See more](./website/pages.transition/defaultFlow.ts)
 
 # usePageFlow props
 
-| Name                   | Type                           | Default | Description                                                                                                                                              |
-| ---------------------- | ------------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| props                  | T                              |           | Pass props (Vue Refs) the way you want                                     |
-| enableCrossfade        | boolean or 'TOP' or 'BOTTOM'   | false     | Enable crossfade animations and set if the BufferPage is on top or under the current page. True and 'BOTTOM' are the same |
-| flowOutMap             | Map<string, [FlowFunction](#type-flowfunction)\<T>>   | undefined | Specify a Map of animations for the current page ([see more](#flowoutmap-and-flowincrossfademap))                      |
-| flowOut                | [FlowFunction](#type-flowfunction)\<T>                | undefined | Specify a default animation for the current page                                 |
-| flowInCrossfadeMap     | Map<string, [FlowFunction](#type-flowfunction)\<T>>   | undefined | Specify a Map of animations for the next page ([see more](#flowoutmap-and-flowincrossfademap))                         |
-| flowOut                | [FlowFunction](#type-flowfunction)\<T>                | undefined | Specify a default animation for the next page                                    |
-| disablePointerEvent    | boolean                        | true      | Disable pointer events for the duration of the animation. Still experimental, clicking on a link during the animation can break app |
+| Name            | Type                                                | Default   | Description                                                                                       |
+| --------------- | --------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| props           | T                                                   |           | Pass props for later use                                                                          |
+| enableCrossfade | 'TOP' or 'BOTTOM'                                   | "TOP"     | buffer-page is positioned on top or under the current-page // TODO                                |
+| flowOutMap      | Map<string, [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the current page ([see more](#flowoutmap-and-flowincrossfademap)) |
+| flowOut         | [FlowFunction](#type-flowfunction)\<T>              | undefined | Specify a default animation for the current page                                                  |
+| flowInMap       | Map<string, [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the next page ([see more](#flowoutmap-and-flowincrossfademap))    |
+| flowIn          | [FlowFunction](#type-flowfunction)\<T>              | undefined | Specify a default animation for the next page                                                     |
 
 # Type `FlowFunction`
 
-``` ts
-type FlowFunction<T> = (props: T, resolve: () => void, flowProps?: FlowProps) => void
+```ts
+type FlowFunction<T> = (props: T, resolve: () => void) => void;
 ```
 
-Function of type `FlowFunction` have the responsibility to trigger the `resolve` callback and can be used to animate your pages. Those functions are called in `usePageFlow` when the route change, ie: `onBeforeRouteLeave(to, from, next)` and `resolve` leads to trigger the `next` callback. 
-`props` are the Refs you want the access during the animations. They are the ones passed to `usePageFlow`.
+# flowOutMap and flowInMap
 
-`flowProps` are props not tied to one specific page. Can be useful for animations on layout elements or canvas.
-```type FlowProps = Record<string, any>```
-
-You can add flowProps anywhere in the app :
-``` ts
-const webglScene = new WebGLScene()
-const flowProvider = useFlowProvider()
-flowProvider.addProps('canvas', webglScene)
-```
-
-# flowOutMap and flowInCrossfadeMap
-
-You can setup multiple animations to leave one page to another. To do so, you need to pass "FlowMaps". They map from a key to a `FlowFunction` with the key following the naming convention : 
-``` routeNameFrom => routeNameTo ```
+Bind a flowFunction to
+`routeNameFrom => routeNameTo`
 
 `index.flow.ts`
-``` ts
-const transitionIndexOutAbout = ({wrapperRef, buttonRef}, resolve, {canvas}) => {
-  // insert your animations
-}
-const transitionIndexOutHome = ({wrapperRef, buttonRef}, resolve, {canvas}) => {
-  // insert your animations
-}
-const transitionIndexOutDefault = ({wrapperRef, buttonRef}, resolve, {canvas}) => {
-  // insert your animations
-}
-
-const IndexFlowOutMap = new Map([
-  ['index => about', transitionIndexOutAbout],
-  ['index => home', transitionIndexOutHome]
-  ['default', transitionIndexOutDefault]
-])
-```
 
 # onFlow
 
-You might want to init things or start some animation after crossfade animations have ended. `onMounted` will trigger when the crossfade animation start. Use `onFlow` the same way you'd use `onMounted` to trigger callback when the page is officially changed and crossfade animations have ended.
+Equivalent to onMounted, but is triggered after the page-transition ended
 
-# Connect your smooth scroll
+# onLeave
 
-Waterflow reset the scroll after each page transitions. But if you use a smooth scroll, like Lenis or Locomotive Scroll, this might create conflict. To prevent this, you can connect your smooth scroll to `FlowProvider`.
-
-### Example for Lenis
-``` ts
-const flowProvider = useFlowProvider()
-
-useRaf((e) => {
-  !flowProvider.flowIsHijacked.value && lenis.raf(e.elapsed)
-})
-
-flowProvider.registerScrollInterface({
-  resume: () => { lenis.start() },
-  stop: () => { lenis.stop() },
-  scrollToTop: () => { lenis.scrollTo('top', { immediate: true }) }
-})
-```
-
-`flowIsHijacked.value` is true while the crossfade animations.
+Equivalent to onBeforeUnmounted, but is triggered when the page-transition start
