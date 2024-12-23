@@ -5,7 +5,7 @@ const { scrollTopApi } = defineProps<{ scrollTopApi?: () => void }>()
 const router = useRouter()
 const routes = router.getRoutes()
 
-const { currentRoute, routeTo, routeFrom, hijackFlow, flowIsHijacked, releaseHijackFlow, flowInPromise } = useFlowProvider()
+const { currentRoute, routeTo, crossfadeMode, hijackFlow, flowIsHijacked, releaseHijackFlow, flowInPromise } = useFlowProvider()
 
 const currentPage: Ref<RouteComponent | undefined> = shallowRef(undefined)
 const bufferPage: Ref<RouteComponent | undefined> = shallowRef(undefined)
@@ -21,9 +21,7 @@ const routerGuard = router.beforeEach(async (to, from, next) => {
         await Promise.all([flowInPromise.value])
     }
 
-    routeFrom.value = routeTo.value
-    routeTo.value = to
-    currentRoute.value = routeTo.value
+    currentRoute.value = to
 
     hijackFlow()
 
@@ -72,7 +70,8 @@ const swapNode = () => {
 </script>
 
 <template>
-    <div class="custom-router__wrapper" :class="{ 'flow-hijacked': flowIsHijacked }">
+    <div class="custom-router__wrapper"
+        :class="{ 'flow-hijacked': flowIsHijacked, 'TOP': crossfadeMode === 'TOP', 'BOTTOM': crossfadeMode === 'BOTTOM' }">
         <div class='page-a current-page' ref="wrapperA">
             <component :is="currentPage" />
         </div>
@@ -82,7 +81,7 @@ const swapNode = () => {
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .custom-router__wrapper {
     position: relative;
 
@@ -103,14 +102,23 @@ const swapNode = () => {
 }
 
 .current-page {
-    z-index: 50;
+    z-index: 100;
     position: relative;
 }
 
 .buffer-page {
-    z-index: 100;
     position: fixed;
     pointer-events: none;
     height: var(--100vh);
+}
+
+.custom-router__wrapper {
+    &.TOP .buffer-page {
+        z-index: 150;
+    }
+
+    &.BOTTOM .buffer-page {
+        z-index: 50;
+    }
 }
 </style>

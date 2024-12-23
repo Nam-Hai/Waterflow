@@ -97,16 +97,14 @@ export const useDefaultFlow = (main: Ref<HTMLElement | null>) => {
         flowOutMap: new Map([
             ["default", useDefaultFlowOut()],
             ["any => baz", useDefaultFlowOut("y", -1)],
-            ["any => foo", useDefaultFlowOut("x", -1)],
             ["any => work-slug", useDefaultFlowOut("x")],
             ["work-slug => work-slug", useDefaultFlowOut("x")]
         ]),
         flowInMap: new Map([
             ["default", useDefaultFlowIn()],
             ["any => baz", useDefaultFlowIn("y", -1)],
-            ["any => foo", useDefaultFlowIn("x", -1)],
             ["any => work-slug", useDefaultFlowIn("x")],
-            ["work-slug => work-slug", useDefaultFlowIn("x")]
+            ["work-slug => work-slug", useDefaultFlowIn("x", -1)]
         ])
     })
 }

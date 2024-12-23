@@ -16,12 +16,21 @@ $ npm i @nam-hai/water-flow
 
 # Setup
 
-```jsx
+Pass the WaterflowRouter a callback to reset scroll after the page transitions
+
+```vue
+// app.vue
 <template>
   <NuxtLayout>
-    <WaterflowRouter :scroll-top-api="() => lenis.scrollTo('top', { immediate: true })" />
+    <WaterflowRouter
+      :scroll-top-api="() => lenis.scrollTo('top', { immediate: true })"
+    />
   </NuxtLayout>
 </template>
+
+<script lang="ts" setup>
+provideFlowProvider({});
+</script>
 ```
 
 # Example
@@ -52,32 +61,33 @@ usePageFlow({
 
 # usePageFlow props
 
-| Name            | Type                                                | Default   | Description                                                                                       |
-| --------------- | --------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
-| props           | T                                                   |           | Pass props for later use                                                                          |
-| enableCrossfade | 'TOP' or 'BOTTOM'                                   | "TOP"     | buffer-page is positioned on top or under the current-page // TODO                                |
-| flowOutMap      | Map<string, [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the current page ([see more](#flowoutmap-and-flowincrossfademap)) |
-| flowOut         | [FlowFunction](#type-flowfunction)\<T>              | undefined | Specify a default animation for the current page                                                  |
-| flowInMap       | Map<string, [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the next page ([see more](#flowoutmap-and-flowincrossfademap))    |
-| flowIn          | [FlowFunction](#type-flowfunction)\<T>              | undefined | Specify a default animation for the next page                                                     |
+| Name       | Type                                                                       | Default   | Description                                                                                       |
+| ---------- | -------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| props      | T                                                                          |           | Pass props for later use                                                                          |
+| flowOutMap | Map<[FlowKey](#type-flowfunction), [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the current page ([see more](#flowoutmap-and-flowincrossfademap)) |
+| flowInMap  | Map<[FlowKey](#type-flowfunction), [FlowFunction](#type-flowfunction)\<T>> | undefined | Specify a Map of animations for the next page ([see more](#flowoutmap-and-flowincrossfademap))    |
 
-# Type `FlowFunction`
+# Type `FlowFunction` and `FlowKey`
 
 ```ts
+type FlowKey = `default` | `${string} => ${string}`;
+
+/**
+ * call `resolve` when you are done
+ */
 type FlowFunction<T> = (props: T, resolve: () => void) => void;
 ```
 
 # flowOutMap and flowInMap
 
-Bind a flowFunction to
-`routeNameFrom => routeNameTo`
+Match a flowFunction to a string key following the patern : `routeNameFrom => routeNameTo`. `routeName` in the key can also take the value `any`. The key `default` also serve as a fallback if no match was found.
 
-`index.flow.ts`
+# onFlow and onLeave
 
-# onFlow
+`onFlow` is equivalent to onMounted, but is triggered after the page-transition ended. EffectScope are working in its callback (as far as I tested)
+`onLeave` is equivalent to onBeforeUnmounted, but is triggered when the page-transition start
 
-Equivalent to onMounted, but is triggered after the page-transition ended
+# useFlowProvider
 
-# onLeave
-
-Equivalent to onBeforeUnmounted, but is triggered when the page-transition start
+Change `crossfadeMode` to place the buffer-page on top or under the current-page.
+Use `const { currentRoute } = useFlowProvider()` instead of `useRoute()`.

@@ -10,6 +10,7 @@ import { useFlowProvider } from '~/lib/waterflow/FlowProvider';
 import { useDefaultFlow } from '~/pages.transition/defaultFlow';
 const { currentRoute } = useFlowProvider()
 const routeSlug = currentRoute.value.params.slug
+console.log(routeSlug, currentRoute.value);
 const slug = typeof routeSlug === "string" ? routeSlug : routeSlug[0]
 
 

@@ -18,7 +18,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .overlay__wrapper {
     position: fixed;
-    z-index: 51;
+    z-index: 101;
     top: 0;
     left: 0;
     height: 100%;

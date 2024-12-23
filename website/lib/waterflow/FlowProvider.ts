@@ -1,18 +1,19 @@
 import type { ShallowRef } from "vue";
+import { createContext } from "./utils/apiInject"
 import type { RouteLocationNormalized } from '#vue-router';
 
 
+
 type CrossFadeMode = "TOP" | "BOTTOM"
-export const [provideFlowProvider, useFlowProvider, flowKey] = createContext((options: { route: RouteLocationNormalized }) => {
-  const currentRoute = shallowRef(options.route)
-  const routeTo = shallowRef(options.route)
-  const routeFrom = shallowRef(options.route)
+export const [provideFlowProvider, useFlowProvider, flowKey] = createContext(() => {
+  const route = useRoute()
+  const currentRoute = shallowRef(route)
+  const routeTo = shallowRef(route)
+  const routeFrom = shallowRef(route)
 
   const crossfadeMode: ShallowRef<CrossFadeMode> = shallowRef("TOP")
 
-
-
-  const flowIsHijackedPromise: Ref<Promise<void> | undefined> = shallowRef(undefined)
+  const flowIsHijackedPromise: ShallowRef<Promise<void> | undefined> = shallowRef(undefined)
   const flowIsHijacked = computed(() => {
     return !!flowIsHijackedPromise.value
   })
@@ -43,18 +44,24 @@ export const [provideFlowProvider, useFlowProvider, flowKey] = createContext((op
     return resolver
   }
 
+  watch(currentRoute, (newVal, oldVal) => {
+    routeTo.value = newVal
+    routeFrom.value = oldVal
+  })
+
   return {
-    currentRoute,
-    routeTo,
-    routeFrom,
+    currentRoute: currentRoute,
+    routeTo: shallowReadonly(routeTo),
+    routeFrom: shallowReadonly(routeFrom),
+
     crossfadeMode,
 
-    flowIsHijackedPromise,
-    flowIsHijacked,
+    flowIsHijackedPromise: shallowReadonly(flowIsHijackedPromise),
+    flowIsHijacked: shallowReadonly(flowIsHijacked),
     hijackFlow,
     releaseHijackFlow,
 
-    flowInPromise,
+    flowInPromise: shallowReadonly(flowInPromise),
     startFlowIn,
   }
 });
