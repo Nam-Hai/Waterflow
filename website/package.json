@@ -6,6 +6,7 @@
     "build": "nuxt build --prerender",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "start": "nuxt start",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
