@@ -64,6 +64,6 @@ export default defineNuxtConfig({
         "/": { prerender: true },
         "/foo": { prerender: true },
         "/work/**": { prerender: true },
-        "/api/getSlugs": { cors: true, prerender: true },
+        "/api/getSlugs": { prerender: true },
     },
 })
