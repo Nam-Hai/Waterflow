@@ -70,6 +70,6 @@ export default defineNuxtConfig({
         "/api/getSlugs": { prerender: true },
     },
     generate: {
-        routes: mocks.map(slug => `/work/${slug}`)
+        routes: [...mocks.map(slug => `/work/${slug}`), "/api/getSlugs"]
     }
 })
