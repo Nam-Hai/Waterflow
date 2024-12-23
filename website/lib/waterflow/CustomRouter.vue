@@ -17,10 +17,12 @@ const pageObject = {
 pageObject.currentPage.value = await getComponent(currentRoute.value)
 
 const routerGuard = router.beforeEach(async (to, from, next) => {
-    if (checkEqualRoute(to, from)) {
-        return
+    // if (checkEqualRoute(to, from)) {
+    //     return
+    // }
+    if (flowIsHijacked.value) {
+        await Promise.all([flowInPromise.value])
     }
-    if (flowIsHijacked.value) return next()
 
     routeFrom.value = routeTo.value
     routeTo.value = to
@@ -73,7 +75,7 @@ const swapNode = () => {
 </script>
 
 <template>
-    <div class="custom-router__wrapper">
+    <div class="custom-router__wrapper" :class="{ 'flow-hijacked': flowIsHijacked }">
         <div class='page-a current-page' ref="wrapperA">
             <component :is="currentPage" />
         </div>

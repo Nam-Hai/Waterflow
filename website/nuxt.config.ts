@@ -7,9 +7,6 @@ export default defineNuxtConfig({
     devServer: {
         host: "0.0.0.0",
     },
-    nitro: {
-        static: true
-    },
     css: ["@/styles/core.scss"],
     app: {
         layoutTransition: false,
@@ -59,8 +56,9 @@ export default defineNuxtConfig({
     vue: {
         runtimeCompiler: true,
     },
-    runtimeConfig: {
-        nitro: { envPrefix: 'VERCEL_' },
+
+    nitro: {
+        static: true
     },
     routeRules: {
         "/": { prerender: true },
